@@ -4,7 +4,7 @@ To help me:
 	-> Send me all your ideas to develop the app
 	-> Send me other terminal-using app that you would like to see !
 
-Program done by GaecKo#9333
+Program done by GaecKo#7545
 Please do all you feedbacks on discord
 
 Run main.py within its folder to make it work

@@ -36,4 +36,4 @@ IMPORTANT NOTE:
 2) In the main menu of the program, there is a new feature: "System Settings", which should be only used in case of bugs or reboot.
 
 
--> This program is GaecKo#7545's belonging, and uses crypto.py from UCL librairies.
+-> This program is GaecKo#7545's belonging, and uses crypto.py from UCLouvain librairies.

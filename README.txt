@@ -5,6 +5,8 @@ Wecome to released 4 of my little program :) (V2)
 HOW TO USE:
 -----------
 
+0) You need python install on your computer, it can be install from here: https://www.python.org/downloads/
+
 1) Extract everything from the folder to a safe location (not your desktop for example). 
 
 2) In the extracted folder, you will see a run.cmd file, create a shortcut of by right-clicking/create shortcut. Name it and customize* it as you wish. 
@@ -20,6 +22,10 @@ HOW TO USE:
                                                                               c) The password itself
 -> Using this form, you should be able to always remember your passwords easily and safely. 
 
+
+* For example, - you can modify the icon: right-click on the shortcut, go to property/change icon.../choose the one you want 
+               - you can modify the name: right-click on the shortcut, rename/rename as you want to (MDPSaver for ex.)
+               
 
 IMPORTANT NOTE:
 ---------------

@@ -1,8 +1,7 @@
-from re import search
 from program import *
-from crypto import hashing
+from MDPCrypto.Crypt import hashing
 from time import sleep
-from logs import Log
+from Logs.logs import Log
 import sys
 logs = Log()
 program = Program() 
@@ -59,6 +58,7 @@ if __name__ == "__main__":
         if choice == 1:
             if not program.get_props():
                 print("You currently have no saved password. Please add one first.")
+                sleep(2)
             else:
                 go = False
                 leave = False
@@ -74,15 +74,15 @@ if __name__ == "__main__":
                         if index == False:
                             leave = True
                             break
-                        elif index == True:
-                            choice = 2
-                            leave = True
-                            break
                         elif isinstance(index, int):
                             index -= 1
                             site, username, code = program.search(given_password, index)
                             go = True
                             leave = False
+                            break
+                        elif index == True:
+                            choice = 2
+                            leave = True
                             break
                         elif isinstance(index, str):
                             sites, indexes = program.search_in_sites(given_password, index)
@@ -144,6 +144,10 @@ if __name__ == "__main__":
             print("\n------------------------\nYou are here to add the password of a specific site.")
             i = 0
             while True:
+                try:
+                    if index == True:
+                        choice = 1
+                except: pass
                 site = input("Please tell the name of the site, enter 'back' or 'stop' or 'retour' to leave.\n>>")
                 if site == "back" or site == "stop" or site == "retour":
                     print("\n" * 200)
@@ -159,10 +163,6 @@ if __name__ == "__main__":
                 print("\n" * 200)
                 program.add_site_password(given_password, site, password, username)
                 program.check_data()
-                try:
-                    if index == True:
-                        choice = 1
-                except: pass
                 break
         
         elif choice == 3:

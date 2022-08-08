@@ -1,42 +1,43 @@
 from random import randint
-from crypto import decode, encode, hashing
-from logs import Log
+from MDPCrypto.Crypt import decrypt, encrypt, hashing, generate_salt, low_hash
+from Logs.logs import Log
 from time import sleep
 import os
 import sys
+
 logs = Log()
 
 def reset_default():
     default = "times_connected:1\nusername:?\nquestion:?\nserial_nbr:?"
-    with open("default.txt", 'w', encoding="utf-8") as file:
+    with open("MDPdata/default.txt", 'w', encoding="utf-8") as file:
         file.write(default)
     logs.create_log("DEFAULT WAS RESET")
 
 def reset_hashed():
     default = ""
-    with open("hashed.txt", 'w', encoding="utf-8") as file:
+    with open("MDPdata/hashed.txt", 'w', encoding="utf-8") as file:
         file.write(default)
     logs.create_log("HASHED WAS RESET")
     
 def reset_data():
-    with open("data.txt", 'w', encoding="utf-8") as file:
+    with open("MDPdata/data.txt", 'w', encoding="utf-8") as file:
         file.write("")
     logs.create_log("DATA WAS RESET")
 
 def create_hashed():
-    f = open(os.path.join(os.getcwd(), 'hashed.txt'), 'w')
+    f = open(os.path.join(os.getcwd(), 'MDPdata/hashed.txt'), 'w+')
     f.close()
 
 def create_default():
-    f = open(os.path.join(os.getcwd(), 'default.txt'), 'w')
+    f = open(os.path.join(os.getcwd(), 'MDPdata/default.txt'), 'w+')
     f.close()
 
 def create_data():
-    f = open(os.path.join(os.getcwd(), 'default.txt'), 'w')
+    f = open('MDPdata/data.txt', 'w+')
     f.close()
 
 def print_logo():
-    with open("logo.txt", 'r', encoding="utf-8") as file:
+    with open("Style/logo.txt", 'r', encoding="utf-8") as file:
         print(file.read())
 
 def tutorial():
@@ -212,9 +213,9 @@ class MissingContentHashed(Exception):
 
 class Program:
     def __init__(self):
-        self.__files = "data.txt"
-        self.__default = "default.txt"
-        self.__hashed = "hashed.txt"
+        self.__files = "MDPdata/data.txt"
+        self.__default = "MDPdata/default.txt"
+        self.__hashed = "MDPdata/hashed.txt"
 
     def error(self):
         error = []
@@ -223,26 +224,29 @@ class Program:
                 content = file.readlines()
             if content[1].rstrip("\n").split(":")[1] == "?" or content[2].rstrip("\n").split(":")[1] == "?" or content[3].rstrip("\n").split(":")[1] == "?":
                 error.append(str(MissingContentDefault()))
+            
         except:
             error.append([str(DefaultFileCorrupted()), str(MissingFiles())])
+
         try:
             with open(self.__hashed, 'r', encoding="utf-8") as file:
                 if len(file.readlines()) != 3:
                     error.append(str(MissingContentHashed()))
         except:
             error.append([str(HashedFileCorrupted()), str(MissingFiles())])
+
         
         try:
-            file = open("data.txt", 'r', encoding="utf-8")
+            file = open(self.__files, 'r', encoding="utf-8")
         except:
             error.append([str(DataFileCorrupted()), str(MissingFiles())])
-                
 
         if error != []:
             return error
         return True
 
     def error_resolution(self, error):
+
         if error == True:
             return "No problems were seen, if there is something, contact GaecKo#7545"
         troubles = "Here are the problems seen: \n"
@@ -254,16 +258,17 @@ class Program:
             if err == "MissingContentHashed":
                troubles += "- MissingContent Error: hashed.txt lacks of information, program can't run properly.\n"
                solution.append("REPAIR HASHED")
-            if err == "HashedFileCorrupted" and error[index + 1] == "MissingFiles":
+            if err == ["HashedFileCorrupted", "MissingFiles"]:
                 troubles += "- HashedFileCorrupted and MissingFiles Error: hashed.txt is missing, program can't run properly."
                 solution.append("CREATE HASHED.TXT")
-            if err == "DefaultFileCorrupted" and error[index + 1] == "MissingFiles":
+            if err == ["DefaultFileCorrupted", "MissingFiles"]:
                 troubles += "- DefaultFileCorrupted and MissingFiles Error: default.txt is missing, program can't run properly."
                 solution.append("CREATE DEFAULT.TXT")
-            if err == "DataFileCorrupted" and error[index + 1] == "MissingFiles":
+            if err == ["DataFileCorrupted","MissingFiles"]:
                 troubles += "- DatatFileCorrupted and MissingFiles Error: data.txt is missing, program can't run properly."
                 solution.append("CREATE DATA.TXT")
         print("################################# ERRORS #################################\n\n", troubles)
+        
         for sol in solution:
             if sol == "REPAIR DEFAULT":
                 while True:
@@ -408,11 +413,13 @@ class Program:
             choice = int(input(">>"))
         print("\n - - - - - - - - - - - - - - - - - - - - - -\nAs it's the first time you log in, you have to create an access password. ")
         self.create_password()
+        generate_salt()
+        logs.create_log("CREATION OF SALT FOR CRYPTO")
         logs.create_log("CREATION OF PASSWORD STARTED")
     
     def create_serial_number(self, access_password):
         initial = randint(1000, 1000000)
-        added = abs(int(hashing(access_password)))
+        added = abs(int(low_hash(access_password)))
         logs.create_log("CREATION OF SERIAL NUMBER")
         return str(initial + added)
 
@@ -425,7 +432,7 @@ class Program:
     
     def get_personnal_question(self):
         with open(self.__default, 'r', encoding="utf-8") as file:
-            return decode(self.get_serial_number(), file.readlines()[2].split(":")[1].rstrip('\n'))
+            return decrypt(self.get_serial_number(), file.readlines()[2].split(":")[1].rstrip('\n'))
 
     def get_first_personnal_question(self):
         with open(self.__default, 'r', encoding="utf-8") as file:
@@ -458,21 +465,21 @@ class Program:
         with open(filetoopen, 'w', encoding="utf-8") as file:
             file.writelines(content)
 
-    def encode_question(self, question):
+    def encrypt_question(self, question):
         serial = self.get_serial_number()
-        encoded_question = encode(serial, question)
+        encryptd_question = encrypt(serial, question)
         content = self.get_content(self.__default)
-        content[2] = "question:"+ encoded_question + "\n"
+        content[2] = "question:"+ encryptd_question + "\n"
         self.write_content(content, self.__default)
-        logs.create_log("QUESTION WAS ENCODED")
+        logs.create_log("QUESTION WAS ENCRYPTED")
 
     def add_site_password(self, access_password, site, site_password, username):
         with open(self.__files, 'r', encoding="utf-8") as file:
             content = file.read()
         if self.get_props():
-            content += "\n" + encode(access_password, site) + " | " + encode(access_password, username) + " | " + encode(access_password, site_password)
+            content += "\n" + encrypt(access_password, site) + " | " + encrypt(access_password, username) + " | " + encrypt(access_password, site_password)
         else:
-            content += encode(access_password, site) + " | " + encode(access_password, username) + " | " +encode(access_password, site_password)
+            content += encrypt(access_password, site) + " | " + encrypt(access_password, username) + " | " +encrypt(access_password, site_password)
         self.write_content(content, self.__files)
         logs.create_log("SITE AND PASSWORD ADDED")
 
@@ -501,7 +508,7 @@ class Program:
     def search(self, access_password, index):
         content = self.get_content(self.__files)
         logs.create_log("A PASSWORD WAS SHOWN")
-        return (decode(access_password, content[index].split(" | ")[0]), decode(access_password, content[index].split(" | ")[1]), decode(access_password, content[index].split(" | ")[2].rstrip("\n")))
+        return (decrypt(access_password, content[index].split(" | ")[0]), decrypt(access_password, content[index].split(" | ")[1]), decrypt(access_password, content[index].split(" | ")[2].rstrip("\n")))
     
     def check_data(self):
         content = self.get_content(self.__files)
@@ -523,7 +530,7 @@ class Program:
             choice_site = input(F"\nPlease enter a number to access and '+' or {number} to add a password. \n\tYou can type the keyword of a site as well.\n>>")
             try:
                 choice_site = int(choice_site)
-                if choice_site > 0 and choice_site < number:
+                if choice_site > 0 and choice_site < number :
                     return choice_site
                 elif choice_site == number:
                     return True
@@ -549,13 +556,13 @@ class Program:
         content = self.get_content(self.__files)
         text = F"Site: {len(content)} registered. Search by typing the keyword.\n"
         for i in range(len(content)):
-            text += "| " + str(i+1) +") " + decode(access_password, content[i].split(" | ")[0]) + "\n"
+            text += "| " + str(i+1) +") " + decrypt(access_password, content[i].split(" | ")[0]) + "\n"
         return (text, len(content) + 1)
     
     def search_in_sites(self, access_password, keyword):
         if keyword in ["", " ", ".", ","]:
             print("\nInvalid Keyword, retry")
-            sleep(2.5)
+            sleep(1.5)
             return (False, False)
         keyword = keyword.rstrip()
         good_one = []
@@ -577,14 +584,14 @@ class Program:
         
     def change_username_site(self, index, access_password, new_username):
         content = self.get_content(self.__files)
-        site = content[index].split(" | ")[0] + " | " + encode(access_password, new_username) + " | " + content[index].split(" | ")[2] 
+        site = content[index].split(" | ")[0] + " | " + encrypt(access_password, new_username) + " | " + content[index].split(" | ")[2] 
         content[index] = site
         self.write_content(content, self.__files)
         logs.create_log("A SITE USERNAME WAS CHANGED")
 
     def change_password_site(self, index, access_password, new_password):
         content = self.get_content(self.__files)
-        site = content[index].split(" | ")[0] + " | " + content[index].split(" | ")[1] + " | " + encode(access_password, new_password) + "\n"
+        site = content[index].split(" | ")[0] + " | " + content[index].split(" | ")[1] + " | " + encrypt(access_password, new_password) + "\n"
         content[index] = site
         self.write_content(content, self.__files)
         logs.create_log("A SITE PASSWORD WAS CHANGED")
@@ -614,22 +621,22 @@ class Program:
                 print("You didn't give the good answer, please retry")
                 return self.recover_password()
         print("Good answer! \n")
-        old_password = decode(answer, self.get_coded_password())
+        old_password = decrypt(answer, self.get_coded_password())
         print("Please create a new password and a new question.")
         logs.create_log("CREATION OF PASSWORD STARTED")
         new = self.create_password(True)
         self.change_hashed_password(new)
-        self.change_encoded_data(old_password, new)
+        self.change_encryptd_data(old_password, new)
         logs.create_log("RECOVERING PASSWORD SUCCESS")
         return new
     
-    def change_encoded_data(self, old, new):
+    def change_encryptd_data(self, old, new):
         content = self.get_content(self.__files)
         for i in range(len(content)):
             content[i] = content[i].split(" | ")
-            content[i][0] = encode(new, decode(old, content[i][0]))
-            content[i][1] = encode(new, decode(old, content[i][1]))
-            content[i][2] = encode(new, decode(old, content[i][2].rstrip("\n"))) + "\n"
+            content[i][0] = encrypt(new, decrypt(old, content[i][0]))
+            content[i][1] = encrypt(new, decrypt(old, content[i][1]))
+            content[i][2] = encrypt(new, decrypt(old, content[i][2].rstrip("\n"))) + "\n"
             content[i] = content[i][0] + " | " + content[i][1] + " | " + content[i][2]
         if len(content) > 0:
             content[-1] = content[-1].rstrip("\n")
@@ -652,7 +659,7 @@ class Program:
         if hashing(old_verif) == self.get_hashed_password():
             print("\n")
             new_password = self.create_password(True)
-            self.change_encoded_data(old_verif, new_password)
+            self.change_encryptd_data(old_verif, new_password)
         else:
             print("Wrong Password, if you have forgotten your password, type 1, type anything else to retry.")
             forgot = input(">>")
@@ -714,13 +721,13 @@ class Program:
             except IndexError:
                 content.append(hashed_answer + "\n")
             self.write_content(content, self.__hashed)
-        # -------------------------------------- Encode of the AP with the rep    
-            encoded = encode(answer, password)
+        # -------------------------------------- encrypt of the AP with the rep    
+            encryptd = encrypt(answer, password)
             content = self.get_content(self.__hashed)
             try:
-                content[2] = encoded
+                content[2] = encryptd
             except IndexError:
-                content.append(encoded)
+                content.append(encryptd)
             self.write_content(content, self.__hashed)
         # -------------------------------------- Create the serial number
             content = self.get_content(self.__default) 
@@ -730,7 +737,7 @@ class Program:
             content = self.get_content(self.__default)
             content[2] = "question:"+ question + "\n"
             self.write_content(content, self.__default)
-            self.encode_question(self.get_first_personnal_question())
+            self.encrypt_question(self.get_first_personnal_question())
             logs.create_log("CREATION OF PASSWORD ENDED")
             if returning == True:
                 return password

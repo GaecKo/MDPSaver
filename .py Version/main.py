@@ -166,13 +166,18 @@ if __name__ == "__main__":
                 break
         
         elif choice == 3:
+            print("\n------------------------\n")
+
+            pass
+        
+        elif choice == 4:
             print("\n------------------------\nPlease write down your new Username")
             new_username = input("\n>>")
             good_one = confirm_username(new_username)
             program.set_username(good_one)
             print("Here you go {}, your username has been changed.".format(program.get_username()))
 
-        elif choice == 4:
+        elif choice == 5:
             print("\n------------------------\nAccessing Password modification...")
             program.change_access_password()
             while True:
@@ -183,16 +188,16 @@ if __name__ == "__main__":
                 else:
                     print("Wrong password, please try again.")
        
-        elif choice == 5:
-            tutorial()
-        
         elif choice == 6:
+            tutorial() # TODO: Adapt to new param
+        
+        elif choice == 7:
             print("See you soon {} !".format(program.get_username()))
             sleep(2.5)
             break
 
-        elif choice == 7:
-            program.hard_reboot()
+        elif choice == 8:
+            program.hard_reboot() 
     
     if program.error() != True:
         program.error_resolution(program.error())

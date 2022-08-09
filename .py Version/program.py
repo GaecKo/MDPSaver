@@ -1,77 +1,86 @@
 from random import randint
+from xmlrpc.client import boolean
 from MDPCrypto.Crypt import decrypt, encrypt, hashing, generate_salt, low_hash
-from Logs.logs import Log
+from MDPLogs.logs import Log
 from time import sleep
 import os
 import sys
+from colorama import Fore, Back, Style, init
+init(autoreset=True)
 
 logs = Log()
 
 def reset_default():
     default = "times_connected:1\nusername:?\nquestion:?\nserial_nbr:?"
-    with open("MDPdata/default.txt", 'w', encoding="utf-8") as file:
+    with open("MDPData/default.txt", 'w', encoding="utf-8") as file:
         file.write(default)
     logs.create_log("DEFAULT WAS RESET")
 
 def reset_hashed():
     default = ""
-    with open("MDPdata/hashed.txt", 'w', encoding="utf-8") as file:
+    with open("MDPData/hashed.txt", 'w', encoding="utf-8") as file:
         file.write(default)
     logs.create_log("HASHED WAS RESET")
     
 def reset_data():
-    with open("MDPdata/data.txt", 'w', encoding="utf-8") as file:
+    with open("MDPData/data.txt", 'w', encoding="utf-8") as file:
         file.write("")
     logs.create_log("DATA WAS RESET")
 
 def create_hashed():
-    f = open(os.path.join(os.getcwd(), 'MDPdata/hashed.txt'), 'w+')
+    f = open(os.path.join(os.getcwd(), 'MDPData/hashed.txt'), 'w+')
     f.close()
 
 def create_default():
-    f = open(os.path.join(os.getcwd(), 'MDPdata/default.txt'), 'w+')
+    f = open(os.path.join(os.getcwd(), 'MDPData/default.txt'), 'w+')
     f.close()
 
 def create_data():
-    f = open('MDPdata/data.txt', 'w+')
+    f = open('MDPData/data.txt', 'w+')
     f.close()
 
 def print_logo():
-    with open("Style/logo.txt", 'r', encoding="utf-8") as file:
+    with open("MDPStyle/logo.txt", 'r', encoding="utf-8") as file:
         print(file.read())
 
 def tutorial():
     print()
     print("- - - - - - - - - - - - - - - ")
-    print("""
+    print(f"""
     When you will start the program next time, you will be asked your AP (access password that you will create in a few moments) which defines the password
-    that controls all of your password, this password if very powerfull so chose it carefully! If you forgot it, you will be able to recover your other passwords
+    that controls all of your password, this password if very powerfull so choose it carefully! If you forget it, you will be able to recover your other passwords
     by answering a question you are going to create just after this tutorial.
 
     The app lets you choose between 7 options, 
     you can chose one simply by writting the number corresponding to it. 
     
-    1) Access my passwords 
+    1) {Back.LIGHTBLUE_EX + "Access my passwords" + Style.RESET_ALL}
     -> Let you access all your passwords.
     -> Once done, you can look after the site you wish to find the password of
     -> Then, you can chose wether you wand to delete it, reveal the password, change the password or change the username / email
     
-    2) Add a password -> a) Add the name of the site (Facebook, Insta,..)
+    2) {Back.LIGHTBLUE_EX + "Add a password" + Style.RESET_ALL} -> a) Add the name of the site (Facebook, Insta,..)
                          b) Add your username / email (username@coolguy.me)
                          c) Add the password of your account 
 
-    3) Change Username -> to rename yourself
-    
-    4) Change Password -> With some verification, you will be able to change your password
-    
-    5) Tutorial -> You're in ;)
-    
-    6) Exit the program -> Simply stops the program and make sure everything is fine and ready for next time
+    3) {Back.LIGHTBLUE_EX + "Generate a random password" + Style.RESET_ALL} -> a) {Fore.GREEN + "Weak password" + Style.RESET_ALL} (only letters + numbers | size 8~12)
+                                     b) {Fore.YELLOW + "Medium password" + Style.RESET_ALL} (letters + numbers + symbols | size 10~20)
+                                     c) {Fore.MAGENTA + "Strong password" + Style.RESET_ALL} (long + letters + numbers + symbols | size 15~25)
+                                     d) {Fore.CYAN + "Custom password" + Style.RESET_ALL} (choose caracteristics)
+                                -> You will then be able to save it if you wish so!
 
-    7) System settings -> To try to debug the programs if troubles went to happen
+    4) {Back.LIGHTBLUE_EX + "Change Username" + Style.RESET_ALL} -> to rename yourself
     
-    If you have any recommendations/tips/bugs, please contact me on discord: GaecKo#7545""")
+    5) {Back.LIGHTBLUE_EX + "Change Password" + Style.RESET_ALL} -> With some verification, you will be able to change your password
     
+    6) {Back.LIGHTBLUE_EX + "Tutorial" + Style.RESET_ALL} -> You're in ;)
+    
+    7) {Back.LIGHTBLUE_EX + "Exit the program" + Style.RESET_ALL} -> Simply stops the program and make sure everything is fine and ready for next time
+
+    8) {Back.LIGHTBLUE_EX + "System settings" + Style.RESET_ALL} -> To try to debug the programs if troubles went to happen
+    
+    If you have any {Fore.CYAN + "recommendations" + Style.RESET_ALL}/{Fore.GREEN + "tips" + Style.RESET_ALL}/{Fore.RED + "bugs" + Style.RESET_ALL}, please contact me on discord: GaecKo#7545""")
+
 def wanna_do():
     print(
         """
@@ -82,7 +91,7 @@ def wanna_do():
     | 3) Generate Random Password      ┃╭╮╭╮┃┃┃┃┃╰━╯┃┃╰━━┫┃╱┃┣╮┃┃╭┫╰━━┫╰━╯┃       
     | 4) Change UserName               ┃┃┃┃┃┃┃┃┃┃╭━━╯╰━━╮┃╰━╯┃┃╰╯┃┃╭━━┫╭╮╭╯
     | 5) Change Access Password        ┃┃┃┃┃┣╯╰╯┃┃╱╱╱┃╰━╯┃╭━╮┃╰╮╭╯┃╰━━┫┃┃╰╮
-    | 6) Tutorial                      ╰╯╰╯╰┻━━━┻╯╱╱╱╰━━━┻╯╱╰╯╱╰╯╱╰━━━┻╯╰━╯  █▀▀ ▄▀█ █▀▀ █▀▀ █▄▀ █▀█
+    | 6) Tutorial / Help               ╰╯╰╯╰┻━━━┻╯╱╱╱╰━━━┻╯╱╰╯╱╰╯╱╰━━━┻╯╰━╯  █▀▀ ▄▀█ █▀▀ █▀▀ █▄▀ █▀█
     | 7) Exit                                                                █▄█ █▀█ ██▄ █▄▄ █░█ █▄█ ©
     | 8) System Settings                                                     
         """
@@ -90,7 +99,7 @@ def wanna_do():
     choice = input(">>")
     try:
         choice = int(choice)
-        if choice <= 7:
+        if choice <= 8:
             return choice
     except:
         print("Invalid choice, please try again.")
@@ -117,6 +126,81 @@ def reboot_do():
         print("Invalid choice, please try again.")
         wanna_do()
 
+def choose_security_level_password() -> int:
+    print(
+    f"""
+    - - - - - - - - - - - - - - - - - - - - - - - -
+    Please choose a security level: 
+    | 1) {Fore.GREEN + "Weak password" + Style.RESET_ALL} (only letters + numbers | size 8~12)
+    | 2) {Fore.YELLOW + "Medium password" + Style.RESET_ALL} (letters + numbers + symbols | size 10~20)
+    | 3) {Fore.MAGENTA + "Strong password" + Style.RESET_ALL} (long + letters + numbers + symbols | size 15~25)
+    | 4) {Fore.CYAN + "Custom password" + Style.RESET_ALL} (choose caracteristics)
+    """
+    )
+    security_level = input("\n>>")
+    try:
+        security_level = int(security_level)
+        if security_level < 5 and security_level > 0:
+            return security_level
+        print(Back.RED + "Invalid choice, please retry")
+        sleep(1.5)
+        return choose_security_level_password()
+    except:
+        print(Back.RED + "Invalid choice, please retry")
+        sleep(1.5)
+        return choose_security_level_password()
+            
+def generate_password(security_level: int) -> str:
+    def generator(min_size: int, max_size: int, symbols: boolean = True, numbers: boolean = True) -> str:
+        char = [['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'], ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'], ["0", "1", "2", "3", "4", "5",  "6", "7", "8", "9"],
+         ["&", "#", "_", "@", "!", "?", ".", ";", "/", "§", "=", "<", ">"]]
+        generated_password = ""
+        password_size = randint(min_size, max_size)
+        if not numbers: del char[2]
+        if not symbols: del char[-1]
+        for i in range(password_size):
+            char_category = randint(0, len(char) - 1)
+            if randint(1, 2) == 1:  generated_password += char[char_category][randint(0, len(char[char_category]) -1)].upper() 
+            else: generated_password += char[char_category][randint(0, len(char[char_category]) -1)].lower()
+        return generated_password
+    
+
+    if security_level == 1:
+        return generator(8, 12, False)
+    
+    elif security_level == 2:
+        return generator(10, 20)
+    
+    elif security_level == 3:
+        return generator(15, 25)
+
+    elif security_level == 4:
+        while True:
+            try:
+                size = int(input("\nPlease tell the size you want for the password:\n>>"))
+                break
+            except:print(Back.RED + "Invalid choice, please retry")
+        
+        while True:
+            symbols = input("\nDo you wish to have symbols included?[Y/n]\n>>")
+            if symbols in ["Y", "y", "N", "n"]:
+                if symbols in ["Y", "y"]:
+                    symbols = True
+                else:
+                    symbols = False
+                break
+            print(Back.RED + "Invalid choice, please retry")
+        while True:
+            numbers = input("\nDo you wish to have numbers included?[Y/n]\n>>")
+            if numbers in ["Y", "y", "N", "n"]:
+                if numbers in ["Y", "y"]:
+                    numbers = True
+                else:
+                    numbers = False
+                break
+            print(Back.RED + "Invalid choice, please retry")
+        return generator(size, size, symbols, numbers)
+
 def option_password():
     print(
     """
@@ -134,11 +218,12 @@ def option_password():
     choice = input(">>")
     try:
         choice = int(choice)
-        if choice <= 5:
+        if choice <= 5 and choice > 0:
             return choice
+        return option_password()
     except:
         print("Invalid choice, please try again.")
-        option_password()
+        return option_password()
     
 def confirm_username(username):
     print("""
@@ -214,9 +299,9 @@ class MissingContentHashed(Exception):
 
 class Program:
     def __init__(self):
-        self.__files = "MDPdata/data.txt"
-        self.__default = "MDPdata/default.txt"
-        self.__hashed = "MDPdata/hashed.txt"
+        self.__files = "MDPData/data.txt"
+        self.__default = "MDPData/default.txt"
+        self.__hashed = "MDPData/hashed.txt"
 
     def error(self):
         error = []
@@ -275,7 +360,7 @@ class Program:
                 while True:
                     print("------------\nDefault has to be repaired otherwise your passwords will be corrupted and the system not useable.")
                     print("None of your passwords will be lost if you use the same Access Password as before.")
-                    choice = input("Do you wish to repair default.txt? (Y/n)")
+                    choice = input("Do you wish to repair default.txt? [Y/n]")
                     if choice == "Y":
                         reset_default()
                         print("---------\n default.txt has been repaired, you will have to complete informations next time you start the program.")
@@ -287,7 +372,7 @@ class Program:
                 while True:
                     print("------------\nHashed has to be repaired otherwise your passwords will be corrupted and the system not useable.")
                     print("None of your passwords will be lost if you use the same Access Password as before.")
-                    choice = input("Do you wish to repair hashed.txt? (Y/n)")
+                    choice = input("Do you wish to repair hashed.txt? [Y/n]")
                     if choice == "Y":
                         reset_hashed()
                         print("hashed.txt has been repaired, you will have to complete informations next time you start the program.")
@@ -299,7 +384,7 @@ class Program:
                 while True:
                     print("------------\nhashed.txt has to be created, or the program won't run.")
                     print("None of your passwords will be lost if you use the same Access Password as before.")
-                    choice = input("Do you wish to create hashed.txt? (Y/n)")
+                    choice = input("Do you wish to create hashed.txt? [Y/n]")
                     if choice == "Y":
                         create_hashed()
                         print("---------\nhashed.txt has been created, you will have to complete informations next time you start the program.")
@@ -311,7 +396,7 @@ class Program:
                 while True:
                     print("------------\ndefault.txt has to be created, or the program won't run.")
                     print("None of your passwords will be lost if you use the same Access Password as before.")
-                    choice = input("Do you wish to create default.txt? (Y/n)")
+                    choice = input("Do you wish to create default.txt? [Y/n]")
                     if choice == "Y":
                         create_default()
                         print("---------\ndefault.txt has been created, you will have to complete informations next time you start the program.")
@@ -322,7 +407,7 @@ class Program:
             if sol == "CREATE DATA.TXT":
                 while True:
                     print("------------\ndata.txt has to be created, or the program won't run.")
-                    choice = input("Do you wish to create data.txt? (Y/n)")
+                    choice = input("Do you wish to create data.txt? [Y/n]")
                     if choice == "Y":
                         create_data()
                         print("---------\ndata.txt has been created, you will have to complete informations next time you start the program.")
@@ -345,7 +430,7 @@ class Program:
         action = reboot_do()
         if action == 1:
             while True:
-                choice = input("Are you sure you want to delete everything?(You will lost all your passwords, ...) (Y/n)")
+                choice = input("Are you sure you want to delete everything? (You will lost all your passwords, ...) [Y/n]")
                 if choice == "Y":
                     print("deleting...")
                     reset_data()
@@ -356,7 +441,7 @@ class Program:
                     break
         if action == 2:
             while True:
-                choice = input("Are you sure you want to delete all of your passwords? (Y/n)")
+                choice = input("Are you sure you want to delete all of your passwords? [Y/n]")
                 if choice == "Y":
                     print("deleting...")
                     reset_data()
@@ -364,8 +449,7 @@ class Program:
                     break
         if action == 3:
             while True:
-                choice = input("""Are you sure you want to reset all informations? 
-                None of the passwords will be lost if you use the same Access Password as the current one. (Y/n)""")
+                choice = input("Are you sure you want to reset all informations? You will lost all your passwords[Y/n]")
                 if choice == "Y":
                     print("Reseting...")
                     reset_default()
@@ -385,6 +469,8 @@ class Program:
             print("--> After each use, the system gets completely checked and if it contains errors, solutions are given to fix them.")
 
     def program_first(self):
+        if not self.get_props(): 
+            generate_salt()
         print("It seems that it's the first time you connect to the system")
         print("Would you like to see a walkthrough of the program?")
         print()
@@ -414,7 +500,6 @@ class Program:
             choice = int(input(">>"))
         print("\n - - - - - - - - - - - - - - - - - - - - - -\nAs it's the first time you log in, you have to create an access password. ")
         self.create_password()
-        generate_salt()
         logs.create_log("CREATION OF SALT FOR CRYPTO")
         logs.create_log("CREATION OF PASSWORD STARTED")
     

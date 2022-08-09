@@ -1,10 +1,15 @@
 from program import *
 from MDPCrypto.Crypt import hashing
 from time import sleep
-from Logs.logs import Log
+from MDPLogs.logs import Log
+from colorama import Fore, Back, Style, init
 import sys
+init(autoreset=True)
 logs = Log()
 program = Program() 
+
+
+
 
 if __name__ == "__main__":
     print_logo()
@@ -167,15 +172,37 @@ if __name__ == "__main__":
         
         elif choice == 3:
             print("\n------------------------\n")
-
-            pass
+            password = generate_password(choose_security_level_password())
+            print(f"Here is the randomly generated password:\n\n{password}\n\n")
+            while True:
+                to_save = input("Would you like to add this password to your saved password? [Y/n]")
+                if to_save in ["Y", "y", "N", "n"]:
+                    if to_save in ["Y", "y"]: to_save = True
+                    if to_save in ["N", "n"]: to_save = False
+                    break
+                print(Back.RED + "Invalid choice, please retry")
+            if to_save:
+                while True:
+                    site = input("Please tell the name of the site, enter 'back' or 'stop' or 'retour' to leave.\n>>")
+                    if site == "back" or site == "stop" or site == "retour":
+                        print("\n" * 200)
+                        break
+                    username = input("Please tell your username / email on the site\n>>")
+                    if username == "back" or username == "stop" or username == "retour":
+                        print("\n" * 200)
+                        break
+                    
+                    print("\n" * 200)
+                    program.add_site_password(given_password, site, password, username)
+                    program.check_data()
+                    break
         
         elif choice == 4:
             print("\n------------------------\nPlease write down your new Username")
             new_username = input("\n>>")
             good_one = confirm_username(new_username)
             program.set_username(good_one)
-            print("Here you go {}, your username has been changed.".format(program.get_username()))
+            print(f"Here you go {program.get_username()}, your username has been changed.")
 
         elif choice == 5:
             print("\n------------------------\nAccessing Password modification...")
@@ -192,7 +219,7 @@ if __name__ == "__main__":
             tutorial() # TODO: Adapt to new param
         
         elif choice == 7:
-            print("See you soon {} !".format(program.get_username()))
+            print(f"See you soon {program.get_username()}!")
             sleep(2.5)
             break
 

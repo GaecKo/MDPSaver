@@ -83,17 +83,17 @@ def tutorial():
 
 def wanna_do():
     print(
-        """
+        f"""
     What do you want to do?
     -----------------------
-    | 1) Access my passwords           ╭━╮╭━┳━━━┳━━━╮╭━━━┳━━━┳╮╱╱╭┳━━━┳━━━╮
-    | 2) Add a password                ┃┃╰╯┃┣╮╭╮┃╭━╮┃┃╭━╮┃╭━╮┃╰╮╭╯┃╭━━┫╭━╮┃
-    | 3) Generate Random Password      ┃╭╮╭╮┃┃┃┃┃╰━╯┃┃╰━━┫┃╱┃┣╮┃┃╭┫╰━━┫╰━╯┃       
-    | 4) Change UserName               ┃┃┃┃┃┃┃┃┃┃╭━━╯╰━━╮┃╰━╯┃┃╰╯┃┃╭━━┫╭╮╭╯
-    | 5) Change Access Password        ┃┃┃┃┃┣╯╰╯┃┃╱╱╱┃╰━╯┃╭━╮┃╰╮╭╯┃╰━━┫┃┃╰╮
-    | 6) Tutorial / Help               ╰╯╰╯╰┻━━━┻╯╱╱╱╰━━━┻╯╱╰╯╱╰╯╱╰━━━┻╯╰━╯  █▀▀ ▄▀█ █▀▀ █▀▀ █▄▀ █▀█
-    | 7) Exit                                                                █▄█ █▀█ ██▄ █▄▄ █░█ █▄█ ©
-    | 8) System Settings                                                     
+    | 1) Access my passwords 🔍          {Fore.LIGHTRED_EX + "╭━╮╭━┳━━━┳━━━╮╭━━━┳━━━┳╮╱╱╭┳━━━┳━━━╮" + Style.RESET_ALL}
+    | 2) Add a password {Fore.LIGHTGREEN_EX + "+" + Style.RESET_ALL}                {Fore.LIGHTRED_EX + "┃┃╰╯┃┣╮╭╮┃╭━╮┃┃╭━╮┃╭━╮┃╰╮╭╯┃╭━━┫╭━╮┃" + Style.RESET_ALL}
+    | 3) Generate Random Password {Fore.LIGHTMAGENTA_EX + "🔏" + Style.RESET_ALL}     {Fore.LIGHTRED_EX + "┃╭╮╭╮┃┃┃┃┃╰━╯┃┃╰━━┫┃╱┃┣╮┃┃╭┫╰━━┫╰━╯┃" + Style.RESET_ALL}       
+    | 4) Change UserName {Fore.LIGHTYELLOW_EX + "𝌄" + Style.RESET_ALL}               {Fore.LIGHTRED_EX + "┃┃┃┃┃┃┃┃┃┃╭━━╯╰━━╮┃╰━╯┃┃╰╯┃┃╭━━┫╭╮╭╯" + Style.RESET_ALL}
+    | 5) Change Access Password {Fore.LIGHTRED_EX + "🔐" + Style.RESET_ALL}       {Fore.LIGHTRED_EX + "┃┃┃┃┃┣╯╰╯┃┃╱╱╱┃╰━╯┃╭━╮┃╰╮╭╯┃╰━━┫┃┃╰╮" + Style.RESET_ALL}
+    | 6) Tutorial / Help {Fore.LIGHTCYAN_EX + "?" + Style.RESET_ALL}               {Fore.LIGHTRED_EX + "╰╯╰╯╰┻━━━┻╯╱╱╱╰━━━┻╯╱╰╯╱╰╯╱╰━━━┻╯╰━╯" + Style.RESET_ALL}  █▀▀ ▄▀█ █▀▀ █▀▀ █▄▀ █▀█
+    | 7) Exit {Fore.RED + "⎆" + Style.RESET_ALL}                                                                █▄█ █▀█ ██▄ █▄▄ █░█ █▄█ ©
+    | 8) System Settings ⚙️                                                     
         """
     )
     choice = input(">>")
@@ -690,7 +690,7 @@ class Program:
 
     def get_coded_password(self):
         with open(self.__hashed, 'r', encoding='utf-8') as file:
-            return file.readlines[2].rstrip("\n")
+            return file.readlines()[2].rstrip("\n")
 
     def recover_password(self):
         logs.create_log("RECOVERING PASSWORD BEGINNED")

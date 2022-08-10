@@ -79,7 +79,7 @@ if __name__ == "__main__":
                         if index == False:
                             leave = True
                             break
-                        elif isinstance(index, int):
+                        elif isinstance(index, int) and index != True:
                             index -= 1
                             site, username, code = program.search(given_password, index)
                             go = True
@@ -143,17 +143,15 @@ if __name__ == "__main__":
                             new_username = input("What's the new username / email?\n>>")
                             program.change_username_site(index, given_password, new_username)
                     elif action == 5:
-                        go = True
+                        hardleave = True
             
         elif choice == 2:
             print("\n------------------------\nYou are here to add the password of a specific site.")
             i = 0
             while True:
-                try:
-                    if index == True:
-                        choice = 1
+                try: index = False 
                 except: pass
-                site = input("Please tell the name of the site, enter 'back' or 'stop' or 'retour' to leave.\n>>")
+                site = input("Please tell the site you want to add a password for\n>>")
                 if site == "back" or site == "stop" or site == "retour":
                     print("\n" * 200)
                     break

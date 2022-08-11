@@ -194,6 +194,7 @@ if __name__ == "__main__":
                     program.add_site_password(given_password, site, password, username)
                     program.check_data()
                     break
+                print("\n"*200)
         
         elif choice == 4:
             print("\n------------------------\nPlease write down your new Username")

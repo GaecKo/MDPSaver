@@ -4,6 +4,7 @@ from time import sleep
 from MDPLogs.logs import Log
 from colorama import Fore, Back, Style, init
 import sys
+import pwinput
 init(autoreset=True)
 logs = Log()
 program = Program() 
@@ -36,14 +37,14 @@ if __name__ == "__main__":
     program.add_one_connection()
     while True:
         print("\n---------------\nPlease give the Access Password to access all of your passwords")
-        given_password = input(">>")
+        given_password = pwinput.pwinput(prompt='Password: ')
         if hashing(given_password) == program.get_hashed_password():
             print("Good password")
             print("\n" * 200)
             break
         else:
             print("bad password, have you forgotten your password? (type 1 if so)")
-            given_password = input(">>")
+            given_password = pwinput.pwinput(prompt='Password: ')
             while given_password != "1" and hashing(given_password) != program.get_hashed_password():
                 print("bad password, have you forgotten your password? (type 1 if so)")
                 given_password = input(">>")
@@ -65,10 +66,10 @@ if __name__ == "__main__":
                 print("You currently have no saved password. Please add one first.")
                 sleep(2)
             else:
-                go = False
-                leave = False
+                go = False # boucle while not go
                 asked = False
-                hardleave = False
+                leave = False # to leave this menu without blank lines
+                long_leave = False # to leave this menu + 200 blank lines
                 while not go:
                     print("Here are all the site registered")
                     liste, number = program.sites_list(given_password)
@@ -83,7 +84,7 @@ if __name__ == "__main__":
                             index -= 1
                             site, username, code = program.search(given_password, index)
                             go = True
-                            leave = False
+                            long_leave = False
                             break
                         elif index == True:
                             choice = 2
@@ -94,10 +95,10 @@ if __name__ == "__main__":
                             if sites == []:
                                 print(F"No Result found with keyword '{index}', please retry.")
                                 sleep(2.5)
-                                hardleave = True
+                                long_leave = True
                                 break
                             elif sites == False:
-                                hardleave = True
+                                long_leave = True
                                 break
                             else:
                                 print(F"\n-> Keyword: '{index}'")
@@ -111,7 +112,7 @@ if __name__ == "__main__":
                     if leave == True:
                         print("\n" * 200)
                         break
-                    if hardleave == True:
+                    if long_leave == True:
                         print("\n" * 200)
                         break
                     action = option_password()

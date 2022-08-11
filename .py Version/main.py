@@ -5,6 +5,7 @@ from MDPLogs.logs import Log
 from colorama import Fore, Back, Style, init
 import sys
 import pwinput
+from MDPStyle.logo import logo
 init(autoreset=True)
 logs = Log()
 program = Program() 
@@ -13,8 +14,8 @@ program = Program()
 
 
 if __name__ == "__main__":
-    print_logo()
-    print("\n(Press Enter to start)")
+    print(logo())
+    print(Fore.MAGENTA +"\n(Press Enter to start)")
     input() 
     print("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
     if program.first():
@@ -204,6 +205,7 @@ if __name__ == "__main__":
             new_username = input("\n>>")
             good_one = confirm_username(new_username)
             program.set_username(good_one)
+            print("\n")
             print(f"Here you go {program.get_username()}, your username has been changed.")
 
         elif choice == 5:

@@ -4,7 +4,7 @@ from MDPLogs.logs import Log
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from colorama import Fore, Back, Style, init
+from colorama import Back, Style, init
 init(autoreset=True)
 
 logs = Log()

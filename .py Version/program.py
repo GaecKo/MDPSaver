@@ -40,9 +40,6 @@ def create_data():
     f = open('MDPData/data.txt', 'w+')
     f.close()
 
-def print_logo():
-    with open("MDPStyle/logo.txt", 'r', encoding="utf-8") as file:
-        print(file.read())
 
 def tutorial():
     print()
@@ -89,11 +86,11 @@ def wanna_do():
     -----------------------
     | 1) Access my passwords 🔍          {Fore.LIGHTRED_EX + "╭━╮╭━┳━━━┳━━━╮╭━━━┳━━━┳╮╱╱╭┳━━━┳━━━╮" + Style.RESET_ALL}
     | 2) Add a password {Fore.LIGHTGREEN_EX + "+" + Style.RESET_ALL}                {Fore.LIGHTRED_EX + "┃┃╰╯┃┣╮╭╮┃╭━╮┃┃╭━╮┃╭━╮┃╰╮╭╯┃╭━━┫╭━╮┃" + Style.RESET_ALL}
-    | 3) Generate Random Password {Fore.LIGHTMAGENTA_EX + "🔏" + Style.RESET_ALL}     {Fore.LIGHTRED_EX + "┃╭╮╭╮┃┃┃┃┃╰━╯┃┃╰━━┫┃╱┃┣╮┃┃╭┫╰━━┫╰━╯┃" + Style.RESET_ALL}       
+    | 3) Generate Random Password {Fore.LIGHTMAGENTA_EX + "🔏" + Style.RESET_ALL}     {Fore.LIGHTRED_EX + "┃╭╮╭╮┃┃┃┃┃╰━╯┃┃╰━━┫┃╱┃┣╮┃┃╭┫╰━━┫╰━╯┃" + Style.RESET_ALL}    
     | 4) Change UserName {Fore.LIGHTYELLOW_EX + "𝌄" + Style.RESET_ALL}               {Fore.LIGHTRED_EX + "┃┃┃┃┃┃┃┃┃┃╭━━╯╰━━╮┃╰━╯┃┃╰╯┃┃╭━━┫╭╮╭╯" + Style.RESET_ALL}
     | 5) Change Access Password {Fore.LIGHTRED_EX + "🔐" + Style.RESET_ALL}       {Fore.LIGHTRED_EX + "┃┃┃┃┃┣╯╰╯┃┃╱╱╱┃╰━╯┃╭━╮┃╰╮╭╯┃╰━━┫┃┃╰╮" + Style.RESET_ALL}
-    | 6) Tutorial / Help {Fore.LIGHTCYAN_EX + "?" + Style.RESET_ALL}               {Fore.LIGHTRED_EX + "╰╯╰╯╰┻━━━┻╯╱╱╱╰━━━┻╯╱╰╯╱╰╯╱╰━━━┻╯╰━╯" + Style.RESET_ALL}  █▀▀ ▄▀█ █▀▀ █▀▀ █▄▀ █▀█
-    | 7) Exit {Fore.RED + "⎆" + Style.RESET_ALL}                                                                █▄█ █▀█ ██▄ █▄▄ █░█ █▄█ ©
+    | 6) Tutorial / Help {Fore.LIGHTCYAN_EX + "?" + Style.RESET_ALL}               {Fore.LIGHTRED_EX + "╰╯╰╯╰┻━━━┻╯╱╱╱╰━━━┻╯╱╰╯╱╰╯╱╰━━━┻╯╰━╯" + Style.RESET_ALL}
+    | 7) Exit {Fore.RED + "⎆" + Style.RESET_ALL}                                                                
     | 8) System Settings ⚙️                                                     
         """
     )
@@ -165,7 +162,6 @@ def generate_password(security_level: int) -> str:
             else: generated_password += char[char_category][randint(0, len(char[char_category]) -1)].lower()
         return generated_password
     
-
     if security_level == 1:
         return generator(8, 12, False)
     
@@ -228,7 +224,7 @@ def option_password():
     
 def confirm_username(username):
     print(f"""
-    Do you confirm this username: {0}?
+    Do you confirm this username: {username}?
     | 1) {Fore.GREEN + "Yes" + Style.RESET_ALL}
     | 2) {Fore.RED + "No" + Style.RESET_ALL}
     

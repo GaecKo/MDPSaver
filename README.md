@@ -17,5 +17,7 @@ Here is a walkthrough of the app
 #### <ins> Starting Screen </ins>
 ![Main Menu](.git_files/MainScreen.png?raw=true "Main Menu")
 
-### <ins> Main Menu </ins>
+#### <ins> Main Menu </ins>
 ![Main Menu](.git_files/MainMenu.png?raw=true "Main Menu")
+
+#### <ins> Access Passwords </ins>

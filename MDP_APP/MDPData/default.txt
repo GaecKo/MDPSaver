@@ -1,4 +1,4 @@
-times_connected:22
-username:Dru
-question:gAAAAABi9V3qfMJU3pbqXZTGlEpm_FxpXcdou-Ao6KHojRomEf0OMOR9Hzd8RwnacQSdiyqe0YJq2WCNPAvqz_v0DYwwt2Xkig==
-serial_nbr:1718000661
+times_connected:1
+username:?
+question:?
+serial_nbr:?

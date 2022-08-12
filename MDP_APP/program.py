@@ -1,3 +1,4 @@
+from email.policy import default
 from random import randint
 from xmlrpc.client import boolean
 from MDPCrypto.Crypt import decrypt, encrypt, hashing, generate_salt, low_hash
@@ -22,6 +23,12 @@ def reset_hashed():
     with open("MDPData/hashed.txt", 'w', encoding="utf-8") as file:
         file.write(default)
     logs.create_log("HASHED WAS RESET")
+
+def reset_key():
+    default = ""
+    with open("MDPCrypto/key/key.key", 'w', encoding="utf-8") as file:
+        file.write(default)
+    logs.create_log("KEY.KEY WAS RESET")
     
 def reset_data():
     with open("MDPData/data.txt", 'w', encoding="utf-8") as file:
@@ -357,7 +364,7 @@ class Program:
                 while True:
                     print("------------\nDefault has to be repaired otherwise your passwords will be corrupted and the system not useable.")
                     print(Fore.MAGENTA + "None of your passwords will be lost if you use the same Access Password as before.")
-                    choice = input("Do you wish to repair default.txt?" + Fore.CYAN + " [Y/n]")
+                    choice = input("Do you wish to repair default.txt? " + Fore.CYAN + "[Y/n]" + Style.RESET_ALL)
                     if choice == "Y":
                         reset_default()
                         print("---------\n default.txt has been repaired, you will have to complete informations next time you start the program.")
@@ -369,7 +376,7 @@ class Program:
                 while True:
                     print("------------\nHashed has to be repaired otherwise your passwords will be corrupted and the system not useable.")
                     print(Fore.MAGENTA + "None of your passwords will be lost if you use the same Access Password as before.")
-                    choice = input("Do you wish to repair hashed.txt? " +Fore.CYAN+"[Y/n]")
+                    choice = input("Do you wish to repair hashed.txt? " + Fore.CYAN + "[Y/n]" + Style.RESET_ALL)
                     if choice == "Y":
                         reset_hashed()
                         print("hashed.txt has been repaired, you will have to complete informations next time you start the program.")
@@ -381,7 +388,7 @@ class Program:
                 while True:
                     print("------------\nhashed.txt has to be created, or the program won't run.")
                     print(Fore.MAGENTA + "None of your passwords will be lost if you use the same Access Password as before.")
-                    choice = input("Do you wish to create hashed.txt? "+ Fore.CYAN + "[Y/n]")
+                    choice = input("Do you wish to create hashed.txt? "+ Fore.CYAN + "[Y/n]" + Style.RESET_ALL)
                     if choice == "Y":
                         create_hashed()
                         print("---------\nhashed.txt has been created, you will have to complete informations next time you start the program.")
@@ -393,7 +400,7 @@ class Program:
                 while True:
                     print("------------\ndefault.txt has to be created, or the program won't run.")
                     print(Fore.MAGENTA + "None of your passwords will be lost if you use the same Access Password as before.")
-                    choice = input("Do you wish to create default.txt?"+ Fore.CYAN+" [Y/n]")
+                    choice = input("Do you wish to create default.txt? "+ Fore.CYAN + "[Y/n]" + Style.RESET_ALL)
                     if choice == "Y":
                         create_default()
                         print("---------\ndefault.txt has been created, you will have to complete informations next time you start the program.")
@@ -404,7 +411,7 @@ class Program:
             if sol == "CREATE DATA.TXT":
                 while True:
                     print("------------\ndata.txt has to be created, or the program won't run.")
-                    choice = input("Do you wish to create data.txt? " + Fore.CYAN + "[Y/n]")
+                    choice = input("Do you wish to create data.txt? " + Fore.CYAN + "[Y/n]" + Style.RESET_ALL)
                     if choice == "Y":
                         create_data()
                         print("---------\ndata.txt has been created, you will have to complete informations next time you start the program.")
@@ -418,7 +425,7 @@ class Program:
         if hashing(password) != self.get_hashed_password():
             print(Fore.RED + "Wrong Password, please restart system to retry.")
             sys.exit()
-        verif_password = input("\nConfirm password: \n>>")
+        verif_password = pwinput.pwinput(promp="Confirm password: ")
         if hashing(verif_password) != self.get_hashed_password():
             print(Fore.RED + "Wrong Password, please restart system to retry.")
             sys.exit()
@@ -427,26 +434,28 @@ class Program:
         action = reboot_do()
         if action == 1:
             while True:
-                choice = input(f"""{Fore.RED + "Are you sure you want to delete everything? You will loose all your passwords" + Back.CYAN + "[Y/n]"}""")
+                choice = input(f"""{Fore.RED + "Are you sure you want to delete everything? You will loose all your passwords" + Fore.CYAN + "[Y/n]" + Style.RESET_ALL}""")
                 if choice == "Y":
                     print("deleting...")
                     reset_data()
                     reset_default()
                     reset_hashed()
+                    reset_key()
                     sys.exit()
                 elif choice == "n":
                     break
         if action == 2:
             while True:
-                choice = input(f"""{Fore.RED + "Are you sure you want to delete all your passwords?" + Back.CYAN + "[Y/n]"}""")
-                if choice == "Y":
+                choice = input(f"""{Fore.RED + "Are you sure you want to delete all your passwords? " + Fore.CYAN + "[Y/n]" + Style.RESET_ALL}""")
+                if choice in ["Y", "y"]:
                     print("deleting...")
                     reset_data()
-                elif choice == "n":
+                    sys.exit()
+                elif choice in ["N", "n"]:
                     break
         if action == 3:
             while True:
-                choice = input(f"""Are you sure you want to reset all informations? {Back.RED + "You will loose all your passwords" + Fore.CYAN + "[Y/n]"}""")
+                choice = input(f"""Are you sure you want to reset all informations? {Back.RED + "You will loose all your passwords " +Style.RESET_ALL + Fore.CYAN + "[Y/n]" + Style.RESET_ALL}""")
                 if choice in ["Y", "y"]:
                     print("Reseting...")
                     reset_default()
@@ -560,9 +569,9 @@ class Program:
         with open(self.__files, 'r', encoding="utf-8") as file:
             content = file.read()
         if self.get_props():
-            content += "\n" + encrypt(access_password, site) + " | " + encrypt(access_password, username) + " | " + encrypt(access_password, site_password)
+            content += "\n" + encrypt(access_password, site + " | " + username + " | " + site_password)
         else:
-            content += encrypt(access_password, site) + " | " + encrypt(access_password, username) + " | " +encrypt(access_password, site_password)
+            content +=  encrypt(access_password, site + " | " + username + " | " + site_password)
         self.write_content(content, self.__files)
         logs.create_log("SITE AND PASSWORD ADDED")
 
@@ -591,7 +600,10 @@ class Program:
     def search(self, access_password, index):
         content = self.get_content(self.__files)
         logs.create_log("A PASSWORD WAS SHOWN")
-        return (decrypt(access_password, content[index].split(" | ")[0]), decrypt(access_password, content[index].split(" | ")[1]), decrypt(access_password, content[index].split(" | ")[2].rstrip("\n")))
+        line = decrypt(access_password, content[index]).rstrip("\n").split(" | ")
+        return line[0], line[1], line[2]
+
+
     
     def check_data(self):
         content = self.get_content(self.__files)
@@ -610,7 +622,7 @@ class Program:
 
     def choice_sit(self, number):
         if isinstance(number, int):
-            choice_site = input(F"\nPlease enter a number to access and '+' or {number} to add a password. \n\tYou can type the keyword of a site as well.\n>>")
+            choice_site = input(F"\t\t   Press enter to leave\nPlease enter a number to access and '+' or {number} to add a password. \n\tYou can type the keyword of a site as well.\n>>")
             try:
                 choice_site = int(choice_site)
                 if choice_site > 0 and choice_site < number :
@@ -639,13 +651,12 @@ class Program:
         content = self.get_content(self.__files)
         text = F"Site: {len(content)} registered. Search by typing the keyword.\n"
         for i in range(len(content)):
-            text += "| " + str(i+1) +") " + decrypt(access_password, content[i].split(" | ")[0]) + "\n"
+            line = decrypt(access_password, content[i].rstrip("\n")).split(" | ")
+            text += "| " + str(i+1) +") " + line[0] + "\n" 
         return (text, len(content) + 1)
     
     def search_in_sites(self, access_password, keyword):
         if keyword in ["", " ", ".", ","]:
-            print(Fore.RED + "\nInvalid Keyword, retry" + Style.RESET_ALL)
-            sleep(1.5)
             return (False, False)
         keyword = keyword.rstrip()
         good_one = []
@@ -667,15 +678,19 @@ class Program:
         
     def change_username_site(self, index, access_password, new_username):
         content = self.get_content(self.__files)
-        site = content[index].split(" | ")[0] + " | " + encrypt(access_password, new_username) + " | " + content[index].split(" | ")[2] 
-        content[index] = site
+        line = decrypt(access_password, content[index]).split(" | ")
+        line[1] = new_username 
+        line = encrypt(access_password, " | ".join(line)) 
+        content[index] = line + "\n"
         self.write_content(content, self.__files)
         logs.create_log("A SITE USERNAME WAS CHANGED")
 
     def change_password_site(self, index, access_password, new_password):
         content = self.get_content(self.__files)
-        site = content[index].split(" | ")[0] + " | " + content[index].split(" | ")[1] + " | " + encrypt(access_password, new_password) + "\n"
-        content[index] = site
+        line = decrypt(access_password, content[index]).split(" | ")
+        line[2] = new_password
+        line = encrypt(access_password, " | ".join(line)) 
+        content[index] = line + "\n"
         self.write_content(content, self.__files)
         logs.create_log("A SITE PASSWORD WAS CHANGED")
         
@@ -716,11 +731,7 @@ class Program:
     def change_encryptd_data(self, old, new):
         content = self.get_content(self.__files)
         for i in range(len(content)):
-            content[i] = content[i].split(" | ")
-            content[i][0] = encrypt(new, decrypt(old, content[i][0]))
-            content[i][1] = encrypt(new, decrypt(old, content[i][1]))
-            content[i][2] = encrypt(new, decrypt(old, content[i][2].rstrip("\n"))) + "\n"
-            content[i] = content[i][0] + " | " + content[i][1] + " | " + content[i][2]
+            content[i] = encrypt(new, decrypt(old, content[i])) + "\n"
         if len(content) > 0:
             content[-1] = content[-1].rstrip("\n")
         self.write_content(content, self.__files)
@@ -738,7 +749,7 @@ class Program:
         if hashing(old) != self.get_hashed_password():
             wrong_password()
             return
-        old_verif = pwinput.pwinput(prompt="\nConfirm old Password: ")
+        old_verif = pwinput.pwinput(prompt="Confirm Old Password: ")
         if hashing(old_verif) == self.get_hashed_password():
             print("\n")
             new_password = self.create_password(True)
@@ -765,16 +776,16 @@ class Program:
             if i in Numbers:
                 numb = True
         if len(password) < 8:
-            print("\n" + Fore.RED + "Password is only "+  len(password) + " of lenght, it has to be of 8 characters minimum." + Style.RESET_ALL)
-            return self.create_password()
+            print("\n" + Fore.RED + "Password is only "+  str(len(password)) + " of lenght, it has to be of 8 characters minimum." + Style.RESET_ALL)
+            return self.create_password(returning)
         elif upper!= True or numb != True:   
             if upper != True:
                 print("\n" + Fore.RED + "Your password doesn't include any upper letter, you need at least one" + Style.RESET_ALL)
-                return self.create_password()
+                return self.create_password(returning)
                 
             elif numb != True:
                 print("\n" + Fore.RED + "Your password doesn't include any number, you need at least one" + Style.RESET_ALL)
-                return self.create_password()
+                return self.create_password(returning)
         else:
         # -------------------------------------- Hash of the AP   
             hashed = hashing(password)

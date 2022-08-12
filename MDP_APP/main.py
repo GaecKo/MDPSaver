@@ -59,8 +59,10 @@ if __name__ == "__main__":
     while program.error():
         try:
             if index != True:
+                print("\n" * 200)
                 choice = wanna_do()
         except:
+            print("\n" * 200)
             choice = wanna_do()
         if choice == 1:
             if not program.get_props():
@@ -70,7 +72,6 @@ if __name__ == "__main__":
                 go = False # boucle while not go
                 asked = False
                 leave = False # to leave this menu without blank lines
-                long_leave = False # to leave this menu + 200 blank lines
                 while not go:
                     print("Here are all the site registered")
                     liste, number = program.sites_list(given_password)
@@ -85,7 +86,7 @@ if __name__ == "__main__":
                             index -= 1
                             site, username, code = program.search(given_password, index)
                             go = True
-                            long_leave = False
+                            leave = False
                             break
                         elif index == True:
                             choice = 2
@@ -96,10 +97,10 @@ if __name__ == "__main__":
                             if sites == []:
                                 print(F"No Result found with keyword '{index}', please retry.")
                                 sleep(2.5)
-                                long_leave = True
+                                leave = True
                                 break
                             elif sites == False:
-                                long_leave = True
+                                leave = True
                                 break
                             else:
                                 print(F"\n-> Keyword: '{index}'")
@@ -111,10 +112,6 @@ if __name__ == "__main__":
                             leave = True
                             break
                     if leave == True:
-                        print("\n" * 200)
-                        break
-                    if long_leave == True:
-                        print("\n" * 200)
                         break
                     action = option_password()
                     if action == 1:
@@ -147,7 +144,6 @@ if __name__ == "__main__":
                             program.change_username_site(index, given_password, new_username)
                     elif action == 5:
                         print("\n" * 200)
-                        break
                     
         elif choice == 2:
             print("\n------------------------\nYou are here to add the password of a specific site.")
@@ -173,7 +169,6 @@ if __name__ == "__main__":
                 break
         
         elif choice == 3:
-            print("\n------------------------\n")
             password = generate_password(choose_security_level_password())
             print(f"Here is the randomly generated password:\n\n{password}\n\n")
             while True:
@@ -212,7 +207,7 @@ if __name__ == "__main__":
             print("\n------------------------\nAccessing Password modification...")
             program.change_access_password()
             while True:
-                given_password = input("- - - - - - - - - - - - - -\nPlease enter new password:\n>>")
+                given_password = pwinput.pwinput(prompt="- - - - - - - - - - - - - -\nPlease enter new password: ")
                 if hashing(given_password) == program.get_hashed_password():
                     print("\n" * 200)
                     break

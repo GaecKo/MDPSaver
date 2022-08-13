@@ -5,6 +5,7 @@ from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from colorama import Back, Style, init
+
 init(autoreset=True)
 
 logs = Log()
@@ -19,48 +20,47 @@ def get_salt():
     return salt
 
 def encrypt(password: str, to_encrypt: str) -> str:
-
-	password = password.encode()
-	salt = get_salt()
-	kdf = PBKDF2HMAC(
-	algorithm=hashes.SHA256(),
-	length=32,
-	salt=salt,
-	iterations=390000)
-	key = base64.urlsafe_b64encode(kdf.derive(password))
-	f = Fernet(key)
-	token = f.encrypt(to_encrypt.encode())
-	return token.decode()
-
-	logs.create_log("There was an internal error [FATAL]. (Cryptography) Key.Key changes?")
-	print(Back.RED + "There was an internal error [FATAL]. (Cryptography).If you wish to repair this fatal error, you must contact dev team:" + Style.RESET_ALL)
-	print("\ngaecko8@gmail.com\n")
-	print(f"""Please provide {Back.BLUE + "key.key" + Style.RESET_ALL} file located in {Back.CYAN + "./MDPCrypto/key/key.key" + Style.RESET_ALL} and {Back.BLUE + "logs.txt" + Style.RESET_ALL} located in {Back.CYAN + "./MDPLogs/log_file/logs.txt" + Style.RESET_ALL}""")
-	print("The program won't work until devs find a solution...")
-	sys.exit()
+	try:
+		password = password.encode()
+		salt = get_salt()
+		kdf = PBKDF2HMAC(
+		algorithm=hashes.SHA256(),
+		length=32,
+		salt=salt,
+		iterations=150000)
+		key = base64.urlsafe_b64encode(kdf.derive(password))
+		f = Fernet(key)
+		token = f.encrypt(to_encrypt.encode())
+		return token.decode()
+	except:
+		logs.create_log("There was an internal error [FATAL]. (Cryptography) Key.Key changes?")
+		print(Back.RED + "There was an internal error [FATAL]. (Cryptography).If you wish to repair this fatal error, you must contact dev team:" + Style.RESET_ALL)
+		print("\ngaecko8@gmail.com\n")
+		print(f"""Please provide {Back.BLUE + "key.key" + Style.RESET_ALL} file located in {Back.CYAN + "./MDPCrypto/key/key.key" + Style.RESET_ALL} and {Back.BLUE + "logs.txt" + Style.RESET_ALL} located in {Back.CYAN + "./MDPLogs/log_file/logs.txt" + Style.RESET_ALL}""")
+		print("The program won't work until devs find a solution...")
+		sys.exit()
 
 def decrypt(password: str, to_decrypt: str) -> str:
-
-	password = password.encode()
-	to_decrypt = to_decrypt.encode()
-	salt = get_salt()
-	kdf = PBKDF2HMAC(
-	algorithm=hashes.SHA256(),
-	length=32,
-	salt=salt,
-	iterations=390000,
-)
-	key = base64.urlsafe_b64encode(kdf.derive(password))
-	f = Fernet(key)
-	decrypted = f.decrypt(to_decrypt)
-	return decrypted.decode()
-
-	logs.create_log("There was an internal error [FATAL]. (Cryptography) Key.Key changes?")
-	print(Back.RED + "There was an internal error [FATAL]. (Cryptography).If you wish to repair this fatal error, you must contact dev team:" + Style.RESET_ALL)
-	print("\ngaecko8@gmail.com\n")
-	print(f"""Please provide {Back.BLUE + "key.key" + Style.RESET_ALL} file located in {Back.CYAN + "./MDPCrypto/key/key.key" + Style.RESET_ALL} and {Back.BLUE + "logs.txt" + Style.RESET_ALL} located in {Back.CYAN + "./MDPLogs/log_file/logs.txt" + Style.RESET_ALL}""")
-	print("The program won't work until devs find a solution...")
-	sys.exit()
+	try:
+		password = password.encode()
+		to_decrypt = to_decrypt.encode()
+		salt = get_salt()
+		kdf = PBKDF2HMAC(
+		algorithm=hashes.SHA256(),
+		length=32,
+		salt=salt,
+		iterations=150000)
+		key = base64.urlsafe_b64encode(kdf.derive(password))
+		f = Fernet(key)
+		decrypted = f.decrypt(to_decrypt)
+		return decrypted.decode()
+	except:
+		logs.create_log("There was an internal error [FATAL]. (Cryptography) Key.Key changes?")
+		print(Back.RED + "There was an internal error [FATAL]. (Cryptography).If you wish to repair this fatal error, you must contact dev team:" + Style.RESET_ALL)
+		print("\ngaecko8@gmail.com\n")
+		print(f"""Please provide {Back.BLUE + "key.key" + Style.RESET_ALL} file located in {Back.CYAN + "./MDPCrypto/key/key.key" + Style.RESET_ALL} and {Back.BLUE + "logs.txt" + Style.RESET_ALL} located in {Back.CYAN + "./MDPLogs/log_file/logs.txt" + Style.RESET_ALL}""")
+		print("The program won't work until devs find a solution...")
+		sys.exit()
 
 def hashing(to_hash):
     return SHA256.new(data=to_hash.encode()).hexdigest()
@@ -99,4 +99,3 @@ def low_hash(string):
 			x = -2
 		return str(x)
 	return ""
-

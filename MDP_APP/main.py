@@ -10,9 +10,6 @@ init(autoreset=True)
 logs = Log()
 program = Program() 
 
-
-
-
 if __name__ == "__main__":
     print(logo())
     print(Fore.MAGENTA +"\n(Press Enter to start)")
@@ -44,10 +41,10 @@ if __name__ == "__main__":
             print("\n" * 200)
             break
         else:
-            print("bad password, have you forgotten your password? (type 1 if so)")
+            print(Back.RED + "Bad password, have you forgotten your password? (type 1 if so)" + Style.RESET_ALL + "")
             given_password = pwinput.pwinput(prompt='Password: ')
             while given_password != "1" and hashing(given_password) != program.get_hashed_password():
-                print("bad password, have you forgotten your password? (type 1 if so)")
+                print(Back.RED + "Bad password, have you forgotten your password? (type 1 if so)" + Style.RESET_ALL + "")
                 given_password = input(">>")
             if given_password == "1":
                 given_password = program.recover_password()
@@ -73,8 +70,10 @@ if __name__ == "__main__":
                 asked = False
                 leave = False # to leave this menu without blank lines
                 while not go:
-                    print("Here are all the site registered")
+                    print(Back.WHITE + " * " + Back.BLUE + " Loading... " + Style.RESET_ALL)
                     liste, number = program.sites_list(given_password)
+                    print("\n" * 200)
+                    print("Here are all the site registered:")
                     print(liste)
                     while True:
                         if asked == False:
@@ -95,7 +94,7 @@ if __name__ == "__main__":
                         elif isinstance(index, str):
                             sites, indexes = program.search_in_sites(given_password, index)
                             if sites == []:
-                                print(F"No Result found with keyword '{index}', please retry.")
+                                print("No Result found with keyword " + Back.WHITE + Fore.BLACK + f'{index}' + Style.RESET_ALL + ", please retry.")
                                 sleep(2.5)
                                 leave = True
                                 break
@@ -128,7 +127,7 @@ if __name__ == "__main__":
                         if len(new_password) >= 1:
                             program.change_password_site(index, given_password, new_password)
                         else:
-                            print("Invalid password, retry:")
+                            print(Back.RED + "Invalid password, retry:" + Style.RESET_ALL + "")
                             new_password = input("What's the new password?\n>>")
                             program.change_password_site(index, given_password, new_password)
                         print("\n" * 200)
@@ -139,7 +138,7 @@ if __name__ == "__main__":
                         if len(new_username) >= 1:
                             program.change_username_site(index, given_password, new_username)
                         else:
-                            print("Invalid password, retry:")
+                            print(Back.RED + "Invalid password, retry:" + Style.RESET_ALL + "")
                             new_username = input("What's the new username / email?\n>>")
                             program.change_username_site(index, given_password, new_username)
                     elif action == 5:
@@ -172,12 +171,12 @@ if __name__ == "__main__":
             password = generate_password(choose_security_level_password())
             print(f"Here is the randomly generated password:\n\n{password}\n\n")
             while True:
-                to_save = input("Would you like to add this password to your saved password? [Y/n]")
+                to_save = input("Would you like to add this password to your saved password? " + Fore.CYAN + "[Y/n]" + Style.RESET_ALL)
                 if to_save in ["Y", "y", "N", "n"]:
                     if to_save in ["Y", "y"]: to_save = True
                     if to_save in ["N", "n"]: to_save = False
                     break
-                print(Back.RED + "Invalid choice, please retry")
+                print(Back.RED + "Invalid choice, please retry" + Style.RESET_ALL + "")
             if to_save:
                 while True:
                     site = input("Please tell the name of the site, enter 'back' or 'stop' or 'retour' to leave.\n>>")
@@ -212,14 +211,14 @@ if __name__ == "__main__":
                     print("\n" * 200)
                     break
                 else:
-                    print("Wrong password, please try again.")
+                    print(Back.RED + "Wrong password, please try again." + Style.RESET_ALL + "")
        
         elif choice == 6:
             tutorial() # TODO: Adapt to new param
         
         elif choice == 7:
-            print(f"See you soon {program.get_username()}!")
-            sleep(2.5)
+            print(Back.BLUE + f"See you soon {program.get_username()}!")
+            sleep(1.5)
             break
 
         elif choice == 8:

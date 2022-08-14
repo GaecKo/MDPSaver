@@ -15,4 +15,4 @@ class Log:
         hour, min, sec = self.two_numbers(current[3]), self.two_numbers(current[4]), self.two_numbers(current[5])
         
         with open(self.log_file, 'a') as file:
-            file.write(F"[{day}/{month}/{year} | {hour}:{min} ({sec})] {action} \n" )     
+            file.write(F"[{day}/{month}/{year} | {hour}:{min} ({sec})] {action.upper()} \n" )     

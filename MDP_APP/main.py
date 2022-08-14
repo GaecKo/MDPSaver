@@ -1,5 +1,5 @@
 from program import *
-from MDPCrypto.Crypt import hashing
+from MDPCrypto.Crypt import hashing, get_salt, generate_salt
 from time import sleep
 from MDPLogs.logs import Log
 from colorama import Fore, Back, Style, init
@@ -9,12 +9,15 @@ from MDPStyle.logo import logo
 init(autoreset=True)
 logs = Log()
 program = Program() 
+recovery = SystemRecovery()
 
 if __name__ == "__main__":
     print(logo())
     print(Fore.MAGENTA +"\n(Press Enter to start)")
     input() 
     print("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
+    try: first = program.first()
+    except: recovery.error_resolution(recovery.error()); sys.exit()
     if program.first():
         print("Hello stranger, it seems like it's the first time we see you out here. \nWhat's your username? ")
         program.set_username(input("\n\n>>"))
@@ -24,10 +27,12 @@ if __name__ == "__main__":
         logs.create_log("FIRST TIME CONNECTED, CREATIONS DONE")
         print("\n- - - - Important Note:\n-> Don't leave the program with the right upper red cross in cmd! In case of problems, it won't be possible to fully help you.")
     else:
-        error = program.error()
+        error = recovery.error()
         if error != True:
-            program.error_resolution(error)
+            recovery.error_resolution(error)
             sys.exit("Please restart program.")
+        if get_salt() == b'':
+            generate_salt()
         print("Hello ", program.get_username(), ", you have been connected ", program.get_times_connected(), ' times.')
         logs.create_log(F"END OF SESSION {program.get_times_connected() - 1}\n\n############################################################\n")
         logs.create_log(F"START OF SESSION {program.get_times_connected()} ({program.get_username()})")
@@ -53,14 +58,14 @@ if __name__ == "__main__":
                 break
         program.check_data()
 
-    while program.error():
+    while recovery.error():
         try:
             if index != True:
                 print("\n" * 200)
-                choice = wanna_do()
+                choice = program.wanna_do()
         except:
             print("\n" * 200)
-            choice = wanna_do()
+            choice = program.wanna_do()
         if choice == 1:
             if not program.get_props():
                 print("You currently have no saved password. Please add one first.")
@@ -112,7 +117,7 @@ if __name__ == "__main__":
                             break
                     if leave == True:
                         break
-                    action = option_password()
+                    action = program.option_password()
                     if action == 1:
                         print(("-"*(len(site) + len(username) + len(code) +6)) + "\n" + site + " | " + username + " | " + code + "\n" + ("-"*(len(site) + len(username) + len(code) +6)))
                         print("\n\t press enter to hide password.")
@@ -197,7 +202,7 @@ if __name__ == "__main__":
         elif choice == 4:
             print("\n------------------------\nPlease write down your new Username")
             new_username = input("\n>>")
-            good_one = confirm_username(new_username)
+            good_one = program.confirm_username(new_username)
             program.set_username(good_one)
             print("\n")
             print(f"Here you go {program.get_username()}, your username has been changed.")
@@ -214,7 +219,7 @@ if __name__ == "__main__":
                     print(Back.RED + "Wrong password, please try again." + Style.RESET_ALL + "")
        
         elif choice == 6:
-            tutorial() # TODO: Adapt to new param
+            program.tutorial() # TODO: Adapt to new param
         
         elif choice == 7:
             print(Back.BLUE + f"See you soon {program.get_username()}!")
@@ -222,7 +227,8 @@ if __name__ == "__main__":
             break
 
         elif choice == 8:
-            program.hard_reboot() 
+            recovery.hard_reboot() 
     
-    if program.error() != True:
-        program.error_resolution(program.error())
+    errors = recovery.error()
+    if errors != True:
+        recovery.error_resolution(errors)

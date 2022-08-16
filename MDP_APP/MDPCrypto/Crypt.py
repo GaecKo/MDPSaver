@@ -67,12 +67,7 @@ def hashing(to_hash):
 
 def low_hash(string):
 	"""
-	Hachage d'une chaîne de caractères fournie en paramètre.
-	Le résultat est une chaîne de caractères.
-	Attention : cette technique de hachage n'est pas suffisante (hachage dit cryptographique) pour une utilisation en dehors du cours.
-
-	:param (str) string: la chaîne de caractères à hacher
-	:return (str): le résultat du hachage
+	Not good hash !!
 	"""
 	def to_32(value):
 		"""

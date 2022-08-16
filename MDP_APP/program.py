@@ -57,19 +57,26 @@ class Program:
         If you have any {Fore.CYAN + "recommendations" + Style.RESET_ALL}/{Fore.GREEN + "tips" + Style.RESET_ALL}/{Fore.RED + "bugs" + Style.RESET_ALL}, please contact me on discord: GaecKo#7545""")
 
     def wanna_do(self):
+        saved = self.get_number_of_saved_passwords()
+        if saved > 1:
+            stri = f"{saved} saved passwords"
+        elif saved == 1:
+            stri = f"{saved} saved password"
+        else:
+            stri = ""
+
         print(
             f"""
     What do you want to do?
-    -----------------------
+    -----------------------              
     | 1) {Fore.BLUE + "Access" + Style.RESET_ALL} my Passwords            {Fore.LIGHTRED_EX + "╭━╮╭━┳━━━┳━━━╮╭━━━┳━━━┳╮╱╱╭┳━━━┳━━━╮" + Style.RESET_ALL}
     | 2) {Fore.GREEN + "Add" + Style.RESET_ALL} a Password {Fore.LIGHTGREEN_EX + "+" + Style.RESET_ALL}               {Fore.LIGHTRED_EX + "┃┃╰╯┃┣╮╭╮┃╭━╮┃┃╭━╮┃╭━╮┃╰╮╭╯┃╭━━┫╭━╮┃" + Style.RESET_ALL}
-    | 3) {Fore.CYAN + "Generate" + Style.RESET_ALL} Random Password       {Fore.LIGHTRED_EX + "┃╭╮╭╮┃┃┃┃┃╰━╯┃┃╰━━┫┃╱┃┣╮┃┃╭┫╰━━┫╰━╯┃" + Style.RESET_ALL}    
+    | 3) {Fore.CYAN + "Generate" + Style.RESET_ALL} Random Password       {Fore.LIGHTRED_EX + "┃╭╮╭╮┃┃┃┃┃╰━╯┃┃╰━━┫┃╱┃┣╮┃┃╭┫╰━━┫╰━╯┃" + Style.RESET_ALL}
     | 4) Change UserName {Fore.YELLOW + "/..." + Style.RESET_ALL}           {Fore.LIGHTRED_EX + "┃┃┃┃┃┃┃┃┃┃╭━━╯╰━━╮┃╰━╯┃┃╰╯┃┃╭━━┫╭╮╭╯" + Style.RESET_ALL}
     | 5) Change Access Password {Fore.LIGHTRED_EX + "***" + Style.RESET_ALL}     {Fore.LIGHTRED_EX + "┃┃┃┃┃┣╯╰╯┃┃╱╱╱┃╰━╯┃╭━╮┃╰╮╭╯┃╰━━┫┃┃╰╮" + Style.RESET_ALL}
     | 6) Tutorial / Help {Fore.LIGHTCYAN_EX + "?" + Style.RESET_ALL}              {Fore.LIGHTRED_EX + "╰╯╰╯╰┻━━━┻╯╱╱╱╰━━━┻╯╱╰╯╱╰╯╱╰━━━┻╯╰━╯" + Style.RESET_ALL}
-    | 7) Exit {Fore.RED + "->/" + Style.RESET_ALL}                                                                
-    | 8) System Settings                                                      
-            """
+    | 7) Exit {Fore.RED + "->/" + Style.RESET_ALL}                        ~> {Fore.LIGHTRED_EX + stri + Style.RESET_ALL} !
+    | 8) System Settings"""
         )
         choice = input(">>")
         try:
@@ -199,6 +206,8 @@ class Program:
             new_username = input("\n>>")
             return self.confirm_username(new_username)
 
+
+
     def program_first(self):
         if not self.get_props(): 
             generate_salt()
@@ -247,6 +256,9 @@ class Program:
             else:
                 return True
     
+    def get_number_of_saved_passwords(self):
+        content = self.get_content(self.__data)
+        return len(content)
     def get_personnal_question(self):
         with open(self.__default, 'r', encoding="utf-8") as file:
             return decrypt(self.get_serial_number(), file.readlines()[2].split(":")[1].rstrip('\n'))
@@ -348,9 +360,9 @@ class Program:
         logs.create_log(F"DATA FILE WAS CHECKED. FILE HAD {nbr} EMPTY LINES")
 
     def print_site_password(self, site, username, password):
-        stri = "\t " + f"""{Fore.WHITE + "_" + Style.RESET_ALL}""" * (len(site) + len(username) + len(password) + 8)
-        stri += f"""\n\t{Fore.WHITE + "|" + Style.RESET_ALL} {site} {Fore.WHITE + "|" + Style.RESET_ALL} {username} {Fore.WHITE + "|" + Style.RESET_ALL} {password} {Fore.WHITE + "|" + Style.RESET_ALL}\n"""
-        stri += "\t " + f"""{Fore.WHITE + "‾" + Style.RESET_ALL}""" * (len(site) + len(username) + len(password) + 8)   
+        stri = "    " + f"""{Fore.WHITE + "_" + Style.RESET_ALL}""" * (len(site) + len(username) + len(password) + 8)
+        stri += f"""\n   {Fore.WHITE + "|" + Style.RESET_ALL} {site} {Fore.WHITE + "|" + Style.RESET_ALL} {username} {Fore.WHITE + "|" + Style.RESET_ALL} {password} {Fore.WHITE + "|" + Style.RESET_ALL}\n"""
+        stri += "    " + f"""{Fore.WHITE + "‾" + Style.RESET_ALL}""" * (len(site) + len(username) + len(password) + 8)   
         return stri  
         """
          __________________________________

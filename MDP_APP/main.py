@@ -3,10 +3,11 @@ from MDPCrypto.Crypt import hashing, get_salt, generate_salt
 from time import sleep
 from MDPLogs.logs import Log
 from colorama import Fore, Back, Style, init
-import sys
+import sys, os
 import pwinput
 from MDPStyle.logo import logo
 init(autoreset=True)
+os.system('cls')
 logs = Log()
 program = Program() 
 recovery = SystemRecovery()
@@ -33,7 +34,7 @@ if __name__ == "__main__":
             sys.exit("Please restart program.")
         if get_salt() == b'':
             generate_salt()
-        print("Hello ", program.get_username(), ", you have been connected ", program.get_times_connected(), ' times.')
+        print(f"Hello {program.get_username()}, you have been connected {program.get_times_connected()} times.")
         logs.create_log(F"END OF SESSION {program.get_times_connected() - 1}\n\n############################################################\n")
         logs.create_log(F"START OF SESSION {program.get_times_connected()} ({program.get_username()})")
     logs.create_log(F"CHECKUP COMPLETED WITH SUCCESS (nbre connections: {program.get_times_connected()})")
@@ -86,7 +87,8 @@ if __name__ == "__main__":
                         if index == False:
                             leave = True
                             break
-                        elif isinstance(index, int) and not isinstance(index, boolean):
+                        elif isinstance(index, int) and not isinstance(index, bool):
+                            print(index, "this is index")
                             index -= 1
                             site, username, code = program.search(given_password, index)
                             go = True
@@ -97,9 +99,10 @@ if __name__ == "__main__":
                             leave = True
                             break
                         elif isinstance(index, str):
+                            
                             sites, indexes = program.search_in_sites(given_password, index)
                             if sites == []:
-                                print("No Result found with keyword " + Back.WHITE + Fore.BLACK + f'{index}' + Style.RESET_ALL + ", please retry.")
+                                print(f"""No Result found with keyword {Back.WHITE + Fore.BLACK + index + Style.RESET_ALL}, please retry.""")
                                 sleep(2.5)
                                 leave = True
                                 break
@@ -119,8 +122,8 @@ if __name__ == "__main__":
                         break
                     action = program.option_password()
                     if action == 1:
-                        print(("-"*(len(site) + len(username) + len(code) +6)) + "\n" + site + " | " + username + " | " + code + "\n" + ("-"*(len(site) + len(username) + len(code) +6)))
-                        print("\n\t press enter to hide password.")
+                        print(program.print_site_password(site, username, code))
+                        print("\t press enter to hide password.")
                         enter = input()
                         print("\n" * 200)
                     elif action == 2:
@@ -148,6 +151,7 @@ if __name__ == "__main__":
                             program.change_username_site(index, given_password, new_username)
                     elif action == 5:
                         print("\n" * 200)
+                        break
                     
         elif choice == 2:
             print("\n------------------------\nYou are here to add the password of a specific site.")
@@ -173,10 +177,10 @@ if __name__ == "__main__":
                 break
         
         elif choice == 3:
-            password = generate_password(choose_security_level_password())
+            password = program.generate_password(program.choose_security_level_password())
             print(f"Here is the randomly generated password:\n\n{password}\n\n")
             while True:
-                to_save = input("Would you like to add this password to your saved password? " + Fore.CYAN + "[Y/n]" + Style.RESET_ALL)
+                to_save = input("Would you like to add this password to your saved password? " + Fore.CYAN + "[Y/n] " + Style.RESET_ALL )
                 if to_save in ["Y", "y", "N", "n"]:
                     if to_save in ["Y", "y"]: to_save = True
                     if to_save in ["N", "n"]: to_save = False

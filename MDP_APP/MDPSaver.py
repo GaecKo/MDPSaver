@@ -61,6 +61,7 @@ if __name__ == "__main__":
         program.check_data()
 
     while recovery.error():
+        print("\n" * 200)
         choice = program.wanna_do()
         if choice == 1:
             if not program.get_props():
@@ -84,8 +85,6 @@ if __name__ == "__main__":
                             break
                         elif isinstance(index, int) and not isinstance(index, bool):
                             index -= 1
-                            print("INDEX HAS BEEN CHANGED!!! Now: ", index)
-                            sleep(1.5)
                             site, username, code = program.search(given_password, index)
                             go = True
                             leave = False
@@ -120,7 +119,7 @@ if __name__ == "__main__":
                     action = program.option_password()
                     if action == 1:
                         print(program.print_site_password(site, username, code))
-                        print("\t press enter to hide password.")
+                        print("\t Press Enter to hide password.")
                         enter = input()
                         print("\n" * 200)
                     elif action == 2:

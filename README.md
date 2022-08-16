@@ -15,9 +15,9 @@ All of these are done with the `pycryptodome` and `cryptography` module, to make
 Here is a walkthrough of the app
 
 #### <ins> Starting Screen </ins>
-![Main Menu](.git_files/MainScreen.png?raw=true "Main Menu")
+![Starting Screen](.git_files/StartingScreen.gif)
 
 #### <ins> Main Menu </ins>
 ![Main Menu](.git_files/MainMenu.png?raw=true "Main Menu")
 
-#### <ins> Access Passwords </ins>
+##### <ins> 1) Access my Passwords </ins>

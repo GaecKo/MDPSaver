@@ -55,13 +55,14 @@ class Program:
         8) {Back.LIGHTBLUE_EX + "System settings" + Style.RESET_ALL} -> To try to debug the programs if troubles went to happen
         
         If you have any {Fore.CYAN + "recommendations" + Style.RESET_ALL}/{Fore.GREEN + "tips" + Style.RESET_ALL}/{Fore.RED + "bugs" + Style.RESET_ALL}, please contact me on discord: GaecKo#7545""")
+        input("\tPress Enter to continue.")
 
     def wanna_do(self):
         saved = self.get_number_of_saved_passwords()
         if saved > 1:
-            stri = f"{saved} saved passwords"
+            stri = f"~> {saved} saved passwords!"
         elif saved == 1:
-            stri = f"{saved} saved password"
+            stri = f"~> {saved} saved password!"
         else:
             stri = ""
 
@@ -75,7 +76,7 @@ class Program:
     | 4) Change UserName {Fore.YELLOW + "/..." + Style.RESET_ALL}           {Fore.LIGHTRED_EX + "┃┃┃┃┃┃┃┃┃┃╭━━╯╰━━╮┃╰━╯┃┃╰╯┃┃╭━━┫╭╮╭╯" + Style.RESET_ALL}
     | 5) Change Access Password {Fore.LIGHTRED_EX + "***" + Style.RESET_ALL}     {Fore.LIGHTRED_EX + "┃┃┃┃┃┣╯╰╯┃┃╱╱╱┃╰━╯┃╭━╮┃╰╮╭╯┃╰━━┫┃┃╰╮" + Style.RESET_ALL}
     | 6) Tutorial / Help {Fore.LIGHTCYAN_EX + "?" + Style.RESET_ALL}              {Fore.LIGHTRED_EX + "╰╯╰╯╰┻━━━┻╯╱╱╱╰━━━┻╯╱╰╯╱╰╯╱╰━━━┻╯╰━╯" + Style.RESET_ALL}
-    | 7) Exit {Fore.RED + "->/" + Style.RESET_ALL}                        ~> {Fore.LIGHTRED_EX + stri + Style.RESET_ALL} !
+    | 7) Exit {Fore.RED + "->/" + Style.RESET_ALL}                         {Fore.LIGHTRED_EX + stri + Style.RESET_ALL}
     | 8) System Settings"""
         )
         choice = input(">>")

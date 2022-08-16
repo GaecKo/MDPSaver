@@ -7,16 +7,17 @@ init(autoreset=True)
 pr = Program()
 sr = SystemRecovery()
 global password
-password = "aRandomPassword1333!"
+password = "Coco1212"
 
 def generate_password(nbr:int):
     content = []
     for _ in range(nbr):
         content.append(encrypt(password, pr.generate_password(3) + " | " + pr.generate_password(3) + " | " + pr.generate_password(3)) + "\n")
     content[-1].rstrip("\n")
-    pr.check_data()
+    # pr.check_data()
     with open("MDPData/data.txt", 'w', encoding="utf-8") as f:
         f.writelines(content)
+
 
 def calcul_time(nbr_password:int) -> tuple:
     a = time.time()
@@ -26,7 +27,7 @@ def calcul_time(nbr_password:int) -> tuple:
     pr.sites_list(password)
     c = time.time()
     print(Fore.GREEN + f" ~> Done [2/2] ({str(round(c-b))} sec)")
-    sr.reset_data()
+    # sr.reset_data()
     return b-a, c-b
 
 def animation(loadingtext):
@@ -81,7 +82,3 @@ if __name__ == "__main__":
     time.sleep(1)
     write_result(create_time, load_time, nbr)
     
-        
-    
-    
-

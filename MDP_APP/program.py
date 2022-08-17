@@ -392,7 +392,7 @@ class Program:
                 elif choice_site == number:
                     return True
             except:
-                if choice_site in ["+", "plus", "add", "ajouter", "ajout"]:
+                if choice_site in " + ":
                     return True
                 if isinstance(choice_site, str):
                     return choice_site

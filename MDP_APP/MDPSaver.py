@@ -3,8 +3,7 @@ from MDPCrypto.Crypt import hashing, get_salt, generate_salt
 from time import sleep
 from MDPLogs.logs import Log
 from colorama import Fore, Back, Style, init
-import sys, os
-import pwinput
+import sys, os, pwinput
 from MDPStyle.logo import logo
 init(autoreset=True)
 os.system('cls')

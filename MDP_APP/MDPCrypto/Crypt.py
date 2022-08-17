@@ -26,7 +26,7 @@ def create_key(password):
     algorithm=hashes.SHA256(),
     length=32,
     salt=salt,
-    iterations=150000)
+    iterations=380000)
     key = base64.urlsafe_b64encode(kdf.derive(password))
     return key
 
@@ -64,7 +64,7 @@ def encrypt_extern_password(password:str, to_encrypt: str) -> str:
         algorithm=hashes.SHA256(),
         length=32,
         salt=salt,
-        iterations=150000)
+        iterations=380000)
         key = base64.urlsafe_b64encode(kdf.derive(password))
         f = Fernet(key)
         token = f.encrypt(to_encrypt.encode())
@@ -85,7 +85,7 @@ def decrypt_extern_password(password:str, to_decrypt: str) -> str:
         algorithm=hashes.SHA256(),
         length=32,
         salt=salt,
-        iterations=150000)
+        iterations=380000)
         key = base64.urlsafe_b64encode(kdf.derive(password))
         f = Fernet(key)
         decrypted = f.decrypt(to_decrypt.encode())

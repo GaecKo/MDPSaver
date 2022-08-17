@@ -1,6 +1,6 @@
 from MDPCrypto.Crypt import *
 from program import Program, SystemRecovery
-import time, threading
+import time, threading, os
 from colorama import init, Fore, Back, Style
 
 init(autoreset=True)
@@ -12,28 +12,34 @@ password = "Coco1212"
 def generate_password(nbr:int):
     content = []
     for _ in range(nbr):
-        content.append(encrypt(password, pr.generate_password(3) + " | " + pr.generate_password(3) + " | " + pr.generate_password(3)) + "\n")
+        content.append(encrypt(pr.get_key(), pr.generate_password(3) + " | " + pr.generate_password(3) + " | " + pr.generate_password(3)) + "\n")
     content[-1].rstrip("\n")
-    # pr.check_data()
-    with open("MDPData/data.txt", 'w', encoding="utf-8") as f:
+    with open("SpeedTest.txt", 'w+', encoding="utf-8") as f:
         f.writelines(content)
 
+def del_file():
+    os.remove("SpeedTest.txt")
+
+def load_data():
+    with open("SpeedTest.txt", 'r', encoding="utf-8") as f:
+        content = f.readlines()
+    for i in range(len(content)-1):
+        print(decrypt(pr.get_key(), content[i].rstrip("\n")))
 
 def calcul_time(nbr_password:int) -> tuple:
     a = time.time()
     generate_password(nbr_password)
     b = time.time()
     print(Fore.GREEN + f" ~> Done [1/2] ({str(round(b-a))} sec)")
-    pr.sites_list(password)
+    load_data()
     c = time.time()
     print(Fore.GREEN + f" ~> Done [2/2] ({str(round(c-b))} sec)")
-    # sr.reset_data()
+    del_file()
     return b-a, c-b
 
 def animation(loadingtext):
     word = list(loadingtext)
     for i in range(0,len(word)):
-        
         lower=word[i-1].lower()
         word[i-1]=lower
         caps=word[i].upper()
@@ -69,6 +75,7 @@ Total time: {Fore.RED + str(round(load + create, 2)) + Style.RESET_ALL} sec
 if __name__ == "__main__":
     print(Fore.MAGENTA + "Testing Utility has started.")
     check_key()
+    pr.add_key(password)
     while True:
         try:
             nbr = int(input(Fore.YELLOW + "Please tell the number of password you want to test with: \n>>"))

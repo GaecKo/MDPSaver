@@ -46,6 +46,7 @@ if __name__ == "__main__":
         if hashing(given_password) == program.get_hashed_password():
             print("Good password")
             print("\n" * 200)
+            program.add_key(given_password)
             break
         else:
             print(Back.RED + "Bad password, have you forgotten your password? (type 1 if so)" + Style.RESET_ALL + "")

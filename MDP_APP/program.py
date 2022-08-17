@@ -1,22 +1,22 @@
 from random import randint
-from xmlrpc.client import boolean
-from MDPCrypto.Crypt import decrypt, encrypt, hashing, generate_salt, low_hash
+from MDPCrypto.Crypt import *
 from MDPLogs.logs import Log
 from time import sleep
-import os
-import pwinput
-import sys
+import os, pwinput, sys
 from colorama import Fore, Back, Style, init
+
 init(autoreset=True)
 logs = Log()
 os.system('cls')
-
 
 class Program:
     def __init__(self):
         self.__data = "MDPData/data.txt"
         self.__default = "MDPData/default.txt"
         self.__hashed = "MDPData/hashed.txt"
+
+    def add_key(self, access_password):
+        self.__key = create_key(access_password)
 
     def tutorial(self):
         print()
@@ -111,9 +111,9 @@ class Program:
             print(Back.RED + "Invalid choice, please retry")
             sleep(1.5)
             return self.choose_security_level_password()
-            
+  
     def generate_password(self,security_level: int) -> str:
-        def generator(min_size: int, max_size: int, symbols: boolean = True, numbers: boolean = True) -> str:
+        def generator(min_size: int, max_size: int, symbols: bool = True, numbers: bool = True) -> str:
             char = [['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'], ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'], ["0", "1", "2", "3", "4", "5",  "6", "7", "8", "9"],
             ["&", "#", "_", "@", "!", "?", ".", ";", "/", "§", "=", "<", ">"]]
             generated_password = ""
@@ -207,10 +207,10 @@ class Program:
             new_username = input("\n>>")
             return self.confirm_username(new_username)
 
-
+    
 
     def program_first(self):
-        if not self.get_props(): 
+        if get_salt() == b'': 
             generate_salt()
         print("It seems that it's the first time you connect to the system")
         print("Would you like to see a walkthrough of the program?")
@@ -257,12 +257,16 @@ class Program:
             else:
                 return True
     
+    def get_key(self):
+        return self.__key
+
     def get_number_of_saved_passwords(self):
         content = self.get_content(self.__data)
         return len(content)
+
     def get_personnal_question(self):
         with open(self.__default, 'r', encoding="utf-8") as file:
-            return decrypt(self.get_serial_number(), file.readlines()[2].split(":")[1].rstrip('\n'))
+            return decrypt_extern_password(self.get_serial_number(), file.readlines()[2].split(":")[1].rstrip('\n'))
 
     def get_first_personnal_question(self):
         with open(self.__default, 'r', encoding="utf-8") as file:
@@ -301,7 +305,7 @@ class Program:
 
     def encrypt_question(self, question):
         serial = self.get_serial_number()
-        encryptd_question = encrypt(serial, question)
+        encryptd_question = encrypt_extern_password(serial, question)
         content = self.get_content(self.__default)
         content[2] = "question:"+ encryptd_question + "\n"
         self.write_content(content, self.__default)
@@ -311,9 +315,9 @@ class Program:
         with open(self.__data, 'r', encoding="utf-8") as file:
             content = file.read()
         if self.get_props():
-            content += "\n" + encrypt(access_password, site + " | " + username + " | " + site_password)
+            content += "\n" + encrypt(self.__key, site + " | " + username + " | " + site_password)
         else:
-            content +=  encrypt(access_password, site + " | " + username + " | " + site_password)
+            content +=  encrypt(self.__key, site + " | " + username + " | " + site_password)
         self.write_content(content, self.__data)
         logs.create_log("SITE AND PASSWORD ADDED")
 
@@ -342,7 +346,7 @@ class Program:
     def search(self, access_password, index):
         content = self.get_content(self.__data)
         logs.create_log("A PASSWORD WAS SHOWN")
-        line = decrypt(access_password, content[index]).rstrip("\n").split(" | ")
+        line = decrypt(self.__key, content[index]).rstrip("\n").split(" | ")
         return line[0], line[1], line[2]
 
     def check_data(self):
@@ -350,13 +354,16 @@ class Program:
         passing = False
         nbr = 0
         while passing == False:
+            if len(content) == 0:
+                break
             for i in range(len(content)):
                 if content[i] == "\n":
                     content.pop(i)
                     nbr += 1
                     break
                 if i == len(content) - 1:
-                    passing = True      
+                    passing = True  
+
         self.write_content(content, self.__data)
         logs.create_log(F"DATA FILE WAS CHECKED. FILE HAD {nbr} EMPTY LINES")
 
@@ -402,7 +409,7 @@ class Program:
         content = self.get_content(self.__data)
         text = F"Site: {len(content)} registered. Search by typing the keyword.\n"
         for i in range(len(content)):
-            line = decrypt(access_password, content[i].rstrip("\n")).split(" | ")
+            line = decrypt(self.__key, content[i].rstrip("\n")).split(" | ")
             text += "| " + str(i+1) +") " + line[0] + "\n" 
         return (text, len(content) + 1)
     
@@ -429,18 +436,18 @@ class Program:
         
     def change_username_site(self, index, access_password, new_username):
         content = self.get_content(self.__data)
-        line = decrypt(access_password, content[index]).split(" | ")
+        line = decrypt(self.__key, content[index]).split(" | ")
         line[1] = new_username 
-        line = encrypt(access_password, " | ".join(line)) 
+        line = encrypt(self.__key, " | ".join(line)) 
         content[index] = line + "\n"
         self.write_content(content, self.__data)
         logs.create_log("A SITE USERNAME WAS CHANGED")
 
     def change_password_site(self, index, access_password, new_password):
         content = self.get_content(self.__data)
-        line = decrypt(access_password, content[index]).split(" | ")
+        line = decrypt(self.__key, content[index]).split(" | ")
         line[2] = new_password
-        line = encrypt(access_password, " | ".join(line)) 
+        line = encrypt(self.__key, " | ".join(line)) 
         content[index] = line + "\n"
         self.write_content(content, self.__data)
         logs.create_log("A SITE PASSWORD WAS CHANGED")
@@ -466,7 +473,7 @@ class Program:
                 print(Back.RED + "You didn't give the good answer, please retry" + Style.RESET_ALL)
                 return self.recover_password()
         print(Fore.GREEN + "Good answer!\n"+ Style.RESET_ALL)
-        old_password = decrypt(answer, self.get_coded_password())
+        old_password = decrypt_extern_password(answer, self.get_coded_password())
         print("Please create a new password and a new question.")
         logs.create_log("CREATION OF PASSWORD STARTED")
         new = self.create_password(True)
@@ -478,7 +485,7 @@ class Program:
     def change_encryptd_data(self, old, new):
         content = self.get_content(self.__data)
         for i in range(len(content)):
-            content[i] = encrypt(new, decrypt(old, content[i])) + "\n"
+            content[i] = encrypt_extern_password(new, decrypt_extern_password(old, content[i])) + "\n"
         if len(content) > 0:
             content[-1] = content[-1].rstrip("\n")
         self.write_content(content, self.__data)
@@ -575,7 +582,7 @@ class Program:
                 content.append(hashed_answer + "\n")
             self.write_content(content, self.__hashed)
         # -------------------------------------- encrypt of the AP with the rep    
-            encryptd = encrypt(answer, password)
+            encryptd = encrypt_extern_password(answer, password)
             content = self.get_content(self.__hashed)
             try:
                 content[2] = encryptd
@@ -673,36 +680,40 @@ class SystemRecovery:
 
     def reset_hashed(self):
         default = ""
-        with open("MDPData/hashed.txt", 'w', encoding="utf-8") as file:
+        with open(self.__hashed, 'w', encoding="utf-8") as file:
             file.write(default)
         logs.create_log("HASHED WAS RESET")
 
     def reset_key(self):
         default = ""
-        with open("MDPCrypto/key/key.key", 'w', encoding="utf-8") as file:
+        with open(self.__key, 'w', encoding="utf-8") as file:
             file.write(default)
         logs.create_log("KEY.KEY WAS RESET")
         
     def reset_data(self):
-        with open("MDPData/data.txt", 'w', encoding="utf-8") as file:
+        with open(self.__data, 'w', encoding="utf-8") as file:
             file.write("")
         logs.create_log("DATA WAS RESET")
 
     def create_hashed(self):
-        f = open(os.path.join(os.getcwd(), 'MDPData/hashed.txt'), 'w+')
+        f = open(self.__hashed, 'w+')
         f.close()
+        logs.create_log("HASHED WAS CREATED")
 
     def create_default(self):
-        f = open(os.path.join(os.getcwd(), 'MDPData/default.txt'), 'w+')
+        f = open(self.__default, 'w+')
         f.close()
+        logs.create_log("DEFAULT WAS CREATED")
 
     def create_data(self):
-        f = open('MDPData/data.txt', 'w+')
+        f = open(self.__data, 'w+')
         f.close()
+        logs.create_log("DATA WAS CREATED")
 
     def create_key(self):
-        f = open('MDPCrypto/key/key.key', 'w+')
+        f = open(self.__key, 'w+')
         f.close()
+        logs.create_log("KEY.KEY WAS CREATED")
 
     def get_hashed_password(self):
         with open(self.__hashed, 'r', encoding="utf-8") as file:
@@ -932,8 +943,3 @@ class SystemRecovery:
             print("--> After each use, the system gets completely checked and if it contains errors, solutions are given to fix them.")
         if action == 5:
             return 
-
-
-# pro = Program()
-# for _ in range(50):
-#     pro.add_site_password("Coco1212", generate_password(3), generate_password(3), (generate_password(3)))

@@ -95,4 +95,3 @@ if __name__ == "__main__":
         logs.create_log("Personnal info (hashed.txt) has been updated!      [2/2]")
         sys.exit()
     
-    

@@ -17,52 +17,49 @@ class Program:
 
     def add_key(self, access_password):
         self.__key = create_key(access_password)
+        logs.create_log("Key was loaded successfully")
 
     def tutorial(self):
-        print()
-        print("- - - - - - - - - - - - - - - ")
-        print(f"""
-        When you will start the program next time, you will be asked your AP (access password that you will create in a few moments) which defines the password
-        that controls all of your password, this password if very powerfull so choose it carefully! If you forget it, you will be able to recover your other passwords
-        by answering a question you are going to create just after this tutorial.
+        
+        print(f"""\n
+    The app lets you choose between 8 options, 
+    you can chose one simply by writting the number corresponding to it. 
+    
+    1) {Back.LIGHTBLUE_EX + "Access my passwords" + Style.RESET_ALL}
+    -> Let you access all your passwords.
+    -> Once done, you can look after the site you wish to find the password of
+    -> Then, you can chose wether you wand to delete it, reveal the password, change the password or change the username / email
+    
+    2) {Back.LIGHTBLUE_EX + "Add a password" + Style.RESET_ALL} -> a) Add the name of the site (Facebook, Insta,..)
+                        b) Add your username / email (username@coolguy.me)
+                        c) Add the password of your account 
 
-        The app lets you choose between 7 options, 
-        you can chose one simply by writting the number corresponding to it. 
-        
-        1) {Back.LIGHTBLUE_EX + "Access my passwords" + Style.RESET_ALL}
-        -> Let you access all your passwords.
-        -> Once done, you can look after the site you wish to find the password of
-        -> Then, you can chose wether you wand to delete it, reveal the password, change the password or change the username / email
-        
-        2) {Back.LIGHTBLUE_EX + "Add a password" + Style.RESET_ALL} -> a) Add the name of the site (Facebook, Insta,..)
-                            b) Add your username / email (username@coolguy.me)
-                            c) Add the password of your account 
+    3) {Back.LIGHTBLUE_EX + "Generate a random password" + Style.RESET_ALL} -> a) {Fore.GREEN + "Weak password" + Style.RESET_ALL} (only letters + numbers | size 8~12)
+                                    b) {Fore.YELLOW + "Medium password" + Style.RESET_ALL} (letters + numbers + symbols | size 10~20)
+                                    c) {Fore.MAGENTA + "Strong password" + Style.RESET_ALL} (long + letters + numbers + symbols | size 15~25)
+                                    d) {Fore.CYAN + "Custom password" + Style.RESET_ALL} (choose caracteristics)
+                                -> You will then be able to save it if you wish so!
 
-        3) {Back.LIGHTBLUE_EX + "Generate a random password" + Style.RESET_ALL} -> a) {Fore.GREEN + "Weak password" + Style.RESET_ALL} (only letters + numbers | size 8~12)
-                                        b) {Fore.YELLOW + "Medium password" + Style.RESET_ALL} (letters + numbers + symbols | size 10~20)
-                                        c) {Fore.MAGENTA + "Strong password" + Style.RESET_ALL} (long + letters + numbers + symbols | size 15~25)
-                                        d) {Fore.CYAN + "Custom password" + Style.RESET_ALL} (choose caracteristics)
-                                    -> You will then be able to save it if you wish so!
+    4) {Back.LIGHTBLUE_EX + "Change Username" + Style.RESET_ALL} -> to rename yourself
+    
+    5) {Back.LIGHTBLUE_EX + "Change Password" + Style.RESET_ALL} -> With some verification, you will be able to change your password
+    
+    6) {Back.LIGHTBLUE_EX + "Tutorial" + Style.RESET_ALL} -> You're in ;)
+    
+    7) {Back.LIGHTBLUE_EX + "Exit the program" + Style.RESET_ALL} -> Simply stops the program and make sure everything is fine and ready for next time
 
-        4) {Back.LIGHTBLUE_EX + "Change Username" + Style.RESET_ALL} -> to rename yourself
-        
-        5) {Back.LIGHTBLUE_EX + "Change Password" + Style.RESET_ALL} -> With some verification, you will be able to change your password
-        
-        6) {Back.LIGHTBLUE_EX + "Tutorial" + Style.RESET_ALL} -> You're in ;)
-        
-        7) {Back.LIGHTBLUE_EX + "Exit the program" + Style.RESET_ALL} -> Simply stops the program and make sure everything is fine and ready for next time
-
-        8) {Back.LIGHTBLUE_EX + "System settings" + Style.RESET_ALL} -> To try to debug the programs if troubles went to happen
-        
-        If you have any {Fore.CYAN + "recommendations" + Style.RESET_ALL}/{Fore.GREEN + "tips" + Style.RESET_ALL}/{Fore.RED + "bugs" + Style.RESET_ALL}, please contact me on discord: GaecKo#7545""")
+    8) {Back.LIGHTBLUE_EX + "System settings" + Style.RESET_ALL} -> To try to debug the programs if troubles went to happen
+    
+    If you have any {Fore.CYAN + "recommendations" + Style.RESET_ALL}/{Fore.GREEN + "tips" + Style.RESET_ALL}/{Fore.RED + "bugs" + Style.RESET_ALL}, please contact me on discord: GaecKo#7545
+        """)
         input("\tPress Enter to continue.")
 
     def wanna_do(self):
         saved = self.get_number_of_saved_passwords()
         if saved > 1:
-            stri = f"~> {saved} saved passwords!"
+            stri = f"""~> {Fore.RED + str(saved)} saved passwords""" +Style.RESET_ALL+ "!"
         elif saved == 1:
-            stri = f"~> {saved} saved password!"
+            stri = f"""~> {Fore.RED + str(saved)} saved password""" +Style.RESET_ALL+ "!"
         else:
             stri = ""
 
@@ -76,10 +73,10 @@ class Program:
     | 4) Change UserName {Fore.YELLOW + "/..." + Style.RESET_ALL}           {Fore.LIGHTRED_EX + "┃┃┃┃┃┃┃┃┃┃╭━━╯╰━━╮┃╰━╯┃┃╰╯┃┃╭━━┫╭╮╭╯" + Style.RESET_ALL}
     | 5) Change Access Password {Fore.LIGHTRED_EX + "***" + Style.RESET_ALL}     {Fore.LIGHTRED_EX + "┃┃┃┃┃┣╯╰╯┃┃╱╱╱┃╰━╯┃╭━╮┃╰╮╭╯┃╰━━┫┃┃╰╮" + Style.RESET_ALL}
     | 6) Tutorial / Help {Fore.LIGHTCYAN_EX + "?" + Style.RESET_ALL}              {Fore.LIGHTRED_EX + "╰╯╰╯╰┻━━━┻╯╱╱╱╰━━━┻╯╱╰╯╱╰╯╱╰━━━┻╯╰━╯" + Style.RESET_ALL}
-    | 7) Exit {Fore.RED + "->/" + Style.RESET_ALL}                         {Fore.LIGHTRED_EX + stri + Style.RESET_ALL}
+    | 7) Exit {Fore.RED + "->/" + Style.RESET_ALL}                         {stri}
     | 8) System Settings"""
         )
-        choice = input(">>")
+        choice = input(">> ")
         try:
             choice = int(choice)
             if choice <= 8:
@@ -90,16 +87,18 @@ class Program:
 
     def choose_security_level_password(self) -> int:
         print(
-        f"""
-        - - - - - - - - - - - - - - - - - - - - - - - -
-        Please choose a security level: 
-        | 1) {Fore.GREEN + "Weak password" + Style.RESET_ALL} (only letters + numbers | size 8~12)
-        | 2) {Fore.YELLOW + "Medium password" + Style.RESET_ALL} (letters + numbers + symbols | size 10~20)
-        | 3) {Fore.MAGENTA + "Strong password" + Style.RESET_ALL} (long + letters + numbers + symbols | size 15~25)
-        | 4) {Fore.CYAN + "Custom password" + Style.RESET_ALL} (choose caracteristics)
-        """
+    f"""
+    - - - - - - - - - - - - - - - - - - - - - - - -
+    Please choose a security level: 
+    | 1) {Fore.GREEN + "Weak password" + Style.RESET_ALL} (only letters + numbers | size 8~12)
+    | 2) {Fore.YELLOW + "Medium password" + Style.RESET_ALL} (letters + numbers + symbols | size 10~20)
+    | 3) {Fore.MAGENTA + "Strong password" + Style.RESET_ALL} (long + letters + numbers + symbols | size 15~25)
+    | 4) {Fore.CYAN + "Custom password" + Style.RESET_ALL} (choose caracteristics)
+    """
         )
-        security_level = input("\n>>")
+        security_level = input("\n>> ")
+        if security_level in "backretourexitquitter":
+            return None
         try:
             security_level = int(security_level)
             if security_level < 5 and security_level > 0:
@@ -113,6 +112,8 @@ class Program:
             return self.choose_security_level_password()
   
     def generate_password(self,security_level: int) -> str:
+        if security_level == None:
+            return None
         def generator(min_size: int, max_size: int, symbols: bool = True, numbers: bool = True) -> str:
             char = [['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'], ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'], ["0", "1", "2", "3", "4", "5",  "6", "7", "8", "9"],
             ["&", "#", "_", "@", "!", "?", ".", ";", "/", "§", "=", "<", ">"]]
@@ -138,7 +139,7 @@ class Program:
         elif security_level == 4:
             while True:
                 try:
-                    size = int(input("\nPlease tell the size you want for the password:\n>>"))
+                    size = int(input("\nPlease tell the size you want for the password:\n>> "))
                     break
                 except:print(Back.RED + "Invalid choice, please retry"+ Style.RESET_ALL)
             
@@ -177,7 +178,7 @@ class Program:
         -----------------------
         What do you wish to do?
         """)
-        choice = input(">>")
+        choice = input(">> ")
         try:
             choice = int(choice)
             if choice <= 5 and choice > 0:
@@ -196,7 +197,7 @@ class Program:
         | 2) {Fore.RED + "No" + Style.RESET_ALL}
         
         """.format(username))
-        one_two = input(">>")
+        one_two = input(">> ")
         while one_two != "1" and one_two != "2":
             return self.confirm_username(username)
         if one_two == "1":
@@ -204,7 +205,7 @@ class Program:
             return username
         elif one_two == "2":
             print("Please write down the wanted Username")
-            new_username = input("\n>>")
+            new_username = input("\n>> ")
             return self.confirm_username(new_username)
 
     
@@ -218,8 +219,8 @@ class Program:
         print(f""" | (1): {Fore.GREEN + "Yes"}""")
         print(f""" | (2): {Fore.RED + "No"}""")
         print()
-        print("(type the number of your corresponding choice just after the '>>')")
-        choice = input(">>")
+        print("(type the number of your corresponding choice just after the '>> ')")
+        choice = input(">> ")
         try:
             choice = int(choice)
         except:
@@ -228,6 +229,9 @@ class Program:
         while choice != 1 or choice != 2:
             if choice == 1:
                 print("Getting to the tutorial...")
+                sleep(1)
+                print("\n"*50)
+                print(f"When you will start the program next time, you will be asked your AP (access password that you will create in a few moments)\n which defines the password that controls all of your password, this password if very powerfull so choose it carefully!\n If you forget it, you will be able to recover your other passwords by answering a question you are going to create just after this tutorial.")
                 self.tutorial()
                 break
             elif choice == 2:
@@ -238,7 +242,7 @@ class Program:
             print(f""" | (1): {Fore.GREEN + "Yes"}""")
             print(f""" | (2): {Fore.RED + "No"}""")
             print()
-            choice = int(input(">>"))
+            choice = int(input(">> "))
         print("\n - - - - - - - - - - - - - - - - - - - - - -\nAs it's the first time you log in, you have to create an access password. ")
         self.create_password()
         logs.create_log("CREATION OF SALT FOR CRYPTO")
@@ -380,7 +384,7 @@ class Program:
 
     def choice_sit(self, number):
         if isinstance(number, int):
-            choice_site = input(F"\t\t   Press enter to leave\nPlease enter a number to access and '+' or {number} to add a password. \n\tYou can type the keyword of a site as well.\n>>")
+            choice_site = input(F"""\t\t   Press {Fore.RED + "enter" + Style.RESET_ALL} to leave\nPlease enter a number to access and '{Fore.GREEN + "+" +Style.RESET_ALL}' or '{Fore.GREEN + str(number) +Style.RESET_ALL}' to {Fore.GREEN + "add" + Style.RESET_ALL} a password. \n\tYou can type the {Fore.BLUE + "keyword" + Style.RESET_ALL} of a site as well.\n>> """)
             try:
                 choice_site = int(choice_site)
                 if choice_site > 0 and choice_site < number :
@@ -395,22 +399,26 @@ class Program:
                 print(Back.RED + "Invalid choice, retry" + Style.RESET_ALL)
                 return False
         if isinstance(number, list):
-            choice_site = input(F"\nPlease enter a number to access the searched site.\n>>")
+            choice_site = input(F"\nPlease enter a number to access the searched site.\n>> ")
             try:
                 choice_site = int(choice_site)
                 if choice_site > 0 and choice_site - 1 in number:
                     return choice_site
                 else:
+                    print(Back.RED + "Selected number not in the given site." + Style.RESET_ALL)
+                    sleep(1.5)
                     return False
             except:
+                print(Back.RED + "Please enter a valid number, retry." + Style.RESET_ALL)
+                sleep(1.5)
                 return False
 
     def sites_list(self, access_password):
         content = self.get_content(self.__data)
-        text = F"Site: {len(content)} registered. Search by typing the keyword.\n"
+        text = F"""Site: {Fore.MAGENTA + str(len(content)) + Style.RESET_ALL} registered. {Fore.BLUE + "Search" + Style.RESET_ALL} by typing the keyword.\n"""
         for i in range(len(content)):
             line = decrypt(self.__key, content[i].rstrip("\n")).split(" | ")
-            text += "| " + str(i+1) +") " + line[0] + "\n" 
+            text += Fore.MAGENTA +"| " + Style.RESET_ALL + str(i+1) +") "  + line[0] + "\n" 
         return (text, len(content) + 1)
     
     def search_in_sites(self, access_password, keyword):
@@ -432,6 +440,7 @@ class Program:
         content = self.get_content(self.__data)
         content.pop(index)
         self.write_content(content, self.__data)
+        self.check_data()
         logs.create_log("A SITE WAS DELETED")
         
     def change_username_site(self, index, access_password, new_username):
@@ -441,6 +450,7 @@ class Program:
         line = encrypt(self.__key, " | ".join(line)) 
         content[index] = line + "\n"
         self.write_content(content, self.__data)
+        self.check_data()
         logs.create_log("A SITE USERNAME WAS CHANGED")
 
     def change_password_site(self, index, access_password, new_password):
@@ -450,6 +460,7 @@ class Program:
         line = encrypt(self.__key, " | ".join(line)) 
         content[index] = line + "\n"
         self.write_content(content, self.__data)
+        self.check_data()
         logs.create_log("A SITE PASSWORD WAS CHANGED")
         
     def change_hashed_password(self, new_access):
@@ -466,7 +477,7 @@ class Program:
             print("- - - - - - -")
             print(self.get_personnal_question())
             print("---")
-            answer = input("answer: \n>>")
+            answer = input("answer: \n>> ")
             if hashing(answer) == self.get_hashed_answer():
                 break
             else:
@@ -493,7 +504,7 @@ class Program:
     def change_access_password(self, from_updator=False):
         def wrong_password():
             print( Back.RED + "Wrong Password, if you have forgotten your password, type 1, type anything else to retry." + Style.RESET_ALL)
-            forgot = input(">>")
+            forgot = input(">> ")
             if forgot == "1":
                 self.recover_password()
             else:
@@ -567,10 +578,10 @@ class Program:
             print("Access password validated, it will now be your access key to all of your passwords")
             print("If you forgot your password, you will have the opportunity to answer a personnal question that you have to create now.\n")
             print("Please create a question:")
-            question = input(">>")
+            question = input(">> ")
             print("----")
             print("Now the answer:")
-            answer = input(">>")
+            answer = input(">> ")
             print("\n" * 200)
         # -------------------------------------- Hash of the rep
             hashed_answer = hashing(answer)
@@ -731,7 +742,7 @@ class SystemRecovery:
     | 5) Go back
             """
         )
-        choice = input(">>")
+        choice = input(">> ")
         try:
             choice = int(choice)
             if choice <= 6:

@@ -19,7 +19,7 @@ def get_salt():
         salt = file.read()
     return salt
 
-def create_key(password):
+def load_key(password):
     password = password.encode()
     salt = get_salt()
     kdf = PBKDF2HMAC(
@@ -41,7 +41,6 @@ def encrypt(key, to_encrypt: str) -> str:
         print("\ngaecko8@gmail.com\n")
         print(f"""Please provide {Back.BLUE + "key.key" + Style.RESET_ALL} file located in {Back.CYAN + "./MDPCrypto/key/key.key" + Style.RESET_ALL} and {Back.BLUE + "logs.txt" + Style.RESET_ALL} located in {Back.CYAN + "./MDPLogs/log_file/logs.txt" + Style.RESET_ALL}""")
         print("The program won't work until devs find a solution...")
-        sys.exit()
 
 def decrypt(key, to_decrypt: str) -> str:
     try: 
@@ -54,7 +53,17 @@ def decrypt(key, to_decrypt: str) -> str:
         print("\ngaecko8@gmail.com\n")
         print(f"""Please provide {Back.BLUE + "key.key" + Style.RESET_ALL} file located in {Back.CYAN + "./MDPCrypto/key/key.key" + Style.RESET_ALL} and {Back.BLUE + "logs.txt" + Style.RESET_ALL} located in {Back.CYAN + "./MDPLogs/log_file/logs.txt" + Style.RESET_ALL}""")
         print("The program won't work until devs find a solution...")
-        sys.exit()
+
+def try_decrypt(key, to_decrypt):
+    """
+    if okay: return true, if not: return False
+    """
+    try:
+        f = Fernet(key)
+        decrypted = f.decrypt(to_decrypt.encode())
+        return True
+    except:
+        return False
 
 def encrypt_extern_password(password:str, to_encrypt: str) -> str:
     try:
@@ -75,7 +84,6 @@ def encrypt_extern_password(password:str, to_encrypt: str) -> str:
         print("\ngaecko8@gmail.com\n")
         print(f"""Please provide {Back.BLUE + "key.key" + Style.RESET_ALL} file located in {Back.CYAN + "./MDPCrypto/key/key.key" + Style.RESET_ALL} and {Back.BLUE + "logs.txt" + Style.RESET_ALL} located in {Back.CYAN + "./MDPLogs/log_file/logs.txt" + Style.RESET_ALL}""")
         print("The program won't work until devs find a solution...")
-        sys.exit()
 
 def decrypt_extern_password(password:str, to_decrypt: str) -> str:
     try: 
@@ -96,7 +104,6 @@ def decrypt_extern_password(password:str, to_decrypt: str) -> str:
         print("\ngaecko8@gmail.com\n")
         print(f"""Please provide {Back.BLUE + "key.key" + Style.RESET_ALL} file located in {Back.CYAN + "./MDPCrypto/key/key.key" + Style.RESET_ALL} and {Back.BLUE + "logs.txt" + Style.RESET_ALL} located in {Back.CYAN + "./MDPLogs/log_file/logs.txt" + Style.RESET_ALL}""")
         print("The program won't work until devs find a solution...")
-        sys.exit()
 
 
 def hashing(to_hash):

@@ -14,13 +14,8 @@ def check_data_encrypt(password) -> bool:
     return False if not
     """
     with open("MDPData/data.txt", "r", encoding="utf-8") as f:
-        test = f.readlines()[0]
-        try:
-            decrypt(password, test)
-            print("\n" * 200)
-            return True
-        except:
-            return False
+        test = f.readlines()[0].rstrip("\n")
+    return try_decrypt(program.get_key(), test)
 
 def convert_data(password):
     with open("MDPData/data.txt", 'r', encoding="utf-8") as f:
@@ -29,7 +24,7 @@ def convert_data(password):
         # "dhadhzaç | fbnezpfhz^p | fnepafa," -> "nfd^zjZ¨HFGZ RGJ¨ZEJ  	EJF¨Z   E"
         line = line.split(" | ")
         site, username, paswd = decode(password, line[0]), decode(password, line[1]), decode(password, line[2].rstrip("\n"))
-        content[index] = encrypt(password, site + " | " + username + " | " + paswd) + "\n"
+        content[index] = encrypt(program.get_key(), site + " | " + username + " | " + paswd) + "\n"
     content[-1].rstrip("\n")
     with open("MDPData/data.txt", "w", encoding="utf-8") as f:
         f.writelines(content)
@@ -63,10 +58,11 @@ if __name__ == "__main__":
             print(Fore.RED + "Update couldn't be completed. Try moving your old files again.")
             time.sleep(8)
             sys.exit()
-        if low_hash(password) == program.get_hashed_password():
+        if low_hash(password) == saved_password:
+            program.add_key(password)
             print(Fore.GREEN + "Good Password!")
             break
-        if hashing(password) == program.get_hashed_password():
+        if hashing(password) == saved_password:
             print(Fore.MAGENTA + "It seems like it is already working. Update already done.")
             print("You can use the program! Your password should be working!")
             break
@@ -102,4 +98,3 @@ if __name__ == "__main__":
         print(Back.GREEN + "Program has successfully been updated!")
         logs.create_log("Personnal info (hashed.txt) has been updated!      [2/2]")
         sys.exit()
-    

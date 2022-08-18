@@ -16,7 +16,7 @@ class Program:
         self.__hashed = "MDPData/hashed.txt"
 
     def add_key(self, access_password):
-        self.__key = create_key(access_password)
+        self.__key = load_key(access_password)
         logs.create_log("Key was loaded successfully")
 
     def tutorial(self):

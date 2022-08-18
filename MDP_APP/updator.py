@@ -2,7 +2,7 @@ from program import *
 from MDPCrypto.Crypt import *
 from MDPLogs.logs import Log
 from colorama import Fore, init, Style, Back
-import time, pwinput
+import time, pwinput, sys
 
 init(autoreset=True)
 program = Program()
@@ -55,6 +55,14 @@ if __name__ == "__main__":
     logs.create_log("Update tool started!")
     while True:
         password = pwinput.pwinput(prompt="Password: ")
+        try:
+            saved_password = program.get_hashed_password()
+        except:
+            print(Fore.MAGENTA + "Program has no information about you.")
+            print(Fore.CYAN + "Are you sure you have moved your old files into the new folders correctly?")
+            print(Fore.RED + "Update couldn't be completed. Try moving your old files again.")
+            time.sleep(8)
+            sys.exit()
         if low_hash(password) == program.get_hashed_password():
             print(Fore.GREEN + "Good Password!")
             break

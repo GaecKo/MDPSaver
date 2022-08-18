@@ -48,6 +48,8 @@ def decode(key, cipher_text):
 if __name__ == "__main__":
     print(Fore.CYAN + "Welcome to Updator." + Style.RESET_ALL + " Only use this if you want to convert your data from old MDPSaver version to the new one.")
     logs.create_log("Update tool started!")
+    if get_salt() == b'':
+        generate_salt()
     while True:
         password = pwinput.pwinput(prompt="Password: ")
         try:
@@ -59,13 +61,13 @@ if __name__ == "__main__":
             time.sleep(8)
             sys.exit()
         if low_hash(password) == saved_password:
-            program.add_key(password)
             print(Fore.GREEN + "Good Password!")
+            program.add_key(password)
             break
         if hashing(password) == saved_password:
             print(Fore.MAGENTA + "It seems like it is already working. Update already done.")
             print("You can use the program! Your password should be working!")
-            break
+            sys.exit()
         else:
             print(Back.RED +  "Wrong Password, please retry." + Style.RESET_ALL)
     
@@ -97,4 +99,5 @@ if __name__ == "__main__":
         program.change_access_password(True)
         print(Back.GREEN + "Program has successfully been updated!")
         logs.create_log("Personnal info (hashed.txt) has been updated!      [2/2]")
+        time.sleep(4)
         sys.exit()

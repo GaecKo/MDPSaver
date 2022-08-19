@@ -17,7 +17,6 @@ All of these are done with the `pycryptodome` and `cryptography` module, to make
 
 Status:  `▰▰▰▰▰▰▰▰▰▰ 100%` 
 
-****
 - [<ins> MDPSaver </ins> ](#-ins--mdpsaver---ins----python--git-files-pythonico----windows--git-files-windowsico-)
   * [Installation](#installation)
       - [<ins> Windows Executable (.exe) </ins>](#-ins--windows-executable--exe-------ins-)

@@ -33,4 +33,7 @@
 * Improved security *FIXED*
 * Improved logo *FIXED*
 * Improved Git repos *FIXED*
+* Create .exe files *ADDED*
+* Added info to .exe files *ADDED*
+* Made a updator to convert old data to new encrypting system *ADDED*
 * ...

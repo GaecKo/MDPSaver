@@ -178,7 +178,7 @@ if __name__ == "__main__":
                 continue
             print(f"Here is the randomly generated password:\n\n{password}\n\n")
             while True:
-                to_save = input("Would you like to add this password to your saved password? " + Fore.CYAN + "[Y/n] " + Style.RESET_ALL )
+                print(f"""Here is the randomly generated password: (Press {Fore.MAGENTA + "CTRL + SHIFT + C" + Style.RESET_ALL} to copy)\n\n{password}\n\n""")
                 if to_save in ["Y", "y", "N", "n"]:
                     if to_save in ["Y", "y"]: to_save = True
                     if to_save in ["N", "n"]: to_save = False

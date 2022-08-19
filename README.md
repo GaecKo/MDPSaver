@@ -1,6 +1,3 @@
-<!-- Place this tag in your head or just before your close body tag. -->
-<script async defer src="https://buttons.github.io/buttons.js"> </script>
-
 # <ins> MDPSaver </ins> ![Python](.git_files/python.ico) ![Windows](.git_files/Windows.ico)
 
 Welcome to my **Password Manager App.** 
@@ -8,15 +5,6 @@ Welcome to my **Password Manager App.**
 
     [![Support via PayPal](https://cdn.rawgit.com/twolfson/paypal-github-button/1.0.0/dist/button.svg)](https://paypal.me/ArthurDeNeyer?country.x=BE&locale.x=fr_FR) 
     
-
-    <!-- Place this tag where you want the button to render. -->
-    <a class="github-button" href="https://github.com/GaecKo" data-show-count="true" aria-label="Follow @GaecKo on GitHub">Follow @GaecKo</a>
-    <!-- Place this tag where you want the button to render. -->
-    <a class="github-button" href="https://github.com/GaecKo/MDPSaver/archive/master.zip" data-icon="octicon-download" aria-label="Download GaecKo/MDPSaver on GitHub">Download</a>
-    <!-- Place this tag where you want the button to render. -->
-    <a class="github-button" href="https://github.com/GaecKo/MDPSaver" data-icon="octicon-star" data-show-count="true" aria-label="Star GaecKo/MDPSaver on GitHub">Star</a>
-
-
 ### <ins> Introduction </ins> 
 This app makes it easy for you to:
 * **Add** your passwords
@@ -29,7 +17,6 @@ All of these are done with the `pycryptodome` and `cryptography` module, to make
 
 Status:  `▰▰▰▰▰▰▰▰▰▰ 100%` 
  
-
 ****
 
 ## Installation 

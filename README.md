@@ -17,14 +17,13 @@ All of these are done with the `pycryptodome` and `cryptography` module, to make
 
 Status:  `▰▰▰▰▰▰▰▰▰▰ 100%` 
 
-- [<ins> MDPSaver </ins> ](#-ins--mdpsaver---ins----python--git-files-pythonico----windows--git-files-windowsico-)
-  * [Installation](#installation)
-      - [<ins> Windows Executable (.exe) </ins>](#-ins--windows-executable--exe-------ins-)
-      - [<ins> Python Script (.py) </ins> ](#-ins--python-script---ins----python--git-files-pythonico-)
-  * [Update](#update)
-  * [Walkthrough](#walkthrough)
-      - [<ins> Starting Screen </ins>](#-ins--starting-screen---ins-)
-      - [<ins> Main Menu </ins>](#-ins--main-menu---ins-)
+* [Installation](#installation)
+    - [<ins> Windows Executable (.exe) </ins>](#-ins--windows-executable--exe-------ins-)
+    - [<ins> Python Script (.py) </ins> ](#-ins--python-script---ins----python--git-files-pythonico-)
+* [Update](#update)
+* [Walkthrough](#walkthrough)
+    - [<ins> Starting Screen </ins>](#-ins--starting-screen---ins-)
+    - [<ins> Main Menu </ins>](#-ins--main-menu---ins-)
         * [<ins> 1) Access my Passwords 🔎</ins>](#-ins--1--access-my-passwords-----ins-)
         * [<ins> 2) Add a password ➕</ins>](#-ins--2--add-a-password----ins-)
         * [<ins> 3) Generate Random Password 🔀</ins>](#-ins--3--generate-random-password-----ins-)
@@ -33,6 +32,11 @@ Status:  `▰▰▰▰▰▰▰▰▰▰ 100%`
         * [<ins> 6) Help / Tutorial ❓</ins>](#-ins--6--help---tutorial----ins-)
         * [<ins> 7) Leave ❌</ins>](#-ins--7--leave----ins-)
         * [<ins> 8) System Settings ⚙️</ins>](#-ins--8--system-settings-----ins-)
+* [SpeedTest](#speedtest)
+    - [<ins> With **50 passwords** :</ins>](#-ins--with---50-passwords------ins-)
+    - [<ins> With **100 passwords** :</ins>](#-ins--with---100-passwords------ins-)
+    - [<ins> How I did it (*story time*): </ins>](#-ins--how-i-did-it---story-time------ins-)
+
 
 ****
 ## Installation 
@@ -69,7 +73,7 @@ Or follow these steps:
         * `Module not found`, ...
     * Make sure you opened a terminal **IN** the `MDP_APP/` folder! It should look like: 
     
-    `X:\...\MDPSaver-master\MDPSaver-master\MDP_APP>python MDPSaver.py  `
+    `X:\...\MDPSaver-master\MDPSaver-master\MDP_APP>python MDPSaver.py`
 * The program should be running! Each time you want to launch MDPSaver, you need to repeat step 4 and 5!
 * If you have any problem using the app, contact me on Discord: `GaecKo#7545`
 ****
@@ -123,7 +127,6 @@ Here is a walkthrough of the app
     * *Strong*: long + letters + numbers + symbols | size 15~25
     * *Custom*: with(out) symbols + with(out) numbers | custom size
 
-
 ##### <ins> 4) Change Username ✒️</ins>
 * If needed, you can change your **Username**:
 ![ChangeUsername](.git_files/ChangeUsername.gif)
@@ -152,4 +155,62 @@ Here is a walkthrough of the app
     * Reset personnal data (this means that you will need to reconfigure the app, new AP, new question, ... If you use the same AP your password won't be lost, but it's kind of risky...)
 * This menu should only be used if you plan on testing things with the code or if you have issues with the program and that loosing your password doesn't afraid you.
 
+****
+## SpeedTest 🚀
+* Something I kept in mind during the project was to have a program wich is quick and simple. Starting the project I used a encode and decode function which turned out to be not that safe, as there was an already known way on how to crack them. I then switched to an official security system (`Fernet` from `cryptography`, allied with `pycryptodome`), that I used with a key which was direved using the Access Password. That way, and with 380 000 iterations, each saved password is encrypted and safe. 
 
+* But how about speed ? Well after hours spent on data managing and improved encryption, I now have a system which is fast enough to ensure fluent usage. 
+
+* If you want to test speed by yourself:
+    * `.\MDPSaver-master\MDPSaver-master\MDP_APP>python SpeedTest.py`
+    * You will be asked how many password you want to test with, just wait a bit and some results should be displayed! 
+
+* Result (could be influenced by the machine you use):
+
+#### <ins> With **50 passwords**</ins>
+
+* High security system with no improvement:
+    ![Old50](.git_files/Old50.png)
+* High security system with improvement:
+    ![New50](.git_files/New50.png)
+
+#### <ins> With **100 passwords**</ins>
+* High security system with no improvement:
+    ![Old100](.git_files/Old100.png)
+* High security system with improvement:
+    ![New100](.git_files/New100.png)
+
+#### <ins> How I did it (*story time* 📖)</ins> 
+* I used to save password this way:
+
+        ```
+        encrypted site 1 | encrypted username 1 | encrypted password 1
+        encrypted site 2 | encrypted username 2 | encrypted password 2
+        encrypted site 3 | encrypted username 3 | encrypted password 3
+                                        ...
+        ```
+    It was then easy to decrypt using `string.split(" | ")` and then `decrypt(AP, string[0]), ...`. 
+    
+    I then simplified the process by directly encrypting the whole phrase, including the " | ". That made the encrypting and decrypting **3x** faster. (I figured that out while explaining the method to [@drudru18](https://github.com/drudru18), thanks mate 💘)
+
+    I would have something like this: 
+
+    `encrypt(AP, site + " | " + username + " | " + password)`
+
+    To then first `string = decrypt(AP, whole phrase)` and then `string.split(" | ")`. 
+    
+* I then figured out that the long processus of encrypting and decrypting was due to the key creation. This key is derived using the AP and is each time exactly the same. So, instead of creating for each encryption / decryption a key (which is each time the same), I would simply save it once into a program variable and re-used it for each encryption / decryption. That avoided *380 000* iterations each time. 
+
+* To sum up, I went from:
+
+    ```
+    (3 encryption / decryption per password ) * 380 000 * numbers of password
+    -> 3 * 380 000 * n = 1 140 00 iterations per password
+    ```
+    `TO`
+    ```
+    380 000 + ((1 encryption / decryption per password) * numbers of password)
+    -> = 380 000 + n iterations for all of the password!
+
+    ```
+    That's how it went from `78 ms` per password to `0.24 ms`, so about `325x` quicker! Of course, as the key is loaded once, you can add / load passwords thousand of times, in the same instance of the program, and you will have almost no encryption / decryption time. 

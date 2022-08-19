@@ -17,7 +17,7 @@ Welcome to my **Password Manager App.**
     <a class="github-button" href="https://github.com/GaecKo/MDPSaver" data-icon="octicon-star" data-show-count="true" aria-label="Star GaecKo/MDPSaver on GitHub">Star</a>
 
 
-### <ins> Introduction </ins> 
+###  Introduction 
 This app makes it easy for you to:
 * **Add** your passwords
 * **See** your added passwords
@@ -29,8 +29,26 @@ All of these are done with the `pycryptodome` and `cryptography` module, to make
 
 Status:  `▰▰▰▰▰▰▰▰▰▰ 100%` 
  
-
 ****
+
+- [<ins> MDPSaver </ins> ](#-ins--mdpsaver---ins----python--git-files-pythonico----windows--git-files-windowsico-)
+  * [Installation](#installation)
+      - [<ins> Windows Executable (.exe) </ins>](#-ins--windows-executable--exe-------ins-)
+      - [<ins> Python Script (.py) </ins> ](#-ins--python-script---ins----python--git-files-pythonico-)
+  * [Update](#update)
+  * [Walkthrough](#walkthrough)
+      - [<ins> Starting Screen </ins>](#-ins--starting-screen---ins-)
+      - [<ins> Main Menu </ins>](#-ins--main-menu---ins-)
+        * [<ins> 1) Access my Passwords 🔎</ins>](#-ins--1--access-my-passwords-----ins-)
+        * [<ins> 2) Add a password ➕</ins>](#-ins--2--add-a-password----ins-)
+        * [<ins> 3) Generate Random Password 🔀</ins>](#-ins--3--generate-random-password-----ins-)
+        * [<ins> 4) Change Username ✒️</ins>](#-ins--4--change-username-----ins-)
+        * [<ins> 5) Change Access Password 🔏</ins>](#-ins--5--change-access-password-----ins-)
+        * [<ins> 6) Help / Tutorial ❓</ins>](#-ins--6--help---tutorial----ins-)
+        * [<ins> 7) Leave ❌</ins>](#-ins--7--leave----ins-)
+        * [<ins> 8) System Settings ⚙️</ins>](#-ins--8--system-settings-----ins-)
+
+
 
 ## Installation 
 
@@ -69,6 +87,11 @@ Or follow these steps:
     `X:\...\MDPSaver-master\MDPSaver-master\MDP_APP>python MDPSaver.py  `
 * The program should be running! Each time you want to launch MDPSaver, you need to repeat step 4 and 5!
 * If you have any problem using the app, contact me on Discord: `GaecKo#7545`
+****
+
+## Update
+* If you used last version of MDPSaver, here is a [video](https://www.youtube.com/watch?v=y8biYrRKB9s) on how to update your old data to the new MDPSaver.  
+
 ****
 
 ## Walkthrough 

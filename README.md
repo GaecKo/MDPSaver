@@ -1,4 +1,4 @@
-# <ins> MDPSaver </ins> ![Python](.git_files/python.ico) ![Windows](.git_files/Windows.ico)
+# <ins> MDPSaver</ins> v1.0.0 ![Python](.git_files/python.ico) ![Windows](.git_files/Windows.ico)
 
 Welcome to my **Password Manager App.** 
 

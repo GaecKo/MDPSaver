@@ -176,14 +176,16 @@ if __name__ == "__main__":
             password = program.generate_password(program.choose_security_level_password())
             if password == None:
                 continue
-            print(f"Here is the randomly generated password:\n\n{password}\n\n")
+
+            print(f"""Here is the randomly generated password: (Press {Fore.MAGENTA + "CTRL + SHIFT + C" + Style.RESET_ALL} to copy)\n\n{password}\n\n""")
             while True:
-                print(f"""Here is the randomly generated password: (Press {Fore.MAGENTA + "CTRL + SHIFT + C" + Style.RESET_ALL} to copy)\n\n{password}\n\n""")
+                to_save = input("Would you like add this password to your saved password? " + Fore.CYAN + "[Y/n] " + Style.RESET_ALL )           
                 if to_save in ["Y", "y", "N", "n"]:
                     if to_save in ["Y", "y"]: to_save = True
                     if to_save in ["N", "n"]: to_save = False
                     break
                 print(Back.RED + "Invalid choice, please retry" + Style.RESET_ALL + "")
+             
             if to_save:
                 while True:
                     site = input(f"""Please tell the {Fore.CYAN + "site" +Style.RESET_ALL} you want to add a password for\n>> """)

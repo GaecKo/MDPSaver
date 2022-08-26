@@ -31,7 +31,7 @@ Status:  `▰▰▰▰▰▰▰▰▰▰ 100%`
         * [<ins> 6) Help / Tutorial ❓</ins>](#-ins--6--help---tutorial----ins-)
         * [<ins> 7) Leave ❌</ins>](#-ins--7--leave----ins-)
         * [<ins> 8) System Settings ⚙️</ins>](#-ins--8--system-settings-----ins-)
-* [SpeedTest](#SpeedTest 🚀)
+* [SpeedTest](#speedtest)
     - [<ins> With **50 passwords** :</ins>](#-ins--with---50-passwords------ins-)
     - [<ins> With **100 passwords** :</ins>](#-ins--with---100-passwords------ins-)
     - [<ins> How I did it (*story time*): </ins>](#-ins--how-i-did-it---story-time------ins-)

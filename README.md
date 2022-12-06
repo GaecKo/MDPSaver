@@ -177,7 +177,7 @@ Here is a walkthrough of the app
 * High security system with no improvement:
     ![Old100](.git_files/Old100.png)
 * High security system with improvement:
-    ![New100](.git_files/New100.png)
+    ![New100](.git_files/New100.PNG)
 
 #### <ins> How I did it (*story time* 📖)</ins> 
 * I used to save password this way:
@@ -210,6 +210,5 @@ Here is a walkthrough of the app
     ```
     380 000 + ((1 encryption / decryption per password) * numbers of password)
     -> = 380 000 + n iterations for all of the password!
-
     ```
     That's how it went from `78 ms` per password to `0.24 ms`, so about `325x` quicker! Of course, as the key is loaded once, you can add / load passwords thousand of times, in the same instance of the program, and you will have almost no encryption / decryption time. 

@@ -177,7 +177,7 @@ Here is a walkthrough of the app
 * High security system with no improvement:
     ![Old100](.git_files/Old100.png)
 * High security system with improvement:
-    ![New100](.git_files/New100.PNG)
+    ![New100](.git_files/New100.png)
 
 #### <ins> How I did it (*story time* 📖)</ins> 
 * I used to save password this way:
@@ -206,7 +206,7 @@ Here is a walkthrough of the app
     (3 encryption / decryption per password ) * 380 000 * numbers of password
     -> 3 * 380 000 * n = 1 140 00 iterations per password
     ```
-    `TO`
+    **TO**
     ```
     380 000 + ((1 encryption / decryption per password) * numbers of password)
     -> = 380 000 + n iterations for all of the password!

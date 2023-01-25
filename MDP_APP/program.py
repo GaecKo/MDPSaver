@@ -208,8 +208,6 @@ class Program:
             new_username = input("\n>> ")
             return self.confirm_username(new_username)
 
-    
-
     def program_first(self):
         if get_salt() == b'': 
             generate_salt()
@@ -300,6 +298,10 @@ class Program:
         with open(self.__hashed, 'r', encoding='utf-8') as file:
             return file.readlines()[2].rstrip("\n")
 
+    def get_username(self):
+        with open(self.__default, 'r', encoding="utf-8") as file:
+            return file.readlines()[1].split(":")[1].rstrip("\n")
+
     def write_content(self, content, filetoopen):
         """
         pre: content is iterable / filetoopen is existing
@@ -343,10 +345,6 @@ class Program:
         self.write_content(lines, self.__default)
         logs.create_log("USERNAME WAS SET")
         
-    def get_username(self):
-        with open(self.__default, 'r', encoding="utf-8") as file:
-            return file.readlines()[1].split(":")[1].rstrip("\n")
-
     def search(self, access_password, index):
         content = self.get_content(self.__data)
         logs.create_log("A PASSWORD WAS SHOWN")
@@ -434,8 +432,8 @@ class Program:
             if keyword.upper() in line:
                 good_one.append(lists[index])
                 indexes.append(index)
-        return (good_one, indexes)
-        
+        return (good_one, indexes) 
+
     def delete_site(self, index):
         content = self.get_content(self.__data)
         content.pop(index)

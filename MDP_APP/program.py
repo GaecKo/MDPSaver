@@ -1,13 +1,18 @@
 from random import randint
 from MDPCrypto.Crypt import *
 from MDPLogs.logs import Log
+import re
 from time import sleep
 import os, pwinput, sys
 from colorama import Fore, Back, Style, init
 
+
+
 init(autoreset=True)
 logs = Log()
 os.system('cls')
+
+rs = Style.RESET_ALL
 
 class Program:
     def __init__(self):
@@ -25,61 +30,62 @@ class Program:
     The app lets you choose between 8 options, 
     you can chose one simply by writting the number corresponding to it. 
     
-    1) {Back.LIGHTBLUE_EX + "Access my passwords" + Style.RESET_ALL}
+    1) {Back.LIGHTBLUE_EX + "Access my passwords" + rs}
     -> Let you access all your passwords.
     -> Once done, you can look after the site you wish to find the password of
     -> Then, you can chose wether you wand to delete it, reveal the password, change the password or change the username / email
     
-    2) {Back.LIGHTBLUE_EX + "Add a password" + Style.RESET_ALL} -> a) Add the name of the site (Facebook, Insta,..)
+    2) {Back.LIGHTBLUE_EX + "Add a password" + rs} -> a) Add the name of the site (Facebook, Insta,..)
                         b) Add your username / email (username@coolguy.me)
                         c) Add the password of your account 
 
-    3) {Back.LIGHTBLUE_EX + "Generate a random password" + Style.RESET_ALL} -> a) {Fore.GREEN + "Weak password" + Style.RESET_ALL} (only letters + numbers | size 8~12)
-                                    b) {Fore.YELLOW + "Medium password" + Style.RESET_ALL} (letters + numbers + symbols | size 10~20)
-                                    c) {Fore.MAGENTA + "Strong password" + Style.RESET_ALL} (long + letters + numbers + symbols | size 15~25)
-                                    d) {Fore.CYAN + "Custom password" + Style.RESET_ALL} (choose caracteristics)
+    3) {Back.LIGHTBLUE_EX + "Generate a random password" + rs} -> a) {Fore.GREEN + "Weak password" + rs} (only letters + numbers | size 8~12)
+                                    b) {Fore.YELLOW + "Medium password" + rs} (letters + numbers + symbols | size 10~20)
+                                    c) {Fore.MAGENTA + "Strong password" + rs} (long + letters + numbers + symbols | size 15~25)
+                                    d) {Fore.CYAN + "Custom password" + rs} (choose caracteristics)
                                 -> You will then be able to save it if you wish so!
 
-    4) {Back.LIGHTBLUE_EX + "Change Username" + Style.RESET_ALL} -> to rename yourself
+    4) {Back.LIGHTBLUE_EX + "Change Username" + rs} -> to rename yourself
     
-    5) {Back.LIGHTBLUE_EX + "Change Password" + Style.RESET_ALL} -> With some verification, you will be able to change your password
+    5) {Back.LIGHTBLUE_EX + "Change Password" + rs} -> With some verification, you will be able to change your password
     
-    6) {Back.LIGHTBLUE_EX + "Tutorial" + Style.RESET_ALL} -> You're in ;)
+    6) {Back.LIGHTBLUE_EX + "Tutorial" + rs} -> You're in ;)
     
-    7) {Back.LIGHTBLUE_EX + "Exit the program" + Style.RESET_ALL} -> Simply stops the program and make sure everything is fine and ready for next time
+    7) {Back.LIGHTBLUE_EX + "Exit the program" + rs} -> Simply stops the program and make sure everything is fine and ready for next time
 
-    8) {Back.LIGHTBLUE_EX + "System settings" + Style.RESET_ALL} -> To try to debug the programs if troubles went to happen
+    8) {Back.LIGHTBLUE_EX + "System settings" + rs} -> To try to debug the programs if troubles went to happen
     
-    If you have any {Fore.CYAN + "recommendations" + Style.RESET_ALL}/{Fore.GREEN + "tips" + Style.RESET_ALL}/{Fore.RED + "bugs" + Style.RESET_ALL}, please contact me on discord: GaecKo#7545
+    If you have any {Fore.CYAN + "recommendations" + rs}/{Fore.GREEN + "tips" + rs}/{Fore.RED + "bugs" + rs}, please contact me on discord: GaecKo#7545
         """)
         input("\tPress Enter to continue.")
 
     def wanna_do(self):
         saved = self.get_number_of_saved_passwords()
         if saved > 1:
-            stri = f"""~> {Fore.RED + str(saved)} saved passwords""" +Style.RESET_ALL+ "!"
+            stri = f"""~> {Fore.RED + str(saved)} saved passwords""" +rs+ "!"
         elif saved == 1:
-            stri = f"""~> {Fore.RED + str(saved)} saved password""" +Style.RESET_ALL+ "!"
+            stri = f"""~> {Fore.RED + str(saved)} saved password""" +rs+ "!"
         else:
             stri = ""
 
         print(
             f"""
     What do you want to do?
-    -----------------------              
-    | 1) {Fore.BLUE + "Access" + Style.RESET_ALL} my Passwords            {Fore.LIGHTRED_EX + "╭━╮╭━┳━━━┳━━━╮╭━━━┳━━━┳╮╱╱╭┳━━━┳━━━╮" + Style.RESET_ALL}
-    | 2) {Fore.GREEN + "Add" + Style.RESET_ALL} a Password {Fore.LIGHTGREEN_EX + "+" + Style.RESET_ALL}               {Fore.LIGHTRED_EX + "┃┃╰╯┃┣╮╭╮┃╭━╮┃┃╭━╮┃╭━╮┃╰╮╭╯┃╭━━┫╭━╮┃" + Style.RESET_ALL}
-    | 3) {Fore.CYAN + "Generate" + Style.RESET_ALL} Random Password       {Fore.LIGHTRED_EX + "┃╭╮╭╮┃┃┃┃┃╰━╯┃┃╰━━┫┃╱┃┣╮┃┃╭┫╰━━┫╰━╯┃" + Style.RESET_ALL}
-    | 4) Change UserName {Fore.YELLOW + "/..." + Style.RESET_ALL}           {Fore.LIGHTRED_EX + "┃┃┃┃┃┃┃┃┃┃╭━━╯╰━━╮┃╰━╯┃┃╰╯┃┃╭━━┫╭╮╭╯" + Style.RESET_ALL}
-    | 5) Change Access Password {Fore.LIGHTRED_EX + "***" + Style.RESET_ALL}     {Fore.LIGHTRED_EX + "┃┃┃┃┃┣╯╰╯┃┃╱╱╱┃╰━╯┃╭━╮┃╰╮╭╯┃╰━━┫┃┃╰╮" + Style.RESET_ALL}
-    | 6) Tutorial / Help {Fore.LIGHTCYAN_EX + "?" + Style.RESET_ALL}              {Fore.LIGHTRED_EX + "╰╯╰╯╰┻━━━┻╯╱╱╱╰━━━┻╯╱╰╯╱╰╯╱╰━━━┻╯╰━╯" + Style.RESET_ALL}
-    | 7) Exit {Fore.RED + "->/" + Style.RESET_ALL}                         {stri}
-    | 8) System Settings"""
+    -----------------------
+    | 1) {Fore.BLUE + "Access" + rs} my Passwords                                        
+    | 2) {Fore.GREEN + "Add" + rs} a Password {Fore.LIGHTGREEN_EX + "+" + rs}               {Fore.LIGHTRED_EX + "╭━╮╭━┳━━━┳━━━╮╭━━━┳━━━┳╮╱╱╭┳━━━┳━━━╮" + rs}
+    | 3) {Fore.MAGENTA + "Filter" + rs} Search                  {Fore.LIGHTRED_EX + "┃┃╰╯┃┣╮╭╮┃╭━╮┃┃╭━╮┃╭━╮┃╰╮╭╯┃╭━━┫╭━╮┃" + rs}
+    | 4) {Fore.CYAN + "Generate" + rs} Random Password       {Fore.LIGHTRED_EX + "┃╭╮╭╮┃┃┃┃┃╰━╯┃┃╰━━┫┃╱┃┣╮┃┃╭┫╰━━┫╰━╯┃" + rs}
+    | 5) Change UserName {Fore.YELLOW + "/..." + rs}           {Fore.LIGHTRED_EX + "┃┃┃┃┃┃┃┃┃┃╭━━╯╰━━╮┃╰━╯┃┃╰╯┃┃╭━━┫╭╮╭╯" + rs}
+    | 6) Change Access Password {Fore.LIGHTRED_EX + "***" + rs}     {Fore.LIGHTRED_EX + "┃┃┃┃┃┣╯╰╯┃┃╱╱╱┃╰━╯┃╭━╮┃╰╮╭╯┃╰━━┫┃┃╰╮" + rs}
+    | 7) Tutorial / Help {Fore.LIGHTCYAN_EX + "?" + rs}              {Fore.LIGHTRED_EX + "╰╯╰╯╰┻━━━┻╯╱╱╱╰━━━┻╯╱╰╯╱╰╯╱╰━━━┻╯╰━╯" + rs}
+    | 8) Exit {Fore.RED + "->/" + rs}                         {stri}
+    | 9) System Settings"""
         )
         choice = input(">> ")
         try:
             choice = int(choice)
-            if choice <= 8:
+            if choice <= 9:
                 return choice
         except:
             print(Back.RED + "Invalid choice, please try again.")
@@ -90,10 +96,10 @@ class Program:
     f"""
     - - - - - - - - - - - - - - - - - - - - - - - -
     Please choose a security level: 
-    | 1) {Fore.GREEN + "Weak password" + Style.RESET_ALL} (only letters + numbers | size 8~12)
-    | 2) {Fore.YELLOW + "Medium password" + Style.RESET_ALL} (letters + numbers + symbols | size 10~20)
-    | 3) {Fore.MAGENTA + "Strong password" + Style.RESET_ALL} (long + letters + numbers + symbols | size 15~25)
-    | 4) {Fore.CYAN + "Custom password" + Style.RESET_ALL} (choose caracteristics)
+    | 1) {Fore.GREEN + "Weak password" + rs} (only letters + numbers | size 8~12)
+    | 2) {Fore.YELLOW + "Medium password" + rs} (letters + numbers + symbols | size 10~20)
+    | 3) {Fore.MAGENTA + "Strong password" + rs} (long + letters + numbers + symbols | size 15~25)
+    | 4) {Fore.CYAN + "Custom password" + rs} (choose caracteristics)
     """
         )
         security_level = input("\n>> ")
@@ -141,10 +147,10 @@ class Program:
                 try:
                     size = int(input("\nPlease tell the size you want for the password:\n>> "))
                     break
-                except:print(Back.RED + "Invalid choice, please retry"+ Style.RESET_ALL)
+                except:print(Back.RED + "Invalid choice, please retry"+ rs)
             
             while True:
-                symbols = input(f"""\nDo you wish to have symbols included? {Fore.CYAN +"[Y/n]" + Style.RESET_ALL} """)
+                symbols = input(f"""\nDo you wish to have symbols included? {Fore.CYAN +"[Y/n]" + rs} """)
 
                 if symbols in ["Y", "y", "N", "n"]:
                     if symbols in ["Y", "y"]:
@@ -154,7 +160,7 @@ class Program:
                     break
                 print(Back.RED + "Invalid choice, please retry")
             while True:
-                numbers = input(f"""\nDo you wish to have numbers included? {Fore.CYAN +"[Y/n]" + Style.RESET_ALL} """)
+                numbers = input(f"""\nDo you wish to have numbers included? {Fore.CYAN +"[Y/n]" + rs} """)
                 if numbers in ["Y", "y", "N", "n"]:
                     if numbers in ["Y", "y"]:
                         numbers = True
@@ -169,10 +175,10 @@ class Program:
         f"""
         - - - - - - - - - - - - - - - - - - - - - - - -
         You have the possibility to do multiple things;
-        | 1) {Fore.CYAN + "Reveal" + Style.RESET_ALL} the password
-        | 2) {Fore.RED + "Delete" + Style.RESET_ALL} the password
-        | 3) Change the {Fore.MAGENTA + "password" + Style.RESET_ALL} 
-        | 4) Change the {Fore.CYAN + "username / email" + Style.RESET_ALL} 
+        | 1) {Fore.CYAN + "Reveal" + rs} the password
+        | 2) {Fore.RED + "Delete" + rs} the password
+        | 3) Change the {Fore.MAGENTA + "password" + rs} 
+        | 4) Change the {Fore.CYAN + "username / email" + rs} 
         | 5) Leave
         
         -----------------------
@@ -183,18 +189,18 @@ class Program:
             choice = int(choice)
             if choice <= 5 and choice > 0:
                 return choice
-            print(Back.RED + "Invalid choice, please try again." + Style.RESET_ALL)
+            print(Back.RED + "Invalid choice, please try again." + rs)
             sleep(1.5)
             return self.option_password()
         except:
-            print(Back.RED + "Invalid choice, please try again." + Style.RESET_ALL)
+            print(Back.RED + "Invalid choice, please try again." + rs)
             return self.option_password()
 
     def confirm_username(self, username):
         print(f"""
         Do you confirm this username: {username}?
-        | 1) {Fore.GREEN + "Yes" + Style.RESET_ALL}
-        | 2) {Fore.RED + "No" + Style.RESET_ALL}
+        | 1) {Fore.GREEN + "Yes" + rs}
+        | 2) {Fore.RED + "No" + rs}
         
         """.format(username))
         one_two = input(">> ")
@@ -370,9 +376,9 @@ class Program:
         logs.create_log(F"DATA FILE WAS CHECKED. FILE HAD {nbr} EMPTY LINES")
 
     def print_site_password(self, site, username, password):
-        stri = "    " + f"""{Fore.WHITE + "_" + Style.RESET_ALL}""" * (len(site) + len(username) + len(password) + 8)
-        stri += f"""\n   {Fore.WHITE + "|" + Style.RESET_ALL} {site} {Fore.WHITE + "|" + Style.RESET_ALL} {username} {Fore.WHITE + "|" + Style.RESET_ALL} {password} {Fore.WHITE + "|" + Style.RESET_ALL}\n"""
-        stri += "    " + f"""{Fore.WHITE + "‾" + Style.RESET_ALL}""" * (len(site) + len(username) + len(password) + 8)   
+        stri = "    " + f"""{Fore.WHITE + "_" + rs}""" * (len(site) + len(username) + len(password) + 8)
+        stri += f"""\n   {Fore.WHITE + "|" + rs} {site} {Fore.WHITE + "|" + rs} {username} {Fore.WHITE + "|" + rs} {password} {Fore.WHITE + "|" + rs}\n"""
+        stri += "    " + f"""{Fore.WHITE + "‾" + rs}""" * (len(site) + len(username) + len(password) + 8)   
         return stri  
         """
          __________________________________
@@ -382,7 +388,7 @@ class Program:
 
     def choice_sit(self, number):
         if isinstance(number, int):
-            choice_site = input(F"""\t\t   Press {Fore.RED + "enter" + Style.RESET_ALL} to leave\nPlease enter a number to access and '{Fore.GREEN + "+" +Style.RESET_ALL}' or '{Fore.GREEN + str(number) +Style.RESET_ALL}' to {Fore.GREEN + "add" + Style.RESET_ALL} a password. \n\tYou can type the {Fore.BLUE + "keyword" + Style.RESET_ALL} of a site as well.\n>> """)
+            choice_site = input(F"""\t\t   Press {Fore.RED + "enter" + rs} to leave\nPlease enter a number to access and '{Fore.GREEN + "+" +rs}' or '{Fore.GREEN + str(number) +rs}' to {Fore.GREEN + "add" + rs} a password. \n\tYou can type the {Fore.BLUE + "keyword" + rs} of a site as well.\n>> """)
             try:
                 choice_site = int(choice_site)
                 if choice_site > 0 and choice_site < number :
@@ -394,7 +400,7 @@ class Program:
                     return True
                 if isinstance(choice_site, str):
                     return choice_site
-                print(Back.RED + "Invalid choice, retry" + Style.RESET_ALL)
+                print(Back.RED + "Invalid choice, retry" + rs)
                 return False
         if isinstance(number, list):
             choice_site = input(F"\nPlease enter a number to access the searched site.\n>> ")
@@ -403,21 +409,87 @@ class Program:
                 if choice_site > 0 and choice_site - 1 in number:
                     return choice_site
                 else:
-                    print(Back.RED + "Selected number not in the given site." + Style.RESET_ALL)
+                    print(Back.RED + "Selected number not in the given site." + rs)
                     sleep(1.5)
                     return False
             except:
-                print(Back.RED + "Please enter a valid number, retry." + Style.RESET_ALL)
+                print(Back.RED + "Please enter a valid number, retry." + rs)
                 sleep(1.5)
                 return False
 
     def sites_list(self, access_password):
         content = self.get_content(self.__data)
-        text = F"""Site: {Fore.MAGENTA + str(len(content)) + Style.RESET_ALL} registered. {Fore.BLUE + "Search" + Style.RESET_ALL} by typing the keyword.\n"""
+        text = F"""Site: {Fore.MAGENTA + str(len(content)) + rs} registered. {Fore.BLUE + "Search" + rs} by typing the keyword.\n"""
         for i in range(len(content)):
             line = decrypt(self.__key, content[i].rstrip("\n")).split(" | ")
-            text += Fore.MAGENTA +"| " + Style.RESET_ALL + str(i+1) +") "  + line[0] + "\n" 
+            text += Fore.MAGENTA +"| " + rs + str(i+1) +") "  + line[0] + "\n" 
         return (text, len(content) + 1)
+
+    def hide_password(self, password: str) -> str:
+        if len(password) < 4:
+            return "*" + password[1:]
+        password = list(password)
+        n_chars = (len(password) // 2) + 1
+        replaced_index = set() 
+        for i in range(n_chars):
+            random_index = randint(0, len(password)-1)
+            while random_index in replaced_index:
+                random_index = randint(0, len(password)-1)
+            replaced_index.add(random_index)
+            password[random_index] = "*"
+        return "".join(password)
+    
+    def highlight_keyword(self, keyword: str, text: str) -> str:
+        return re.sub(keyword,lambda m: Fore.BLUE + m.group(0) + Style.RESET_ALL, text, flags=re.IGNORECASE)
+
+    def passwords_content(self):
+        content = self.get_content(self.__data)
+        indexes = []
+        good_ones = []
+        types = ["Email-Username","password"]
+        print(F"""Search with?\n\t(1) {Fore.MAGENTA + " Email" + rs} - {Fore.MAGENTA + "Username" + rs } \n\t(2) {Fore.MAGENTA + " Password" + rs}\n""")
+        search_choice = None
+        while search_choice not in ["1", "2"]:
+            print("Please choose between (1, 2).")
+            search_choice = input(">>")
+            if search_choice == "":
+                return (False, False)
+        
+
+        type_search = types[int(search_choice) - 1]
+        type_search_index = int(search_choice) 
+        
+        print(f"""Please enter the keyword to find corresponding {Fore.MAGENTA + type_search + rs}""")
+        keyword = ""
+        while keyword in ["", " ", ".", ","]:
+            print("Keyword (has to be valid):")
+            keyword = input(">>")
+
+        
+        print("\n"*200)
+        for i in range(len(content)):
+            line = decrypt(self.__key, content[i].rstrip("\n"))
+            if keyword.upper() in line.split(" | ")[type_search_index].upper():
+                good_ones.append(line)
+                indexes.append(i+1)
+        
+        if type_search_index == 2:
+            hidden_password = self.hide_password(keyword)
+            for i in range(len(good_ones)):
+                pass_content = good_ones[i].split(" | ")
+                good_ones[i] = F"""{Fore.MAGENTA + "|" + rs } {indexes[i]}) {pass_content[0]} | ...~{Fore.MAGENTA + hidden_password + rs}~... """
+
+            print(F"""-> Password Filter : '{Fore.BLUE + hidden_password + rs}' ~ {len(good_ones)} result(s)""")
+        else:
+            for i in range(len(good_ones)):
+                pass_content = good_ones[i].split(" | ")
+                good_ones[i] = F"""{Fore.MAGENTA + "|" + rs } {indexes[i]}) {pass_content[0]} | {self.highlight_keyword(keyword, pass_content[type_search_index])} """
+            print(F"""-> {type_search} Filter : '{Fore.BLUE + keyword + rs}' ~ {len(good_ones)} result(s)""")
+        
+        return (good_ones, indexes)
+            
+
+
     
     def search_in_sites(self, access_password, keyword):
         if keyword in ["", " ", ".", ","]:
@@ -479,9 +551,9 @@ class Program:
             if hashing(answer) == self.get_hashed_answer():
                 break
             else:
-                print(Back.RED + "You didn't give the good answer, please retry" + Style.RESET_ALL)
+                print(Back.RED + "You didn't give the good answer, please retry" + rs)
                 return self.recover_password()
-        print(Fore.GREEN + "Good answer!\n"+ Style.RESET_ALL)
+        print(Fore.GREEN + "Good answer!\n"+ rs)
         old_password = decrypt_extern_password(answer, self.get_coded_password())
         print("Please create a new password and a new question.")
         logs.create_log("CREATION OF PASSWORD STARTED")
@@ -501,7 +573,7 @@ class Program:
 
     def change_access_password(self, from_updator=False):
         def wrong_password():
-            print( Back.RED + "Wrong Password, if you have forgotten your password, type 1, type anything else to retry." + Style.RESET_ALL)
+            print( Back.RED + "Wrong Password, if you have forgotten your password, type 1, type anything else to retry." + rs)
             forgot = input(">> ")
             if forgot == "1":
                 self.recover_password()
@@ -542,7 +614,7 @@ class Program:
             password = pwinput.pwinput(prompt='Password: ')
             confirm_password = pwinput.pwinput(prompt='Confirm Password: ')
             if password == confirm_password: break
-            else: print(f"""\n{Back.RED + "Passwords are differents! Please retry." + Style.RESET_ALL} \n""")
+            else: print(f"""\n{Back.RED + "Passwords are differents! Please retry." + rs} \n""")
         upper = False
         numb = False
         for i in password:
@@ -551,15 +623,15 @@ class Program:
             if i in Numbers:
                 numb = True
         if len(password) < 8:
-            print(f"""\n{Fore.RED + "Password is only " + str(len(password)) + " of lenght, it has to be of 8 characters minimum." + Style.RESET_ALL}""")
+            print(f"""\n{Fore.RED + "Password is only " + str(len(password)) + " of lenght, it has to be of 8 characters minimum." + rs}""")
             return self.create_password(returning)
         elif upper!= True or numb != True:   
             if upper != True:
-                print(f"""\n{Fore.RED + "Your password doesn't include any upper letter, you need at least one" + Style.RESET_ALL}""")
+                print(f"""\n{Fore.RED + "Your password doesn't include any upper letter, you need at least one" + rs}""")
                 return self.create_password(returning)
                 
             elif numb != True:
-                print(f"""\n{Fore.RED + "Your password doesn't include any number, you need at least one" + Style.RESET_ALL}""")
+                print(f"""\n{Fore.RED + "Your password doesn't include any number, you need at least one" + rs}""")
                 return self.create_password(returning)
         else:
         # -------------------------------------- Hash of the AP   
@@ -807,7 +879,7 @@ class SystemRecovery:
             if err == ["KeyFileCorrupted", "MissingFiles"]:
                 troubles += "- KeyFileCorrupted and MissingFiles Error: key.key is missing, program can't run properly.\n"
                 solution.append("CREATE KEY.KEY")
-        print(Back.RED + "################################# ERRORS #################################" + Style.RESET_ALL + "\n\n", troubles)
+        print(Back.RED + "################################# ERRORS #################################" + rs + "\n\n", troubles)
 
         for lines in troubles.split("\n")[:-1]:
             logs.create_log(lines.lstrip("- "))
@@ -817,49 +889,49 @@ class SystemRecovery:
                 while True:
                     print("------------\nDefault has to be repaired otherwise your passwords will be corrupted and the system not useable.")
                     print(f"""{Fore.MAGENTA + "None of your passwords will be lost if you use the same Access Password as before."}""")
-                    choice = input(f"""Do you wish to repair default.txt? {Fore.CYAN + "[Y/n]" + Style.RESET_ALL} """)
+                    choice = input(f"""Do you wish to repair default.txt? {Fore.CYAN + "[Y/n]" + rs} """)
                     if choice == "Y":
                         self.reset_default()
                         print("---------\n default.txt has been repaired, you will have to complete informations next time you start the program.")
                         logs.create_log("default.txt has been repaired")
                         break
                     elif choice == "n":
-                        print(Back.RED + "Error will occure again. Program won't be useable, contact GaecKo#7545 for help." + Style.RESET_ALL)
+                        print(Back.RED + "Error will occure again. Program won't be useable, contact GaecKo#7545 for help." + rs)
                         logs.create_log("default.txt has not been repaired")
                         break
             if sol == "REPAIR HASHED.TXT":
                 while True:
                     print("------------\nHashed has to be repaired otherwise your passwords will be corrupted and the system not useable.")
                     print(Fore.MAGENTA + "None of your passwords will be lost if you use the same Access Password as before.")
-                    choice = input("Do you wish to repair hashed.txt? " + Fore.CYAN + "[Y/n] " + Style.RESET_ALL)
+                    choice = input("Do you wish to repair hashed.txt? " + Fore.CYAN + "[Y/n] " + rs)
                     if choice == "Y":
                         self.reset_hashed()
                         print("hashed.txt has been repaired, you will have to complete informations next time you start the program.")
                         logs.create_log("hashed.txt has been repaired")
                         break
                     elif choice == "n":
-                        print(Back.RED + "Error will occure again. Program won't be useable, contact GaecKo#7545 for help." + Style.RESET_ALL)
+                        print(Back.RED + "Error will occure again. Program won't be useable, contact GaecKo#7545 for help." + rs)
                         logs.create_log("hashed.txt has not been repaired")
                         break
             if sol == "CREATE HASHED.TXT":
                 while True:
                     print("------------\nhashed.txt has to be created, or the program won't run.")
                     print(Fore.MAGENTA + "None of your passwords will be lost if you use the same Access Password as before.")
-                    choice = input("Do you wish to create hashed.txt? "+ Fore.CYAN + "[Y/n] " + Style.RESET_ALL)
+                    choice = input("Do you wish to create hashed.txt? "+ Fore.CYAN + "[Y/n] " + rs)
                     if choice == "Y":
                         self.create_hashed()
                         print("---------\nhashed.txt has been created, you will have to complete informations next time you start the program.")
                         logs.create_log("hashed.txt has been created")
                         break
                     elif choice == "n":
-                        print(Back.RED + "Error will occure again. Program won't be useable." + Style.RESET_ALL)
+                        print(Back.RED + "Error will occure again. Program won't be useable." + rs)
                         logs.create_log("hashed.txt has not been created")
                         break
             if sol == "CREATE DEFAULT.TXT":
                 while True:
                     print("------------\ndefault.txt has to be created, or the program won't run.")
                     print(Fore.MAGENTA + "None of your passwords will be lost if you use the same Access Password as before.")
-                    choice = input(f"""Do you wish to create default.txt? {Fore.CYAN + "[Y/n]" + Style.RESET_ALL} """)
+                    choice = input(f"""Do you wish to create default.txt? {Fore.CYAN + "[Y/n]" + rs} """)
                     if choice == "Y":
                         self.create_default()
                         self.reset_default()
@@ -867,51 +939,51 @@ class SystemRecovery:
                         logs.create_log("default.txt has been created")
                         break
                     elif choice == "n":
-                        print(Back.RED + "Error will occure again. Program won't be useable." + Style.RESET_ALL)
+                        print(Back.RED + "Error will occure again. Program won't be useable." + rs)
                         logs.create_log("default.txt has not been created")
                         break
             if sol == "CREATE DATA.TXT":
                 while True:
                     print("------------\ndata.txt has to be created, or the program won't run.")
-                    choice = input("Do you wish to create data.txt? " + Fore.CYAN + "[Y/n] " + Style.RESET_ALL)
+                    choice = input("Do you wish to create data.txt? " + Fore.CYAN + "[Y/n] " + rs)
                     if choice == "Y":
                         self.create_data()
                         print("---------\ndata.txt has been created, you will have to complete informations next time you start the program.")
                         logs.create_log("data.txt has been created")
                         break
                     elif choice == "n":
-                        print(Back.RED + "Error will occure again. Program won't be useable." + Style.RESET_ALL)
+                        print(Back.RED + "Error will occure again. Program won't be useable." + rs)
                         logs.create_log("data.txt has not been created")
                         break
             if sol == "CREATE KEY.KEY":
                 while True:
                     print("------------\nkey.key has to be created, or the program won't run.")
-                    choice = input("Do you wish to create key.key? " + Fore.CYAN + "[Y/n] " + Style.RESET_ALL)
+                    choice = input("Do you wish to create key.key? " + Fore.CYAN + "[Y/n] " + rs)
                     if choice == "Y":
                         self.create_key()
                         print("---------\nkey.key has been created.")
                         logs.create_log("key.key has been created")
                         break
                     elif choice == "n":
-                        print(Back.RED + "Error will occure again. Program won't be useable." + Style.RESET_ALL)
+                        print(Back.RED + "Error will occure again. Program won't be useable." + rs)
                         logs.create_log("key.key has not been created")
                         break
 
     def hard_reboot(self):
         password = pwinput.pwinput(prompt="Password: ")
         if hashing(password) != self.get_hashed_password():
-            print(Back.RED + "Wrong Password, please restart system to retry." + Style.RESET_ALL)
+            print(Back.RED + "Wrong Password, please restart system to retry." + rs)
             sys.exit()
         verif_password = pwinput.pwinput(prompt="Confirm password: ")
         if hashing(verif_password) != self.get_hashed_password():
-            print(Back.RED + "Wrong Password, please restart system to retry." + Style.RESET_ALL)
+            print(Back.RED + "Wrong Password, please restart system to retry." + rs)
             sys.exit()
         print("\n" * 50)
         print("\n\nHere are the specific actions you can do:")
         action = self.reboot_do()
         if action == 1:
             while True:
-                choice = input(f"""{Back.RED + "Are you sure you want to delete everything? You will loose all your passwords "+ Style.RESET_ALL  + Fore.CYAN + "[Y/n]" + Style.RESET_ALL} """)
+                choice = input(f"""{Back.RED + "Are you sure you want to delete everything? You will loose all your passwords "+ rs  + Fore.CYAN + "[Y/n]" + rs} """)
                 if choice == "Y":
                     print("deleting...")
                     self.reset_data()
@@ -923,7 +995,7 @@ class SystemRecovery:
                     break
         if action == 2:
             while True:
-                choice = input(f"""{Back.RED + "Are you sure you want to delete all your passwords? "  + Style.RESET_ALL +Fore.CYAN + "[Y/n]" + Style.RESET_ALL} """)
+                choice = input(f"""{Back.RED + "Are you sure you want to delete all your passwords? "  + rs +Fore.CYAN + "[Y/n]" + rs} """)
                 if choice in ["Y", "y"]:
                     print("deleting...")
                     self.reset_data()
@@ -932,7 +1004,7 @@ class SystemRecovery:
                     break
         if action == 3:
             while True:
-                choice = input(f"""Are you sure you want to reset all informations? {Back.RED + "You will loose all your passwords " +Style.RESET_ALL + Fore.CYAN + "[Y/n]" + Style.RESET_ALL} """)
+                choice = input(f"""Are you sure you want to reset all informations? {Back.RED + "You will loose all your passwords " +rs + Fore.CYAN + "[Y/n]" + rs} """)
                 if choice in ["Y", "y"]:
                     print("Reseting...")
                     self.reset_default()

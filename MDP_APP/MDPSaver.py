@@ -149,8 +149,8 @@ if __name__ == "__main__":
                         print("\n" * 200)
                         go = True
                         leave = True
-                        break
-        
+                        break            
+
         if choice == 2:
             print(f"""\n------------------------\nYou are here to {Fore.GREEN + "add" +Style.RESET_ALL} the password of a specific site. (Type {Fore.RED + "back" + Style.RESET_ALL} to leave.)""")
             i = 0
@@ -173,6 +173,21 @@ if __name__ == "__main__":
                 break
         
         if choice == 3:
+            (lines, indexes) = program.passwords_content()
+            if (lines, indexes) == (False, False):
+                continue
+            if len(lines) == 0:
+                print(F"""{Back.RED + "No result found with this filter.. Please retry"}""")
+                sleep(1.5)
+                continue 
+            print(F"""Site Filter: {Fore.MAGENTA + str(len(lines)) + rs} corresponding site(s).""")
+            for i in range(len(lines)):
+                print(lines[i])
+            print(Fore.CYAN + " \tPress any key to leave")
+            input()
+            continue
+
+        if choice == 4:
             password = program.generate_password(program.choose_security_level_password())
             if password == None:
                 continue
@@ -201,7 +216,7 @@ if __name__ == "__main__":
                     print("\n" * 200)
                     break
         
-        if choice == 4:
+        if choice == 5:
             print("\n------------------------\nPlease write down your new Username")
             new_username = input("\n>> ")
             good_one = program.confirm_username(new_username)
@@ -209,7 +224,7 @@ if __name__ == "__main__":
             print("\n")
             print(f"Here you go {program.get_username()}, your username has been changed.")
 
-        if choice == 5:
+        if choice == 6:
             print("\n------------------------\nAccessing Password modification...")
             program.change_access_password()
             while True:
@@ -220,15 +235,15 @@ if __name__ == "__main__":
                 else:
                     print(Back.RED + "Wrong password, please try again." + Style.RESET_ALL + "")
        
-        if choice == 6:
+        if choice == 7:
             program.tutorial() # TODO: Adapt to new param
         
-        if choice == 7:
+        if choice == 8:
             print(Back.BLUE + f"See you soon {program.get_username()}!")
             sleep(1.5)
             break
 
-        if choice == 8:
+        if choice == 9:
             recovery.hard_reboot() 
     
     errors = recovery.error()

@@ -2,6 +2,12 @@ venv/
 
 *.pyc
 __pycache__/
+default.txt
+data.txt
+key.key
+hashed.txt
+logs.txt
+
 
 instance/
 

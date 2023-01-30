@@ -1,10 +1,21 @@
+# author: Arthur De Neyer - GaecKo
+# last update: check github (https://github.com/GaecKo/MDPSaver)
+#           ==== ⚠ DISCLAIMER ⚠ ====
+# This code is not suitable for professional use. As of the current state of the code, this 
+# whole program is not sustainable and thus depreciated. 
+# 
+# If you wish to rebuilt the program, feel free to do it and I'll check the PR! 
+#
+# This part of the code concernes the security of the program. It uses verified and secured methods of famous modules (listed in the imports just below). 
+# In case of any suspicion on the system reliability and security, please open a new Issue on github. 
+
 import sys, os, base64
 from Crypto.Hash import SHA256
 from MDPLogs.logs import Log
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from colorama import Back, Style, init
+from colorama import Back, Style, init, Fore
 
 init(autoreset=True)
 
@@ -39,6 +50,7 @@ def encrypt(key, to_encrypt: str) -> str:
         logs.create_log("There was an internal error [FATAL]. (Cryptography) Key.Key changes?")
         print(Back.RED + "There was an internal error [FATAL]. (Cryptography).If you wish to repair this fatal error, you must contact dev team:" + Style.RESET_ALL)
         print("\ngaecko8@gmail.com\n")
+        print(Fore.RED + "PLEASE FIRST TRY TO RELAUNCH THE SITE AND CHECK IF IT IS WORKING. IF NOT:")
         print(f"""Please provide {Back.BLUE + "key.key" + Style.RESET_ALL} file located in {Back.CYAN + "./MDPCrypto/key/key.key" + Style.RESET_ALL} and {Back.BLUE + "logs.txt" + Style.RESET_ALL} located in {Back.CYAN + "./MDPLogs/log_file/logs.txt" + Style.RESET_ALL}""")
         print("The program won't work until devs find a solution...")
 
@@ -51,6 +63,7 @@ def decrypt(key, to_decrypt: str) -> str:
         logs.create_log("There was an internal error [FATAL]. (Cryptography) Key.Key changes?")
         print(Back.RED + "There was an internal error [FATAL]. (Cryptography).If you wish to repair this fatal error, you must contact dev team:" + Style.RESET_ALL)
         print("\ngaecko8@gmail.com\n")
+        print(Fore.RED + "PLEASE FIRST TRY TO RELAUNCH THE SITE AND CHECK IF IT IS WORKING. IF NOT:")
         print(f"""Please provide {Back.BLUE + "key.key" + Style.RESET_ALL} file located in {Back.CYAN + "./MDPCrypto/key/key.key" + Style.RESET_ALL} and {Back.BLUE + "logs.txt" + Style.RESET_ALL} located in {Back.CYAN + "./MDPLogs/log_file/logs.txt" + Style.RESET_ALL}""")
         print("The program won't work until devs find a solution...")
 
@@ -82,6 +95,7 @@ def encrypt_extern_password(password:str, to_encrypt: str) -> str:
         logs.create_log("There was an internal error [FATAL]. (Cryptography) Key.Key changes?")
         print(Back.RED + "There was an internal error [FATAL]. (Cryptography).If you wish to repair this fatal error, you must contact dev team:" + Style.RESET_ALL)
         print("\ngaecko8@gmail.com\n")
+        print(Fore.RED + "PLEASE FIRST TRY TO RELAUNCH THE SITE AND CHECK IF IT IS WORKING. IF NOT:")
         print(f"""Please provide {Back.BLUE + "key.key" + Style.RESET_ALL} file located in {Back.CYAN + "./MDPCrypto/key/key.key" + Style.RESET_ALL} and {Back.BLUE + "logs.txt" + Style.RESET_ALL} located in {Back.CYAN + "./MDPLogs/log_file/logs.txt" + Style.RESET_ALL}""")
         print("The program won't work until devs find a solution...")
 
@@ -102,6 +116,7 @@ def decrypt_extern_password(password:str, to_decrypt: str) -> str:
         logs.create_log("There was an internal error [FATAL]. (Cryptography) Key.Key changes?")
         print(Back.RED + "There was an internal error [FATAL]. (Cryptography).If you wish to repair this fatal error, you must contact dev team:" + Style.RESET_ALL)
         print("\ngaecko8@gmail.com\n")
+        print(Fore.RED + "PLEASE FIRST TRY TO RELAUNCH THE SITE AND CHECK IF IT IS WORKING. IF NOT:")
         print(f"""Please provide {Back.BLUE + "key.key" + Style.RESET_ALL} file located in {Back.CYAN + "./MDPCrypto/key/key.key" + Style.RESET_ALL} and {Back.BLUE + "logs.txt" + Style.RESET_ALL} located in {Back.CYAN + "./MDPLogs/log_file/logs.txt" + Style.RESET_ALL}""")
         print("The program won't work until devs find a solution...")
 

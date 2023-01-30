@@ -1,3 +1,13 @@
+# author: Arthur De Neyer - GaecKo
+# last update: check github (https://github.com/GaecKo/MDPSaver)
+#           ==== ⚠ DISCLAIMER ⚠ ====
+# This code is not suitable for professional use. As of the current state of the code, this 
+# whole program is not sustainable and thus depreciated. 
+# 
+# If you wish to rebuilt the program, feel free to do it and I'll check the PR! 
+
+# This code simply creates logs for the program
+
 import time as t
 
 class Log:

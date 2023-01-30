@@ -1,3 +1,12 @@
+# author: Arthur De Neyer - GaecKo
+# last update: check github (https://github.com/GaecKo/MDPSaver)
+#           ==== ⚠ DISCLAIMER ⚠ ====
+# This code is not suitable for professional use. As of the current state of the code, this 
+# whole program is not sustainable and thus depreciated. 
+# 
+# If you wish to rebuilt the program, feel free to do it and I'll check the PR! 
+
+
 from program import *
 from MDPCrypto.Crypt import hashing, get_salt, generate_salt
 from time import sleep
@@ -20,7 +29,7 @@ if __name__ == "__main__":
     try: first = program.first()
     except: recovery.error_resolution(recovery.error()); sys.exit()
     if program.first():
-        print("Hello stranger, it seems like it's the first time we see you out here. \nWhat's your username? ")
+        print(f"""Hello stranger, it seems like it's the first time we see you out here. \nWhat's your {Fore.BLUE + "username" + rs}? """)
         program.set_username(input("\n\n>> "))
         print()
         program.program_first()
@@ -173,12 +182,17 @@ if __name__ == "__main__":
                 break
         
         if choice == 3:
+            if program.get_props() == False: 
+                print(Back.RED + "Please first add passwords to filter them.")
+                sleep(1.5)
+                continue
+
             (lines, indexes) = program.passwords_content()
             if (lines, indexes) == (False, False):
                 continue
             if len(lines) == 0:
                 print(F"""{Back.RED + "No result found with this filter.. Please retry"}""")
-                sleep(1.5)
+                sleep(2)
                 continue 
             print(F"""Site Filter: {Fore.MAGENTA + str(len(lines)) + rs} corresponding site(s).""")
             for i in range(len(lines)):

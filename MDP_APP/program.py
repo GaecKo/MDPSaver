@@ -1,3 +1,11 @@
+# author: Arthur De Neyer - GaecKo
+# last update: check github (https://github.com/GaecKo/MDPSaver)
+#           ==== ⚠ DISCLAIMER ⚠ ====
+# This code is not suitable for professional use. As of the current state of the code, this 
+# whole program is not sustainable and thus depreciated. 
+# 
+# If you wish to rebuilt the program, feel free to do it and I'll check the PR! 
+
 from random import randint
 from MDPCrypto.Crypt import *
 from MDPLogs.logs import Log
@@ -38,22 +46,24 @@ class Program:
     2) {Back.LIGHTBLUE_EX + "Add a password" + rs} -> a) Add the name of the site (Facebook, Insta,..)
                         b) Add your username / email (username@coolguy.me)
                         c) Add the password of your account 
+    
+    3) {Back.MAGENTA + "Filter Search" + rs} -> Search for all site with a given username-email / password corresponding. 
 
-    3) {Back.LIGHTBLUE_EX + "Generate a random password" + rs} -> a) {Fore.GREEN + "Weak password" + rs} (only letters + numbers | size 8~12)
+    4) {Back.LIGHTBLUE_EX + "Generate a random password" + rs} -> a) {Fore.GREEN + "Weak password" + rs} (only letters + numbers | size 8~12)
                                     b) {Fore.YELLOW + "Medium password" + rs} (letters + numbers + symbols | size 10~20)
                                     c) {Fore.MAGENTA + "Strong password" + rs} (long + letters + numbers + symbols | size 15~25)
                                     d) {Fore.CYAN + "Custom password" + rs} (choose caracteristics)
                                 -> You will then be able to save it if you wish so!
 
-    4) {Back.LIGHTBLUE_EX + "Change Username" + rs} -> to rename yourself
+    5) {Back.LIGHTBLUE_EX + "Change Username" + rs} -> to rename yourself
     
-    5) {Back.LIGHTBLUE_EX + "Change Password" + rs} -> With some verification, you will be able to change your password
+    6) {Back.LIGHTBLUE_EX + "Change Password" + rs} -> With some verification, you will be able to change your password
     
-    6) {Back.LIGHTBLUE_EX + "Tutorial" + rs} -> You're in ;)
+    7) {Back.LIGHTBLUE_EX + "Tutorial" + rs} -> You're in ;)
     
-    7) {Back.LIGHTBLUE_EX + "Exit the program" + rs} -> Simply stops the program and make sure everything is fine and ready for next time
+    8) {Back.LIGHTBLUE_EX + "Exit the program" + rs} -> Simply stops the program and make sure everything is fine and ready for next time
 
-    8) {Back.LIGHTBLUE_EX + "System settings" + rs} -> To try to debug the programs if troubles went to happen
+    9) {Back.LIGHTBLUE_EX + "System settings" + rs} -> To try to debug the programs if troubles went to happen
     
     If you have any {Fore.CYAN + "recommendations" + rs}/{Fore.GREEN + "tips" + rs}/{Fore.RED + "bugs" + rs}, please contact me on discord: GaecKo#7545
         """)
@@ -67,20 +77,24 @@ class Program:
             stri = f"""~> {Fore.RED + str(saved)} saved password""" +rs+ "!"
         else:
             stri = ""
+        
+        L = Fore.MAGENTA +  "|" + rs
+        B = " - - - - - - - - - - - - - -" 
 
         print(
             f"""
-    What do you want to do?
-    -----------------------
-    | 1) {Fore.BLUE + "Access" + rs} my Passwords                                        
-    | 2) {Fore.GREEN + "Add" + rs} a Password {Fore.LIGHTGREEN_EX + "+" + rs}               {Fore.LIGHTRED_EX + "╭━╮╭━┳━━━┳━━━╮╭━━━┳━━━┳╮╱╱╭┳━━━┳━━━╮" + rs}
-    | 3) {Fore.MAGENTA + "Filter" + rs} Search                  {Fore.LIGHTRED_EX + "┃┃╰╯┃┣╮╭╮┃╭━╮┃┃╭━╮┃╭━╮┃╰╮╭╯┃╭━━┫╭━╮┃" + rs}
-    | 4) {Fore.CYAN + "Generate" + rs} Random Password       {Fore.LIGHTRED_EX + "┃╭╮╭╮┃┃┃┃┃╰━╯┃┃╰━━┫┃╱┃┣╮┃┃╭┫╰━━┫╰━╯┃" + rs}
-    | 5) Change UserName {Fore.YELLOW + "/..." + rs}           {Fore.LIGHTRED_EX + "┃┃┃┃┃┃┃┃┃┃╭━━╯╰━━╮┃╰━╯┃┃╰╯┃┃╭━━┫╭╮╭╯" + rs}
-    | 6) Change Access Password {Fore.LIGHTRED_EX + "***" + rs}     {Fore.LIGHTRED_EX + "┃┃┃┃┃┣╯╰╯┃┃╱╱╱┃╰━╯┃╭━╮┃╰╮╭╯┃╰━━┫┃┃╰╮" + rs}
-    | 7) Tutorial / Help {Fore.LIGHTCYAN_EX + "?" + rs}              {Fore.LIGHTRED_EX + "╰╯╰╯╰┻━━━┻╯╱╱╱╰━━━┻╯╱╰╯╱╰╯╱╰━━━┻╯╰━╯" + rs}
-    | 8) Exit {Fore.RED + "->/" + rs}                         {stri}
-    | 9) System Settings"""
+    {B}
+    {L} 1) {Fore.BLUE + "Access" + rs} my Passwords                                        
+    {L} 2) {Fore.GREEN + "Add" + rs} a Password {Fore.LIGHTGREEN_EX + "+" + rs}               {Fore.LIGHTRED_EX + "╭━╮╭━┳━━━┳━━━╮╭━━━┳━━━┳╮╱╱╭┳━━━┳━━━╮" + rs}
+    {L} 3) {Fore.MAGENTA + "Filter" + rs} Search                  {Fore.LIGHTRED_EX + "┃┃╰╯┃┣╮╭╮┃╭━╮┃┃╭━╮┃╭━╮┃╰╮╭╯┃╭━━┫╭━╮┃" + rs}
+    {L} 4) {Fore.CYAN + "Generate" + rs} Random Password       {Fore.LIGHTRED_EX + "┃╭╮╭╮┃┃┃┃┃╰━╯┃┃╰━━┫┃╱┃┣╮┃┃╭┫╰━━┫╰━╯┃" + rs}
+    {L} 5) Change UserName {Fore.YELLOW + "/..." + rs}           {Fore.LIGHTRED_EX + "┃┃┃┃┃┃┃┃┃┃╭━━╯╰━━╮┃╰━╯┃┃╰╯┃┃╭━━┫╭╮╭╯" + rs}
+    {L} 6) Change Access Password {Fore.LIGHTRED_EX + "***" + rs}     {Fore.LIGHTRED_EX + "┃┃┃┃┃┣╯╰╯┃┃╱╱╱┃╰━╯┃╭━╮┃╰╮╭╯┃╰━━┫┃┃╰╮" + rs}
+    {L} 7) Tutorial / Help {Fore.LIGHTCYAN_EX + "?" + rs}              {Fore.LIGHTRED_EX + "╰╯╰╯╰┻━━━┻╯╱╱╱╰━━━┻╯╱╰╯╱╰╯╱╰━━━┻╯╰━╯" + rs}
+    {L} 8) Exit {Fore.RED + "->/" + rs}                         {stri}
+    {L} 9) System Settings
+    {B}
+    """
         )
         choice = input(">> ")
         try:
@@ -235,8 +249,8 @@ class Program:
                 print("Getting to the tutorial...")
                 sleep(1)
                 print("\n"*50)
-                print(f"When you will start the program next time, you will be asked your AP (access password that you will create in a few moments)\n which defines the password that controls all of your password, this password if very powerfull so choose it carefully!\n If you forget it, you will be able to recover your other passwords by answering a question you are going to create just after this tutorial.")
                 self.tutorial()
+                print(f"When you will start the program next time, you will be asked your AP (access password that you will create in a few moments)\n which defines the password that controls all of your password, this password if very powerfull so choose it carefully!\n If you forget it, you will be able to recover your other passwords by answering a question you are going to create just after this tutorial.")
                 break
             elif choice == 2:
                 print("Going back to the initial place...")
@@ -247,7 +261,7 @@ class Program:
             print(f""" | (2): {Fore.RED + "No"}""")
             print()
             choice = int(input(">> "))
-        print("\n - - - - - - - - - - - - - - - - - - - - - -\nAs it's the first time you log in, you have to create an access password. ")
+        print(f"""\n - - - - - - - - - - - - - - - - - - - - - -\nAs it's the first time you log in, you have to create an {Fore.GREEN + "access password" + rs}. """)
         self.create_password()
         logs.create_log("CREATION OF SALT FOR CRYPTO")
         logs.create_log("CREATION OF PASSWORD STARTED")
@@ -426,8 +440,10 @@ class Program:
         return (text, len(content) + 1)
 
     def hide_password(self, password: str) -> str:
-        if len(password) < 4:
+        if len(password) < 4 and len(password) > 1:
             return "*" + password[1:]
+        elif len(password) == 1:
+            return password
         password = list(password)
         n_chars = (len(password) // 2) + 1
         replaced_index = set() 
@@ -463,7 +479,10 @@ class Program:
         keyword = ""
         while keyword in ["", " ", ".", ","]:
             print("Keyword (has to be valid):")
-            keyword = input(">>")
+            if type_search == "password": 
+                keyword = pwinput.pwinput(prompt=">>")
+            else:
+                keyword = input(">>")
 
         
         print("\n"*200)
@@ -477,7 +496,7 @@ class Program:
             hidden_password = self.hide_password(keyword)
             for i in range(len(good_ones)):
                 pass_content = good_ones[i].split(" | ")
-                good_ones[i] = F"""{Fore.MAGENTA + "|" + rs } {indexes[i]}) {pass_content[0]} | ...~{Fore.MAGENTA + hidden_password + rs}~... """
+                good_ones[i] = F"""{Fore.MAGENTA + "|" + rs } {indexes[i]}) {pass_content[0]} | {Fore.MAGENTA + ".. " +  hidden_password + " .." + rs}"""
 
             print(F"""-> Password Filter : '{Fore.BLUE + hidden_password + rs}' ~ {len(good_ones)} result(s)""")
         else:
@@ -486,11 +505,9 @@ class Program:
                 good_ones[i] = F"""{Fore.MAGENTA + "|" + rs } {indexes[i]}) {pass_content[0]} | {self.highlight_keyword(keyword, pass_content[type_search_index])} """
             print(F"""-> {type_search} Filter : '{Fore.BLUE + keyword + rs}' ~ {len(good_ones)} result(s)""")
         
+        logs.create_log(f"{type_search.upper()} USED TO SEARCH AND FILTER SITES")
         return (good_ones, indexes)
             
-
-
-    
     def search_in_sites(self, access_password, keyword):
         if keyword in ["", " ", ".", ","]:
             return (False, False)
@@ -561,7 +578,9 @@ class Program:
         self.change_hashed_password(new)
         self.change_encryptd_data(old_password, new)
         logs.create_log("RECOVERING PASSWORD SUCCESS")
-        return new
+        print(Back.RED + "PLEASE RESTART THE PROGRAM. " + rs)
+        sleep(3)
+        sys.exit()
     
     def change_encryptd_data(self, old, new):
         content = self.get_content(self.__data)
@@ -608,7 +627,7 @@ class Program:
     def create_password(self, returning=False):
         letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
         Numbers = ["0", "1", "2", "3", "4", "5",  "6", "7", "8", "9"]
-        print("Your password needs at least 1 number, one upper letter, and a minimum length of 8 characters.")
+        print(f"""Your password needs at least {Fore.RED + "1 number" + rs}, {Fore.RED + "1 upper letter" + rs}, and a minimum length of {Fore.RED + "8 characters" + rs}.""")
         print("- - - - - - - - - - - - - - - - - - - - - - \n")
         while True: 
             password = pwinput.pwinput(prompt='Password: ')
@@ -674,7 +693,7 @@ class Program:
             content = self.get_content(self.__default) 
             content[3] = "serial_nbr:" + self.create_serial_number(password)
             self.write_content(content, self.__default)
-        # -------------------------------------- Add of the question in default.txt
+        # -------------------------------------- Add the question in default.txt
             content = self.get_content(self.__default)
             content[2] = "question:"+ question + "\n"
             self.write_content(content, self.__default)

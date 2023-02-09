@@ -20,6 +20,7 @@ Status:  `▰▰▰▰▰▰▰▰▰▰ 100%`
     - [<ins> Windows Executable (.exe) </ins>](#-ins--windows-executable--exe-------ins-)
     - [<ins> Python Script (.py) </ins> ](#-ins--python-script---ins----python--git-files-pythonico-)
 * [Update](#update)
+* [Update notice](#update-notice)
 * [Walkthrough](#walkthrough)
     - [<ins> Starting Screen </ins>](#-ins--starting-screen---ins-)
     - [<ins> Main Menu </ins>](#-ins--main-menu---ins-)
@@ -35,6 +36,7 @@ Status:  `▰▰▰▰▰▰▰▰▰▰ 100%`
     - [<ins> With **50 passwords** :</ins>](#-ins--with---50-passwords------ins-)
     - [<ins> With **100 passwords** :</ins>](#-ins--with---100-passwords------ins-)
     - [<ins> How I did it (*story time*): </ins>](#-ins--how-i-did-it---story-time------ins-)
+* [Notes](#notes)
 
 
 ****
@@ -79,6 +81,13 @@ Or follow these steps:
 
 ## Update
 * If you used last version of MDPSaver, here is a [video](https://www.youtube.com/watch?v=y8biYrRKB9s) on how to update your old data to the new MDPSaver.  
+
+****
+
+## Update notice
+I have been working on a new functionnality just recently called "Search Filter" which allows you to filter and show site with corresponding password / email / username. It's usefull if you wish for example to see all the sites that have the same password / ... .
+
+It's only available on the python version. Please also check [Notes](#notes) for more information. 
 
 ****
 
@@ -212,3 +221,20 @@ Here is a walkthrough of the app
     -> = 380 000 + n iterations for all of the password!
     ```
     That's how it went from `78 ms` per password to `0.24 ms`, so about `325x` quicker! Of course, as the key is loaded once, you can add / load passwords thousand of times, in the same instance of the program, and you will have almost no encryption / decryption time. 
+
+
+## Notes 
+
+* The new functionnality won't be added to the .exe version, as it would require to recompile the whole program.
+
+* Also, as you can see within the python files:
+
+    ```txt
+            ==== ⚠ DISCLAIMER ⚠ ====
+    This code is not suitable for professional use. As of the current state of the code, this 
+    whole program is not sustainable and thus depreciated. 
+    
+    If you wish to rebuilt the program, feel free to do it and I'll check the PR! 
+    ```
+
+    This means that I won't work on this project anymore. I might add some new features, but I won't work on the code itself. 

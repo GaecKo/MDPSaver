@@ -54,20 +54,20 @@ if __name__ == "__main__":
         if hashing(given_password) == program.get_hashed_password():
             print("Good password")
             print("\n" * 200)
-            program.add_key(given_password)
             break
         else:
             print(Back.RED + "Bad password, have you forgotten your password? (type 1 if so)" + Style.RESET_ALL + "")
             given_password = pwinput.pwinput(prompt='Password: ')
             while given_password != "1" and hashing(given_password) != program.get_hashed_password():
                 print(Back.RED + "Bad password, have you forgotten your password? (type 1 if so)" + Style.RESET_ALL + "")
-                given_password = input(">> ")
+                given_password = pwinput.pwinput(prompt='Password: ')
             if given_password == "1":
                 given_password = program.recover_password()
             else:
                 print("\n" * 200)
                 break
-        program.check_data()
+    program.add_key(given_password)
+    program.check_data()
 
     while recovery.error():
         print("\n" * 200)

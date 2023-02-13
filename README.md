@@ -1,5 +1,13 @@
 # <ins> MDPSaver</ins> v1.0.0 ![Python](.git_files/python.ico) ![Windows](.git_files/Windows.ico)
 
+<p align="center">
+	<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/GaecKo/MDPSaver?color=lightblue" />
+	<img alt="Number of lines of code" src="https://img.shields.io/tokei/lines/github/GaecKo/MDPSaver?color=critical" />
+	<img alt="Code language count" src="https://img.shields.io/github/languages/count/GaecKo/MDPSaver?color=yellow" />
+	<img alt="GitHub top language" src="https://img.shields.io/github/languages/top/GaecKo/MDPSaver?color=blue" />
+	<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/GaecKo/MDPSaver?color=green" />
+</p>
+
 Welcome to my **Password Manager App.** 
 
 [![Support via PayPal](https://cdn.rawgit.com/twolfson/paypal-github-button/1.0.0/dist/button.svg)](https://paypal.me/ArthurDeNeyer?country.x=BE&locale.x=fr_FR) 

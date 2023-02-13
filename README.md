@@ -1,4 +1,4 @@
-# <ins> MDPSaver</ins> v1.0.0 ![Python](.git_files/python.ico) ![Windows](.git_files/Windows.ico)
+# <h1 align="center"><ins> MDPSaver</ins> v1.0.1 ![Python](.git_files/python.ico) ![Windows](.git_files/Windows.ico)</h1>
 
 <p align="center">
 	<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/GaecKo/MDPSaver?color=lightblue" />
@@ -7,11 +7,16 @@
 	<img alt="GitHub top language" src="https://img.shields.io/github/languages/top/GaecKo/MDPSaver?color=blue" />
 	<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/GaecKo/MDPSaver?color=green" />
 </p>
+<h1 align="center">
+Welcome to my **Password Manager App**.
+</h1>
 
-Welcome to my **Password Manager App.** 
-
+<h1 align="right">
 [![Support via PayPal](https://cdn.rawgit.com/twolfson/paypal-github-button/1.0.0/dist/button.svg)](https://paypal.me/ArthurDeNeyer?country.x=BE&locale.x=fr_FR) 
-    
+</h1>
+
+****
+
 ### <ins> Introduction </ins> 
 This app makes it easy for you to:
 * **Add** your passwords

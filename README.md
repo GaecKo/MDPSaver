@@ -8,14 +8,14 @@
 	<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/GaecKo/MDPSaver?color=green" />
 </p>
 <h1 align="center">
-Welcome to my **Password Manager App**.
-</h1>
 
-<h1 align="right">
 [![Support via PayPal](https://cdn.rawgit.com/twolfson/paypal-github-button/1.0.0/dist/button.svg)](https://paypal.me/ArthurDeNeyer?country.x=BE&locale.x=fr_FR) 
+
 </h1>
 
 ****
+
+**🔑 Welcome to my Password Manager App.**
 
 ### <ins> Introduction </ins> 
 This app makes it easy for you to:

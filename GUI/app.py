@@ -5,8 +5,8 @@ from PIL import ImageTk, Image
 
 
 
-ctk.set_appearance_mode("light")  # Modes: system (default), light, dark
-ctk.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
+ctk.set_appearance_mode("dark")  # Modes: system (default), light, dark
+ctk.set_default_color_theme("dark-blue")  # Themes: blue (default), dark-blue, green
 
 class Login:
     def __init__(self, master: ctk.CTk) -> None:
@@ -25,14 +25,16 @@ class Login:
             self.tr = ctk.AppearanceModeTracker()
         if self.tr.get_mode() == 0:
             ctk.set_appearance_mode("dark")
+            self.ldb.configure(text="Light")
         else:
             ctk.set_appearance_mode("light")
+            self.ldb.configure(text="Dark")
 
     def components(self):
 
     
-        self.mode = ctk.CTkImage(Image.open("sun.png").resize((20,20), Image.LANCZOS), Image.open("moon.png").resize((20,20), Image.LANCZOS), )
-        self.ldb = ctk.CTkButton(master=self.master, image=self.mode, text="Dark", 
+        self.mode = ctk.CTkImage(Image.open("moon.png").resize((20,20), Image.LANCZOS), Image.open("sun.png").resize((20,20), Image.LANCZOS))
+        self.ldb = ctk.CTkButton(master=self.master, image=self.mode, text="Light", 
                                 width=30, height=20, compound="left", fg_color='white', 
                                 text_color='black', hover_color='#AFAFAF', command=self.manage_mode)
 
@@ -47,18 +49,26 @@ class Login:
                     width=300, height=400)
         self.f1.place(relx=0.5, rely=0.5, anchor='center')
 
-        self.user = ctk.CTkImage(Image.open("user.png").resize((100,100), Image.LANCZOS))
+        self.user = ImageTk.PhotoImage(Image.open("user2.png").resize((100, 100), Image.LANCZOS))
+        
+        self.l2 = ctk.CTkLabel(master=self.f1, image=self.user, width=100, height=100, text="")
+        self.l2.place(relx=0.5, rely=0.23, anchor='center')
 
-        self.l2 = ctk.CTkLabel(master=self.f1, image=self.user, width=100, height=100)
-        self.l2.place(relx=0.5, rely=0.2, anchor='center')
+        self.l3 = ctk.CTkLabel(master=self.f1, width=100, height=20, text="GaecKo", font=("Lucida Console", 20), text_color="red")
+        self.l3.place(relx=0.5, rely=0.48, anchor='center')
+
+        
 
         self.e1 = ctk.CTkEntry(master=self.f1, width=220, placeholder_text='Password', show="*")
-        self.e1.place(relx=0.5, rely=0.5, anchor='center')
-
+        self.e1.place(relx=0.5, rely=0.65, anchor='center')
+        self.e1.bind("<Return>", self.alert_end)
 
         self.b1 = ctk.CTkButton(master=self.f1, 
                     width=220, text="Login", corner_radius=6)
         self.b1.place(relx=0.5, rely=0.8, anchor='center')
+
+    def alert_end(self, event):
+        print(f"User has logged in (event : {event})")
 
     def start(self):
         self.master.mainloop() 

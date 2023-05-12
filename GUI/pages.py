@@ -2,7 +2,8 @@ from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, parent=None):
+    def __init__(self, controller, parent=None):
+        self.controller = controller 
         super(MainWindow, self).__init__(parent)
 
         self.setWindowTitle("MDPSaver")

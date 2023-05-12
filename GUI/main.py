@@ -9,11 +9,10 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setStyleSheet(open("styles.css").read())
 
-    # login_page = LoginPage()
+    login_page = LoginPage()
     main_window = MainWindow()
 
-    # login_page.successful_login.connect(main_window.show)
-    # login_page.show()
-    main_window.show()
+    login_page.successful_login.connect(main_window.show)
+    login_page.show()
 
     sys.exit(app.exec())

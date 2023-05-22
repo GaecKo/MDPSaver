@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
 from PySide6.QtCore import Signal
-from MDPDatabase.controller import Controller
+from controller import Controller
 
 class LoginPage(QDialog):
     successful_login = Signal()

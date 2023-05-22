@@ -14,22 +14,10 @@ from Crypto.Hash import SHA256
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from colorama import Back, Style, init, Fore
 
-init(autoreset=True)
 
-def generate_salt():
-    with open("key/key.key", 'wb') as file:
-        file.write(os.urandom(16))
-
-def get_salt():
-    with open("key/key.key", 'rb') as file:
-        salt = file.read()
-    return salt
-
-def load_key(password):
+def load_key(password, salt) -> bytes:
     password = password.encode()
-    salt = get_salt()
     kdf = PBKDF2HMAC(
     algorithm=hashes.SHA256(),
     length=32,
@@ -38,13 +26,13 @@ def load_key(password):
     key = base64.urlsafe_b64encode(kdf.derive(password))
     return key
 
-def encrypt(key, to_encrypt: str) -> str:
+def encrypt(key: bytes, to_encrypt: str) -> str:
     f = Fernet(key)
     token = f.encrypt(to_encrypt.encode())
     return token.decode()
 
 
-def decrypt(key, to_decrypt: str) -> str:
+def decrypt(key: bytes, to_decrypt: str) -> str:
     f = Fernet(key)
     decrypted = f.decrypt(to_decrypt.encode())
     return decrypted.decode()
@@ -61,10 +49,9 @@ def try_decrypt(key, to_decrypt):
     except:
         return False
 
-def encrypt_extern_password(password:str, to_encrypt: str) -> str:
+def encrypt_extern_password(password:str, to_encrypt: str, salt) -> str:
 
     password = password.encode()
-    salt = get_salt()
     kdf = PBKDF2HMAC(
     algorithm=hashes.SHA256(),
     length=32,
@@ -75,10 +62,9 @@ def encrypt_extern_password(password:str, to_encrypt: str) -> str:
     token = f.encrypt(to_encrypt.encode())
     return token.decode()
 
-def decrypt_extern_password(password:str, to_decrypt: str) -> str:
+def decrypt_extern_password(password:str, to_decrypt: str, salt) -> str:
 
     password = password.encode()
-    salt = get_salt()
     kdf = PBKDF2HMAC(
     algorithm=hashes.SHA256(),
     length=32,

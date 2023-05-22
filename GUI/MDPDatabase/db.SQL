@@ -1,3 +1,7 @@
+DROP TABLE IF EXISTS Password;
+DROP TABLE IF EXISTS User;
+DROP TABLE IF EXISTS UserSecurity;
+
 CREATE TABLE Password (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   site TEXT,
@@ -13,10 +17,11 @@ CREATE TABLE User (
 );
 
 CREATE TABLE UserSecurity (
-  userId INTEGER,
+  username TEXT PRIMARY KEY,
   hashed_password TEXT,
   hashed_answer TEXT,
   encrypted_password TEXT,
   encrypted_question TEXT,
-  FOREIGN KEY(userId) REFERENCES User(id)
+  salt BINARY,
+  FOREIGN KEY(username) REFERENCES User(username)
 );

@@ -79,7 +79,7 @@ class Controller:
         return True
     
     def check_login(self, password):
-        return hashing(password) == self.db.get_hashed_password()
+        return hashing(password) == self.db.get_user_security("hashed_password")
 
     def kill_db(self):
         print("KILLED DB")
@@ -99,8 +99,10 @@ class Recover(Controller):
 
         return question
     
-    def check_answer(self, answer):
+    def verify_answer(self, answer):
         print(hashing(answer))
         print(super().get_hashed_answer())
         return hashing(answer) == super().get_hashed_answer()
+    
+    
     

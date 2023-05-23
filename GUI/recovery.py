@@ -10,19 +10,25 @@ class RecoveryPage(QDialog):
 
         self.controller = controller
         self.recover = Recover()
+        self.good_answer = None # will be set to the good answer
 
         super(RecoveryPage, self).__init__(parent)
 
         self.setWindowTitle("Recovery")
 
+        self.current_layout = self.answering_layout()
+
+        self.setLayout(self.current_layout)
+
+
+    def answering_layout(self) -> QVBoxLayout:
         layout = QVBoxLayout()
 
-        self.username_label = QLabel(f"Recovery for: {controller.get_username()}")
+        self.username_label = QLabel(f"Recovery for: {self.controller.get_username()}")
         layout.addWidget(self.username_label)
 
         # Retrieve question using serial number
         self.rec_question = self.recover.get_personnal_question()
-
 
 
         self.question_label = QLabel("Question:")
@@ -37,18 +43,132 @@ class RecoveryPage(QDialog):
         layout.addWidget(self.answer_label)
         layout.addWidget(self.answer_input)
 
-        self.login_button = QPushButton("Login")
-        layout.addWidget(self.login_button)
+        self.recover_button = QPushButton("Recover")
+        layout.addWidget(self.recover_button)
 
-        self.login_button.clicked.connect(self.check_login)
+        self.recover_button.clicked.connect(self.check_given_answer)
 
-        self.help_button = QPushButton("Forgot Password?")
+        return layout
 
-        self.setLayout(layout)
+    def new_informations_layout(self):
 
-    def check_login(self):
-        answer = self.answer_input.text()
-        if self.recover.check_answer(answer):
-            print("Answer is good")
+        self.mandatory_input = [False, False, False]
+        # Passwords, Question, Answer
+
+        # New Password
+        self.new_password_label = QLabel(text="New password:")
+        self.new_password = QLineEdit()
+        self.new_password.textChanged.connect(self.check_passwords)
+
+        self.current_layout.addWidget(self.new_password_label)
+        self.current_layout.addWidget(self.new_password)
+
+        # New Password Verif
+        self.new_password_verif_label = QLabel(text="Confirm password:")
+        self.new_password_verif = QLineEdit()
+        self.new_password.textChanged.connect(self.check_passwords)
+
+        self.current_layout.addWidget(self.new_password_label)
+        self.current_layout.addWidget(self.new_password)
+
+        # New Question
+        self.new_question_label = QLabel(text="Create new Question:")
+        self.new_question = QLineEdit()
+        self.new_question.textChanged.connect(self.check_question)
+
+        self.current_layout.addWidget(self.new_question_label)
+        self.current_layout.addWidget(self.new_question)
+
+        # New Answer 
+        self.new_answer_label = QLabel(text="Answer:")
+        self.new_answer = QLineEdit()
+        self.new_answer.textChanged.connect(self.check_answer)
+
+        self.current_layout.addWidget(self.new_answer_label)
+        self.current_layout.addWidget(self.new_answer)
+
+        # confirm button
+        self.confirm_button = QPushButton(text="Confirm")
+
+        self.current_layout.addWidget(self.confirm_button)
+
+
+    def check_mandotary_inputs(self):
+        for attr in self.mandatory_input:
+            if attr == False:
+                return False
+        return True 
+
+    def check_passwords(self):
+        password = self.new_password.text()
+        password_verif = self.new_password_verif.text()
+        # Password validation criteria (1)
+        has_min_length = len(password) >= 8 
+        has_number = any(char.isdigit() for char in password)
+        has_uppercase = any(char.isupper() for char in password)
+        
+        are_equel = password == password_verif
+
+        # Enable confirm button if all criteria are met, disable otherwise
+        if has_min_length and has_number and has_uppercase and are_equel:
+            self.mandatory_input[0] = True
         else:
-            print("Answer is bad")
+            self.mandatory_input[1] = False
+
+        self.confirm_button.setEnabled(self.check_mandotary_inputs())
+
+    def check_question(self, question):
+        # Question validation criteria (1)
+        has_min_length = len(question) > 10
+        has_question = "?" in question 
+
+        # Switch to True this mandotary input if okay
+        if has_min_length and has_question :
+            self.mandatory_input[1] = True
+        else:
+            self.mandatory_input[1] = False
+        
+        self.confirm_button.setEnabled(self.check_mandotary_inputs())
+
+    def check_answer(self, answer):
+        # Answer validation criteria (2)
+        has_min_length = len(answer) >= 2
+
+        # Enable confirm button if all criteria are met, disable otherwise
+        if has_min_length:
+            self.mandatory_input[2] = True
+        else:
+            self.mandatory_input[2] = False
+
+        self.confirm_button.setEnabled(self.check_mandotary_inputs())
+
+    def delete_layout(self):
+        widgets = [self.current_layout.itemAt(i).widget() for i in range(self.current_layout.count())]
+
+        for widgets in widgets:
+            widgets.deleteLater()
+        
+        
+
+    def check_given_answer(self):
+        # XXX Answer is not been updated ? 
+        answer = self.answer_input.text() 
+        print(answer)
+        if self.recover.verify_answer(answer):
+            
+            self.good_answer = answer
+
+            self.delete_layout()
+
+            self.setLayout(self.new_informations_layout())
+           
+            
+        else:
+            msg_box = QMessageBox()
+            msg_box.setWindowTitle("Wrong Answer")
+            msg_box.setText("You gave the wrong answer. Please retry.")
+            msg_box.setStandardButtons(QMessageBox.Ok)
+
+            # Show the message box and wait for the user's response
+            result = msg_box.exec()
+            self.answer_input.setText("")

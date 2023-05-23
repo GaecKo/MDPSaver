@@ -91,6 +91,16 @@ class MDPData:
         except:
             return False
 
+    def delete_user_security(self):
+        username = self.get_user("username")
+        self.cur.execute(f"DELETE FROM UserSecurity WHERE username = {username}")
+
+        self.con.execute()
+    
+    def set_serial_number(self, serial_number):
+        username = self.get_user("username")
+        self.cur.execute(f"UPDATE User SET serial_number WHERE username = {username}")
+
     def initiate_user_security(self, username, hashed_password, hashed_answer, encrypted_password, encrypted_question, salt) -> bool:
         self.cur.execute(f"INSERT INTO UserSecurity (username, hashed_password, hashed_answer, encrypted_password, encrypted_question, salt) VALUES (?, ?, ?, ?, ?, ?)", (username, hashed_password, hashed_answer, encrypted_password, encrypted_question, salt))
         try:

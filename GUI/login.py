@@ -2,14 +2,15 @@ from PySide6.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButt
 from PySide6.QtCore import Signal
 from controller import Controller
 
-class LoginPage(QDialog):
+class LoginWindow(QDialog):
     successful_login = Signal()
+    recovery_login = Signal()
 
     def __init__(self, controller: Controller, parent=None):
 
         self.controller = controller
         
-        super(LoginPage, self).__init__(parent)
+        super(LoginWindow, self).__init__(parent)
 
         self.setWindowTitle("Login")
 
@@ -29,13 +30,22 @@ class LoginPage(QDialog):
 
         self.login_button.clicked.connect(self.check_login)
 
+        self.help_button = QPushButton("Forgot Password?")
+        self.help_button.clicked.connect(self.recovery)
+
+        layout.addWidget(self.help_button)
+
         self.setLayout(layout)
 
     def check_login(self):
-        # In a real application, you would authenticate against a database or an API
+        
         if self.controller.check_login(self.password_input.text()): 
             self.successful_login.emit()
             self.close()
             
         else:
             QMessageBox.warning(self, "Error", "Invalid credentials.")
+
+    def recovery(self):
+        self.recovery_login.emit()
+        self.close()

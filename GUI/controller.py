@@ -8,8 +8,31 @@ class Controller:
         self.key = None # Will contain the key to decrypt data
 
     def get_username(self):
-        return self.db.get_username()
+        return self.db.get_user("username")
     
+    def get_serial_number(self):
+        return self.db.get_user("serial_number")
+
+    def get_times_connected(self):
+        return self.db.get_user("times_connected")
+
+    def get_hashed_password(self):
+        return self.db.get_user_security("hashed_password")
+    
+    def get_hashed_answer(self):
+        return self.db.get_user_security("hashed_answer")
+    
+    def get_encrypted_password(self):
+        return self.db.get_user("encrypted_password")
+    
+    def get_encrypted_question(self):
+        return self.db.get_user_security("encrypted_question")
+    
+    def get_salt(self):
+        return self.db.get_user_security("salt")
+
+    def get_db(self):
+        return self.db
 
     def add_connection(self):
         print("Added Connections")
@@ -22,6 +45,7 @@ class Controller:
 
     def load_app(self, password):
         self.key = load_key(password, self.db.get_salt(hashing(password)))
+        self.add_connection()
 
     def initiate_app(self, username, password, rec_question, rec_answer) -> bool:
         # This function initializes UserSecurity / recovery / ... It follows MDPSaverLogic.png
@@ -46,7 +70,7 @@ class Controller:
         if not self.db.initiate_user(username, serial_number):
             return False
         
-        if not self.db.initiate_user_security(hashed_password, hashed_answer, encrypted_password, encrypted_question, salt):
+        if not self.db.initiate_user_security(username, hashed_password, hashed_answer, encrypted_password, encrypted_question, salt):
             return False
         
         # Key is used to decrypt / encrypt passwords / ...
@@ -60,3 +84,23 @@ class Controller:
     def kill_db(self):
         print("KILLED DB")
         self.db.apply_sql()
+
+
+class Recover(Controller):
+    def __init__(self):
+        super().__init__()
+        self.serial_number = super().get_serial_number()
+        self.salt = super().get_salt()
+        self.db = super().get_db()
+    
+    def get_personnal_question(self):
+        e_question = super().get_encrypted_question()
+        question = decrypt_extern_password(str(self.serial_number), e_question, self.salt) # question is encrypted using str(serial_number)
+
+        return question
+    
+    def check_answer(self, answer):
+        print(hashing(answer))
+        print(super().get_hashed_answer())
+        return hashing(answer) == super().get_hashed_answer()
+    

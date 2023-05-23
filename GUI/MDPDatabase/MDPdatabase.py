@@ -37,46 +37,40 @@ class MDPData:
         else:
             return None
     
-    def get_username(self):
-        self.cur.execute(f"SELECT username FROM User")
+    def get_user(self, attribute: str):
+
+        if attribute not in ["username", "times_connected", "serial_number"]:
+            return None
+
+        self.cur.execute(f"SELECT {attribute} FROM User")
 
         result = self.cur.fetchone()
 
         if result:
-            username = result[0]
-            return username
+            return result[0]
         else:
             return None
     
-    def get_times_connected(self):
+    def get_user_security(self, attribute: str) -> str:
+        if attribute not in ["username", "hashed_password", "hashed_answer", "encrypted_password", "encrypted_question", "salt"]:
+            return None
         
-        self.cur.execute(f"SELECT times_connected FROM User")
-
-        result = self.cur.fetchone()
-        if result == None:
-            return 0   
-        else:
-            times_connected = result[0]
-            return times_connected
-
-    def get_hashed_password(self):
-        self.cur.execute(f"SELECT hashed_password FROM UserSecurity")
+        self.cur.execute(f"SELECT {attribute} FROM UserSecurity")
 
         result = self.cur.fetchone()
 
         if result:
-            username = result[0]
-            return username
+            return result[0]
         else:
             return None
+        
     def incr_connections(self) -> None:
-        self.cur.execute("UPDATE User SET times_connected = times_connected + 1 WHERE id = 1")
+        self.cur.execute("UPDATE User SET times_connected = times_connected + 1")
         self.con.commit()
 
     def set_username(self, new_username: str) -> None:
         self.cur.execute("UPDATE User SET username = ? WHERE id = 1", (new_username,))
         self.con.commit()
-
 
     def is_app_initialized(self):
 
@@ -97,10 +91,8 @@ class MDPData:
         except:
             return False
 
-
-
-    def initiate_user_security(self, hashed_password, hashed_answer, encrypted_password, encrypted_question, salt) -> bool:
-        self.cur.execute(f"INSERT INTO UserSecurity (hashed_password, hashed_answer, encrypted_password, encrypted_question, salt) VALUES (?, ?, ?, ?, ?)", (hashed_password, hashed_answer, encrypted_password, encrypted_question, salt))
+    def initiate_user_security(self, username, hashed_password, hashed_answer, encrypted_password, encrypted_question, salt) -> bool:
+        self.cur.execute(f"INSERT INTO UserSecurity (username, hashed_password, hashed_answer, encrypted_password, encrypted_question, salt) VALUES (?, ?, ?, ?, ?, ?)", (username, hashed_password, hashed_answer, encrypted_password, encrypted_question, salt))
         try:
             self.con.commit()
             return True

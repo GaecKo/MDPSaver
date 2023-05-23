@@ -10,8 +10,7 @@ CREATE TABLE Password (
 );
 
 CREATE TABLE User (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT,
+  username TEXT PRIMARY KEY,
   times_connected INTEGER,
   serial_number INTEGER UNIQUE
 );

@@ -1,8 +1,9 @@
 import sys
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication
-from login import LoginPage
+from login import LoginWindow
 from pages import MainWindow
+from recovery import RecoveryPage
 from startup import AccountCreationWindow
 from controller import Controller 
 
@@ -21,11 +22,18 @@ if __name__ == "__main__":
         startup_page.show()
 
     else:
-        login_page = LoginPage(controller)
+        login_page = LoginWindow(controller)
+        recovery_page = RecoveryPage(controller)
+
         login_page.successful_login.connect(main_window.show)
+        login_page.recovery_login.connect(recovery_page.show)
+
+        recovery_page.successful_recovery.connect(main_window.show)
+        recovery_page.failed_recovery.connect(sys.exit)
+
         login_page.show()
     
-    controller.add_connection()
+    
 
 
     sys.exit(app.exec())

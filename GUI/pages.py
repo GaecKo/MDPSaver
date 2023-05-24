@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QStackedWidget, QGroupBox, QLabel, QWidget
+from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QStackedWidget, QGroupBox, QLabel, QWidget, QLineEdit
 
 
 class MainWindow(QMainWindow):
@@ -55,12 +55,28 @@ class MainWindow(QMainWindow):
         self.settings_button.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(3))
 
 
-
-
     def show_passwords_page(self):
         passwords_page = QGroupBox("Passwords Page")
         layout = QVBoxLayout()
         layout.addWidget(QLabel("This is the Passwords page."))
+
+        site = QLineEdit()
+        site.setPlaceholderText("Site")
+
+        username = QLineEdit()
+        username.setPlaceholderText("Username")
+
+        password = QLineEdit()
+        password.setPlaceholderText("Password")
+
+        button = QPushButton(text="Add")
+        button.clicked.connect(lambda: self.controller.add_password(site.text(), username.text(), password.text()))
+
+        layout.addWidget(site)
+        layout.addWidget(username)
+        layout.addWidget(password)
+        layout.addWidget(button)
+
         passwords_page.setLayout(layout)
         return passwords_page
 

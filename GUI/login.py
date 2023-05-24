@@ -41,6 +41,7 @@ class LoginWindow(QDialog):
         
         if self.controller.check_login(self.password_input.text()): 
             self.successful_login.emit()
+            self.controller.load_app(self.password_input.text())
             self.close()
             
         else:

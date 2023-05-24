@@ -26,16 +26,12 @@ class MDPData:
         else:
             return None 
     
-    def get_salt(self, hashed_password):
-        self.cur.execute(f"SELECT salt FROM UserSecurity WHERE hashed_password = {hashed_password}")
+    def get_all_passwords(self):
+        self.cur.execute(f"SELECT site, username, password FROM Password")
 
         result = self.cur.fetchone()
 
-        if result:
-            salt = result[0]
-            return salt
-        else:
-            return None
+        return result
     
     def get_user(self, attribute: str):
 

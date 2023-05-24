@@ -66,10 +66,10 @@ class RecoveryPage(QDialog):
         # New Password Verif
         self.new_password_verif_label = QLabel(text="Confirm password:")
         self.new_password_verif = QLineEdit()
-        self.new_password.textChanged.connect(self.check_passwords)
+        self.new_password_verif.textChanged.connect(self.check_passwords)
 
-        self.current_layout.addWidget(self.new_password_label)
-        self.current_layout.addWidget(self.new_password)
+        self.current_layout.addWidget(self.new_password_verif_label)
+        self.current_layout.addWidget(self.new_password_verif)
 
         # New Question
         self.new_question_label = QLabel(text="Create new Question:")
@@ -94,6 +94,7 @@ class RecoveryPage(QDialog):
 
 
     def check_mandotary_inputs(self):
+        print(self.mandatory_input)
         for attr in self.mandatory_input:
             if attr == False:
                 return False
@@ -113,7 +114,7 @@ class RecoveryPage(QDialog):
         if has_min_length and has_number and has_uppercase and are_equel:
             self.mandatory_input[0] = True
         else:
-            self.mandatory_input[1] = False
+            self.mandatory_input[0] = False
 
         self.confirm_button.setEnabled(self.check_mandotary_inputs())
 
@@ -121,9 +122,10 @@ class RecoveryPage(QDialog):
         # Question validation criteria (1)
         has_min_length = len(question) > 10
         has_question = "?" in question 
+        not_same_has_initial = question != self.rec_question
 
         # Switch to True this mandotary input if okay
-        if has_min_length and has_question :
+        if has_min_length and has_question and not_same_has_initial:
             self.mandatory_input[1] = True
         else:
             self.mandatory_input[1] = False
@@ -151,9 +153,7 @@ class RecoveryPage(QDialog):
         
 
     def check_given_answer(self):
-        # XXX Answer is not been updated ? 
         answer = self.answer_input.text() 
-        print(answer)
         if self.recover.verify_answer(answer):
             
             self.good_answer = answer

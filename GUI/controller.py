@@ -37,6 +37,10 @@ class Controller:
     def add_connection(self):
         print("Added Connections")
         self.db.incr_connections()
+    
+    def add_password(self, site, username, password):
+        crypted_password = encrypt(self.key, password)
+        self.db.add_password(site, username, crypted_password)
 
     def is_first_startup(self):
         return not self.db.is_app_initialized()
@@ -44,7 +48,8 @@ class Controller:
     # load key when starting
 
     def load_app(self, password):
-        self.key = load_key(password, self.db.get_salt(hashing(password)))
+        print(self.get_salt())
+        self.key = load_key(password, self.get_salt())
         self.add_connection()
 
     def initiate_app(self, username, password, rec_question, rec_answer) -> bool:
@@ -104,5 +109,8 @@ class Recover(Controller):
         print(super().get_hashed_answer())
         return hashing(answer) == super().get_hashed_answer()
     
+    def delete_user_security(self):
+        self.db.delete_user_security()
     
-    
+    def update_passwords(self, old_password, new_password):
+        passwords = self.db.get_all_passwords()

@@ -82,13 +82,18 @@ class AccountCreationWindow(QMainWindow):
 
         self.confirm_button.setEnabled(self.check_mandotary_inputs())
 
+    # TODO: Check answer & question simultaneously (answer shouldnt be in question)
     def validate_question(self, question):
+        answer = self.answer_input.text()
         # Question validation criteria (2)
         has_min_length = len(question) > 10
         has_question = "?" in question 
+        not_answer_in = answer.strip() not in question if len(answer) > 0 else True
+
+
 
         # Switch to True this mandotary input if okay
-        if has_min_length and has_question :
+        if has_min_length and has_question and not_answer_in:
             self.mandatory_input[2] = True
         else:
             self.mandatory_input[2] = False
@@ -97,10 +102,15 @@ class AccountCreationWindow(QMainWindow):
 
     def validate_answer(self, answer):
         # Answer validation criteria (3)
+        question = self.question_input.text()
+        
         has_min_length = len(answer) >= 2
+        not_answer_in = answer.strip() not in question if len(answer) > 0 else True
+
+
 
         # Enable confirm button if all criteria are met, disable otherwise
-        if has_min_length:
+        if has_min_length and not_answer_in:
             self.mandatory_input[3] = True
         else:
             self.mandatory_input[3] = False
@@ -108,6 +118,7 @@ class AccountCreationWindow(QMainWindow):
         self.confirm_button.setEnabled(self.check_mandotary_inputs())
 
     def check_mandotary_inputs(self):
+        print(self.mandatory_input)
         for state in self.mandatory_input:
             if state == False:
                 return False
@@ -133,8 +144,8 @@ class AccountCreationWindow(QMainWindow):
         question = self.question_input.text()
         answer = self.answer_input.text()
 
-
-        if self.controller.initiate_app(username, password, question, answer):
+        # XXX call 2 functions instead of just one. 
+        if self.controller.initiate_user_security(username, password, question, answer):
             self.successfull_startup.emit()
             self.close()
             

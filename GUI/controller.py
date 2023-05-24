@@ -40,7 +40,10 @@ class Controller:
     
     def add_password(self, site, username, password):
         crypted_password = encrypt(self.key, password)
-        self.db.add_password(site, username, crypted_password)
+        crypted_username = encrypt(self.key, username)
+        crypted_site = encrypt(self.key, username)
+
+        self.db.add_password(crypted_site, crypted_username, crypted_password)
 
     def is_first_startup(self):
         return not self.db.is_app_initialized()
@@ -48,11 +51,11 @@ class Controller:
     # load key when starting
 
     def load_app(self, password):
-        print(self.get_salt())
         self.key = load_key(password, self.get_salt())
         self.add_connection()
 
-    def initiate_app(self, username, password, rec_question, rec_answer) -> bool:
+    # XXX URGENT: Move serial & initiate user in another function 
+    def initiate_user_security(self, username, password, rec_question, rec_answer) -> bool:
         # This function initializes UserSecurity / recovery / ... It follows MDPSaverLogic.png
         # 1) Create the salt (used to load the key)
         salt = os.urandom(16)
@@ -91,26 +94,76 @@ class Controller:
         self.db.apply_sql()
 
 
-class Recover(Controller):
-    def __init__(self):
-        super().__init__()
-        self.serial_number = super().get_serial_number()
-        self.salt = super().get_salt()
-        self.db = super().get_db()
+class Recover:
+    def __init__(self, controller: Controller):
+        self.controller = controller
+
+        self.serial_number = self.controller.get_serial_number()
+        self.salt = self.controller.get_salt()
+        self.db = self.controller.get_db()
+        self.old_salt = None # Will be set when initiating app
     
     def get_personnal_question(self):
-        e_question = super().get_encrypted_question()
+        e_question = self.controller.get_encrypted_question()
         question = decrypt_extern_password(str(self.serial_number), e_question, self.salt) # question is encrypted using str(serial_number)
 
         return question
     
     def verify_answer(self, answer):
         print(hashing(answer))
-        print(super().get_hashed_answer())
-        return hashing(answer) == super().get_hashed_answer()
+        print(self.controller.get_hashed_answer())
+        return hashing(answer) == self.controller.get_hashed_answer()
     
     def delete_user_security(self):
         self.db.delete_user_security()
     
-    def update_passwords(self, old_password, new_password):
-        passwords = self.db.get_all_passwords()
+    def update_passwords(self, old_password, old_salt, new_password, new_salt) -> None:
+        data = self.db.get_all_passwords()
+
+        # Loal old and new key
+        old_key = load_key(old_password, old_salt) 
+        new_key = load_key(new_password, new_salt)
+
+        for index, old_data in enumerate(data):
+            # Retrieve old crypted data;
+            old_c_username, old_c_site, old_c_pass = old_data[0], old_data[1], old_data[2]  
+
+            # Translate it to real values;
+            username, site, passw = decrypt(old_key, old_c_username), decrypt(old_key, old_c_site), decrypt(old_key, old_c_pass)
+
+            # Encrypt to new key
+            crypted_username, crypted_site, crypted_pass = encrypt(new_key, username), encrypt(new_key, site), encrypt(new_key, passw)
+
+            # Update DB
+            self.db.set_password(crypted_username, crypted_site, crypted_pass, index + 1)
+
+    
+    def write_user_security(self, password, rec_question, rec_answer):
+        self.old_salt = self.salt
+        # XXX call 2 functions so user isnt replaced
+        self.controller.initiate_user_security(self.controller.get_username(), password, rec_question, rec_answer)
+
+    def get_old_password(self, answer, old_salt) -> str:
+        return decrypt_extern_password(answer, self.controller.get_encrypted_password(), old_salt)
+
+    def applicate_recovery(self, new_password, rec_question, new_answer, old_answer) -> bool:
+        # XXX check for each step completion
+
+        # 1) Delete current User Security
+        self.delete_user_security()
+
+        # 2) Write new informations in User Security
+        self.write_user_security(new_password, rec_question, new_answer)
+
+        # 3) Make transition of password encrypting
+        old_password = self.get_old_password(old_answer, self.old_salt)
+        old_salt = self.old_salt
+        new_salt = self.controller.get_salt()
+
+        self.update_passwords(old_password, old_salt, new_password, new_salt)
+        
+
+        # 4) Load app with new password
+        self.controller.load_app(new_password)
+
+        return True

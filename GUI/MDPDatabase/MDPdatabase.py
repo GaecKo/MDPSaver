@@ -68,9 +68,16 @@ class MDPData:
         self.cur.execute("UPDATE User SET username = ? WHERE id = 1", (new_username,))
         self.con.commit()
 
+    def set_password(self, new_username, new_site, new_pass, id) -> None:
+        query = "UPDATE Password SET site = ?, username = ?, password = ? WHERE id = ?"
+        values = (new_site, new_username, new_pass, id)
+        self.cur.execute(query, values)
+        
+        self.con.commit() 
+
     def is_app_initialized(self):
 
-        self.cur.execute(f"SELECT username FROM User")
+        self.cur.execute("SELECT username FROM User")
 
         result = self.cur.fetchone()
 
@@ -89,9 +96,11 @@ class MDPData:
 
     def delete_user_security(self):
         username = self.get_user("username")
-        self.cur.execute(f"DELETE FROM UserSecurity WHERE username = {username}")
+        self.cur.execute(f"DELETE FROM UserSecurity WHERE username = '{username}'")
 
-        self.con.execute()
+        self.con.commit()
+    
+    
     
     def set_serial_number(self, serial_number):
         username = self.get_user("username")
@@ -111,6 +120,3 @@ class MDPData:
     def reset_db(self):
         apply_sql()
 
-if __name__ == "__main__":
-    data = MDPData()
-    data.get_times_conntected()

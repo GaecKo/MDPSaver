@@ -29,8 +29,7 @@ class MDPData:
     def get_all_passwords(self):
         self.cur.execute(f"SELECT site, username, password FROM Password")
 
-        result = self.cur.fetchone()
-
+        result = self.cur.fetchall()
         return result
     
     def get_user(self, attribute: str):
@@ -86,8 +85,9 @@ class MDPData:
         else:
             return False
 
-    def initiate_user(self, username, serial_number) -> bool:
-        self.cur.execute(f"INSERT INTO User (username, times_connected, serial_number) VALUES (?, ?, ?)", (username, 0, serial_number))
+    def initiate_user(self, username, serial_number, number_of_connections=0) -> bool:
+
+        self.cur.execute(f"INSERT INTO User (username, times_connected, serial_number) VALUES (?, ?, ?)", (username, number_of_connections, serial_number))
         try:
             self.con.commit()
             return True
@@ -95,11 +95,14 @@ class MDPData:
             return False
 
     def delete_user_security(self):
-        username = self.get_user("username")
-        self.cur.execute(f"DELETE FROM UserSecurity WHERE username = '{username}'")
 
+        self.cur.execute(f"DELETE FROM UserSecurity")
         self.con.commit()
     
+    def delete_user(self):
+
+        self.cur.execute(f"DELETE FROM User")
+        self.con.commit()
     
     
     def set_serial_number(self, serial_number):

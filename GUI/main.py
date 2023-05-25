@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
     if controller.is_first_startup():
         startup_page = AccountCreationWindow(controller)
-        startup_page.successfull_startup.connect(main_window.show)
+        startup_page.successfull_startup.connect(main_window.activate)
 
         startup_page.failed_startup.connect(sys.exit)
         startup_page.show()
@@ -25,10 +25,10 @@ if __name__ == "__main__":
         login_page = LoginWindow(controller)
         recovery_page = RecoveryPage(controller)
 
-        login_page.successful_login.connect(main_window.show)
+        login_page.successful_login.connect(main_window.activate)
         login_page.recovery_login.connect(recovery_page.show)
 
-        recovery_page.successful_recovery.connect(main_window.show)
+        recovery_page.successful_recovery.connect(main_window.activate)
         recovery_page.failed_recovery.connect(sys.exit)
 
         login_page.show()

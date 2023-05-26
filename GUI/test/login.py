@@ -1,21 +1,22 @@
 import sys
+import PySide6
 from PySide6.QtCore import Qt, QSize
 from PySide6.QtGui import QPalette, QColor, QFont, QPixmap, QCursor
 from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QVBoxLayout, QHBoxLayout, QWidget, QFrame
-
 
 class LoginPage(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Login Page")
         self.setStyleSheet(open("styles.css").read())
+        self.setWindowFlags(Qt.Window | Qt.WindowCloseButtonHint | Qt.WindowMinimizeButtonHint)
 
         central_widget = QWidget(self)
         self.setCentralWidget(central_widget)
 
         # Set fixed size for the login page
         central_widget.setFixedWidth(650)
-        central_widget.setFixedHeight(300)
+        central_widget.setFixedHeight(250)
 
         main_layout = QHBoxLayout(central_widget)
         main_layout.setContentsMargins(10, 0, 10, 0)
@@ -48,6 +49,7 @@ class LoginPage(QMainWindow):
         user_icon_label = QLabel(self)
         user_icon_label.setPixmap(QPixmap("user.png").scaled(QSize(40, 40), Qt.KeepAspectRatio, Qt.SmoothTransformation))
         user_layout.addWidget(user_icon_label)
+        user_layout.setSpacing(10)
 
         username_label = QLabel("GaecKo", self)
         username_label.setObjectName("usernameLabel")

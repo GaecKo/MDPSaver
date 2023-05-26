@@ -144,7 +144,6 @@ class AccountCreationWindow(QMainWindow):
         question = self.question_input.text()
         answer = self.answer_input.text()
 
-        # XXX call 2 functions instead of just one. 
         if self.controller.initiate_db_settings(username, password, question, answer):
             self.successfull_startup.emit()
             self.close()

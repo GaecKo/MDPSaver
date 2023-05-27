@@ -1,8 +1,8 @@
 import sys
 import PySide6
 from PySide6.QtCore import Qt, QSize
-from PySide6.QtGui import QPalette, QColor, QFont, QPixmap, QCursor
-from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QVBoxLayout, QHBoxLayout, QWidget, QFrame
+from PySide6.QtGui import QPalette, QColor, QFont, QPixmap, QCursor, QTransform
+from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QVBoxLayout, QHBoxLayout, QWidget, QFrame, QGraphicsView, QGraphicsScene, QSizePolicy
 
 class LoginPage(QMainWindow):
     def __init__(self):
@@ -15,8 +15,8 @@ class LoginPage(QMainWindow):
         self.setCentralWidget(central_widget)
 
         # Set fixed size for the login page
-        central_widget.setFixedWidth(650)
-        central_widget.setFixedHeight(250)
+        central_widget.setFixedWidth(700)
+        central_widget.setFixedHeight(275)
 
         main_layout = QHBoxLayout(central_widget)
         main_layout.setContentsMargins(10, 0, 10, 0)
@@ -26,15 +26,35 @@ class LoginPage(QMainWindow):
         left_layout = QVBoxLayout()
         left_layout.setContentsMargins(0, 0, 0, 0)
 
-        image_label = QLabel(self)
-        image_label.setPixmap(QPixmap("MDPSaver.png").scaled(QSize(325, 325), Qt.KeepAspectRatio, Qt.SmoothTransformation))
-        image_label.setObjectName("imageLabel")
 
-        left_layout.addWidget(image_label)
+        # Create a QGraphicsView instance
+        graphics_logo = QGraphicsView()
+
+        
+        # Create a QGraphicsScene instance
+        logo_scene = QGraphicsScene()
+        graphics_logo.setScene(logo_scene)
+
+        # Load an image
+        logo_path = "MDPSaver.png"
+        pixmap = QPixmap(logo_path)
+
+        # Create a QGraphicsPixmapItem and add it to the scene
+        logo_scene.addPixmap(pixmap)
+
+        # Use a transform to scale down the view
+        transform_logo = QTransform()
+        transform_logo.scale(0.45, 0.45)  # This will make the view half the original size
+        graphics_logo.setTransform(transform_logo)
+        graphics_logo.show()
+
+        # Create a layout to hold the QGraphicsView
+        left_layout.addWidget(graphics_logo)
 
         # Right Part: Login Form
         right_layout = QVBoxLayout()
         right_layout.setContentsMargins(3, 0, 5, 0)
+        
         
 
         title_label = QLabel("Login", self)
@@ -46,10 +66,28 @@ class LoginPage(QMainWindow):
 
         user_layout.setAlignment(Qt.AlignCenter)
 
-        user_icon_label = QLabel(self)
-        user_icon_label.setPixmap(QPixmap("user.png").scaled(QSize(40, 40), Qt.KeepAspectRatio, Qt.SmoothTransformation))
-        user_layout.addWidget(user_icon_label)
-        user_layout.setSpacing(10)
+        graphics_user = QGraphicsView()
+        graphics_user.scale(0.1, 0.1)
+        graphics_user.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+
+        user_scene = QGraphicsScene()
+        graphics_user.setScene(user_scene)
+
+        user_path = "user.png"
+        pixmap = QPixmap(user_path)
+
+
+        user_scene.addPixmap(pixmap)
+
+        transform_user = QTransform()
+        transform_user.scale(0.1, 0.1)
+        graphics_user.setTransform(transform_user)
+        graphics_user.show()
+
+        user_layout.addWidget(graphics_user)
+
+        # user_layout.addWidget()
+        
 
         username_label = QLabel("GaecKo", self)
         username_label.setObjectName("usernameLabel")
@@ -68,6 +106,7 @@ class LoginPage(QMainWindow):
         login_button.setCursor(QCursor(Qt.PointingHandCursor))
         right_layout.addWidget(login_button)
 
+        # XXX make it so there is no space between button and this label
         forgot_password_label = QLabel("Forgot password?", self)
         forgot_password_label.setObjectName("forgotPasswordLabel")
         forgot_password_label.setCursor(QCursor(Qt.PointingHandCursor))
@@ -81,9 +120,9 @@ class LoginPage(QMainWindow):
         line.setLineWidth(2)
 
         # Combine Left and Right Parts
-        main_layout.addLayout(left_layout)
+        main_layout.addLayout(left_layout, 3)
         main_layout.addWidget(line)
-        main_layout.addLayout(right_layout)
+        main_layout.addLayout(right_layout, 2)
 
 
 if __name__ == "__main__":

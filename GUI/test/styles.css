@@ -38,6 +38,8 @@ QPushButton#loginButton:hover {
 /* Vertical Line */
 QFrame#line {
     background-color: #303030;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 /* Forgot Password Link */
@@ -50,4 +52,13 @@ QLabel#forgotPasswordLabel {
 
 QLabel#forgotPasswordLabel:hover {
     color: #4491d5;
+}
+
+QGraphicsView {
+    background-color: #151515;
+}
+
+QGraphicsScene#userScene {
+    width: 40px;
+    height: 40px;
 }

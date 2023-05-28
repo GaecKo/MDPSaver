@@ -7,7 +7,7 @@ from PySide6.QtWidgets import QWidget, QLineEdit, QPushButton, QHBoxLayout, QSiz
 from_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Define file paths
-style_path = os.path.join(from_dir, "utils.css")
+style_path = os.path.join(from_dir, "PasswordPrompt.css")
 eye_path = os.path.join(from_dir, "eye-regular.svg")
 eye_slash_path = os.path.join(from_dir, "eye-slash-regular.svg")
 

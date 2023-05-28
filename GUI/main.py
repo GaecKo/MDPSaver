@@ -7,6 +7,7 @@ from recovery import RecoveryPage
 from startup import AccountCreationWindow
 from controller import Controller 
 
+# TODO: set text selection: "selection-background-color: #2fa572;"
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

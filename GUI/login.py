@@ -1,9 +1,11 @@
 import sys
 from utils.PasswordPromp import PasswordPrompt
+from utils.SceneGenerator import SceneImage
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QPixmap, QCursor, QTransform
 from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QWidget, QFrame, QGraphicsView, QGraphicsScene, QSizePolicy, QMessageBox
 from controller import Controller
+
 
 class LoginWindow(QMainWindow):
     successful_login = Signal()
@@ -37,30 +39,9 @@ class LoginWindow(QMainWindow):
         left_layout = QVBoxLayout()
         left_layout.setContentsMargins(0, 0, 0, 0)
 
-        # Create a QGraphicsView instance for the logo
-        graphics_logo = QGraphicsView()
+        graphics_logo = SceneImage("MDPStyle/MDPSaver.png", 0.45, 0.45)
 
-        # Create a QGraphicsScene instance for the logo
-        logo_scene = QGraphicsScene()
-        graphics_logo.setScene(logo_scene)
-
-        # Load an image
-        logo_path = "MDPStyle/MDPSaver.png"
-        pixmap = QPixmap(logo_path)
-
-        # Create a QGraphicsPixmapItem and add it to the scene
-        logo_scene.addPixmap(pixmap)
-
-        # Use a transform to scale down the view
-        transform_logo = QTransform()
-        transform_logo.scale(0.45, 0.45)  # This will make the view half the original size
-        graphics_logo.setTransform(transform_logo)
-        graphics_logo.show()
-
-        # Create a layout to hold the QGraphicsView (Left Part)
         left_layout.addWidget(graphics_logo)
-
-
 
         ## /////////// Right Part: Login Form ///////////
 
@@ -78,24 +59,9 @@ class LoginWindow(QMainWindow):
         user_layout.setAlignment(Qt.AlignCenter)
 
         # QGraphicsView contains the scene
-        graphics_user = QGraphicsView()
-        graphics_user.scale(0.1, 0.1)
+        graphics_user = SceneImage("MDPStyle/user.png", 0.08, 0.08)
+        
         graphics_user.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-
-        # QGraphicsScene contains the image
-        user_scene = QGraphicsScene()
-        graphics_user.setScene(user_scene)
-
-        # Load the user image
-        user_path = "MDPStyle/user.png"
-        pixmap = QPixmap(user_path)
-        user_scene.addPixmap(pixmap)
-
-        # Use a transform to scale down the view
-        transform_user = QTransform()
-        transform_user.scale(0.1, 0.1)
-        graphics_user.setTransform(transform_user)
-        graphics_user.show()
 
         user_layout.addWidget(graphics_user)
 

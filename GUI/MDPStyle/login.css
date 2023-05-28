@@ -57,11 +57,12 @@ QLabel#forgotPasswordLabel:hover {
 
 QGraphicsView {
     background-color: #151515;
+    border: 0px;
 }
 
 QGraphicsScene#userScene {
-    width: 40px;
-    height: 40px;
+    width: 10px;
+    height: 10px;
 }
 
 
@@ -80,4 +81,9 @@ QPushButton#forgotPassword {
 QPushButton#forgotPassword:hover {
     color: #65aceb;
     text-decoration: underline;
+}
+
+QLabel#usernameLabel {
+    font-weight: bold;
+    text-decoration: ;
 }

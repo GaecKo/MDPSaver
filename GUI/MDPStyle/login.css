@@ -1,0 +1,83 @@
+/* styles.css */
+
+/* Window */
+QMainWindow {
+    background-color: #151515;
+}
+
+QLabel {
+    color: white;
+}
+
+/* Title Label */
+QLabel#title {
+    font-size: 24px;
+    margin-top: 10px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    text-decoration: underline;
+    color: #2fa572;
+}
+
+/* Login Button */
+QPushButton#loginButton {
+    color: #FFFFFF;
+    background-color: #2fa572;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Login Button Hover Effect */
+QPushButton#loginButton:hover {
+    background-color: #35b57e;
+}
+
+/* Vertical Line */
+QFrame#line {
+    background-color: #303030;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Forgot Password Link */
+QLabel#forgotPasswordLabel {
+    color: #428BCA;
+    font-size: 12px;
+    text-decoration: underline;
+    margin-bottom: 25px;
+}
+
+QLabel#forgotPasswordLabel:hover {
+    color: #4491d5;
+}
+
+QGraphicsView {
+    background-color: #151515;
+}
+
+QGraphicsScene#userScene {
+    width: 40px;
+    height: 40px;
+}
+
+
+QMessageBox{
+    background-color: #151515;
+}
+
+QPushButton#forgotPassword {
+    color: #428BCA;
+    font-size: 12px;
+    border: 0px;
+    background-color: #151515;
+    
+}
+
+QPushButton#forgotPassword:hover {
+    color: #65aceb;
+    text-decoration: underline;
+}

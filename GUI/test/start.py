@@ -30,7 +30,7 @@ class Form2(QWidget):
 
 
 class Form3(QWidget):
-    def __init__(self):
+    def __init__(self, parent):
         super().__init__()
         layout = QVBoxLayout()
         # Add form widgets and layout here
@@ -43,7 +43,7 @@ class MainWindow(QWidget):
         self.stackedWidget = QStackedWidget(self)
         self.stackedWidget.addWidget(Form1(self))
         self.stackedWidget.addWidget(Form2(self))
-        self.stackedWidget.addWidget(Form3())
+        self.stackedWidget.addWidget(Form3(self))
 
         layout = QVBoxLayout()
         layout.addWidget(self.stackedWidget)

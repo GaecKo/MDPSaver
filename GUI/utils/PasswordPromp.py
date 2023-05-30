@@ -1,7 +1,7 @@
 import os
 from PySide6.QtCore import QSize
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QWidget, QLineEdit, QPushButton, QHBoxLayout, QSizePolicy
+from PySide6.QtWidgets import QWidget, QLineEdit, QPushButton, QHBoxLayout, QSizePolicy, QGroupBox, QLayout
 
 # Get the current directory of the script
 from_dir = os.path.dirname(os.path.abspath(__file__))
@@ -15,22 +15,32 @@ eye_slash_path = os.path.join(from_dir, "eye-slash-regular.svg")
 class PasswordPrompt(QWidget):
     def __init__(self):
         super(PasswordPrompt, self).__init__()
+        self.GenHBox = QHBoxLayout()
+
+        self.GenHBox.setContentsMargins(0, 0, 0, 0)
+        self.GenHBox.setSpacing(0)
+
+        self.GenWidget = QGroupBox()
+        self.GenWidget.setFixedHeight(34)
+        self.GenWidget.setContentsMargins(0, 0, 0, 0)
+
 
         # Set the stylesheet for the widget
         self.setStyleSheet(open(style_path, "r").read())
 
         # Set up the layout
         self.hbox = QHBoxLayout()
-        self.hbox.setContentsMargins(0, 0, 0, 0)
+        self.hbox.setContentsMargins(4, 4, 4, 4)
         self.hbox.setSpacing(0)
         
         # Create the password input field
         self.password_input = QLineEdit()
-        self.setFixedHeight(24)
+
         self.password_input.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.password_input.setEchoMode(QLineEdit.Password)
 
         self.returnPressed = self.password_input.returnPressed
+        self.textChanged = self.password_input.textChanged
 
         # Create the eye icon button
         self.eye_icon = QIcon(eye_path)
@@ -45,8 +55,11 @@ class PasswordPrompt(QWidget):
         self.hbox.addWidget(self.password_input)
         self.hbox.addWidget(self.eye_button)
 
+        self.GenWidget.setLayout(self.hbox)
+        self.GenHBox.addWidget(self.GenWidget)
+
         # Set the layout for the widget
-        self.setLayout(self.hbox)
+        self.setLayout(self.GenHBox)
     
     def setText(self, text):
         self.password_input.setText(text)
@@ -69,3 +82,16 @@ class PasswordPrompt(QWidget):
     def setPlaceholderText(self, text):
         # Set the placeholder text for the password input field
         self.password_input.setPlaceholderText(text)
+    
+    def setInputStyleSheet(self, style):
+        # Set the stylesheet for the password input field
+        self.GenWidget.setStyleSheet("QGroupBox {" + style + "}")
+    
+if __name__ == "__main__":
+    from PySide6.QtWidgets import QApplication
+    import sys
+
+    app = QApplication(sys.argv)
+    widget = PasswordPrompt()
+    widget.show()
+    sys.exit(app.exec())

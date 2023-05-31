@@ -2,7 +2,11 @@ QWidget#welcome {
     background-color: #151515;
 }
 
-QWidget#initial-form {
+QWidget#login-form {
+    background-color: #151515;
+}
+
+QWidget#recovery-form {
     background-color: #151515;
 }
 

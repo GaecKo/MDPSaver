@@ -16,7 +16,7 @@ class LoginForm(QWidget):
         self.setStyleSheet(open("startup.css").read())
         self.setFixedSize(400, 400)
 
-        self.setObjectName("initial-form")
+        self.setObjectName("login-form")
 
         self.GenHBox = QVBoxLayout()
         

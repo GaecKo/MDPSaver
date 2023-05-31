@@ -10,7 +10,7 @@ class Welcome(QWidget):
         super().__init__(parent)
 
         self.setStyleSheet(open("startup.css").read())
-        self.setFixedSize(400, 500)
+        self.setFixedSize(400, 400)
 
         self.setObjectName("welcome")
 

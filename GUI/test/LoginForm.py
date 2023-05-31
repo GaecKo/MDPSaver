@@ -1,7 +1,6 @@
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QPropertyAnimation, QEasingCurve
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QFrame, QSizePolicy, QHBoxLayout, QLineEdit, QLayout
-from utils.SceneGenerator import SceneImage
+from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QFrame, QHBoxLayout, QLineEdit
 from utils.PasswordPromp import PasswordPrompt
 
 
@@ -12,6 +11,8 @@ class LoginForm(QWidget):
         super().__init__(parent)
         self.inputs_validity = [False, False]
         # [username, password]
+
+        self.parent = parent
 
         self.setStyleSheet(open("startup.css").read())
         self.setFixedSize(400, 400)
@@ -85,16 +86,19 @@ class LoginForm(QWidget):
         empty = " " * 3
 
         self.nextButton = QPushButton(text="Next" + empty, icon=QIcon("right-arrow.png"))
+        self.setStyleSheet("""QPushButton:hover {    background-color: #2fa572; border: none;}""")
+        self.update()
         self.nextButton.setLayoutDirection(Qt.RightToLeft)
         self.nextButton.setCursor(Qt.ForbiddenCursor)
         self.nextButton.setFixedHeight(50)
-        self.nextButton.clicked.connect(lambda: None)
+        self.nextButtonConnected = False
+        
 
         self.prevButton = QPushButton(text="Back")
         self.prevButton.setCursor(Qt.PointingHandCursor)
         self.prevButton.setObjectName("backButton")
         self.prevButton.setFixedHeight(50)
-        # self.prevButton.clicked.connect(parent.showPrevForm)
+        self.prevButton.clicked.connect(parent.show_prev_page)
 
         self.button_layout.addWidget(self.prevButton, 2)
         self.button_layout.addWidget(self.nextButton, 4)
@@ -138,15 +142,46 @@ class LoginForm(QWidget):
 
     def verify_inputs(self):
         for bool_v in self.inputs_validity:
-            if not bool_v:
+            if not bool_v :
                 self.nextButton.setCursor(Qt.ForbiddenCursor)
-                self.nextButton.clicked.disconnect()
-                self.nextButton.clicked.connect(lambda: print("Not Okayyy"))
+                if self.nextButtonConnected:
+                    self.nextButton.clicked.disconnect()
+                    self.nextButtonConnected = False
+                
+                self.setStyleSheet("""QPushButton:hover {    background-color: #2fa572; border: none;}""")
+                self.update()
                 return
 
         self.nextButton.setCursor(Qt.PointingHandCursor)
-        self.nextButton.clicked.disconnect()
-        self.nextButton.clicked.connect(lambda: print("Okayyy"))
+        if self.nextButtonConnected:
+            self.nextButton.clicked.disconnect()
+        self.setStyleSheet("""QPushButton:hover {background-color: #2f8c66; border: 4px solid white;}""")
+        self.nextButtonConnected = True
+        self.nextButton.clicked.connect(self.parent.show_next_page)
+
+    def fade_in(self):
+        self.animation = QPropertyAnimation(self, b"windowOpacity")
+        self.animation.setDuration(500)
+        self.animation.setStartValue(0)
+        self.animation.setEndValue(1)
+        self.animation.setEasingCurve(QEasingCurve.Linear)
+
+        self.animation.start()
+        self.animation.deleteLater()
+        
+
+    def fade_out(self):
+        self.animation = QPropertyAnimation(self, b"windowOpacity")
+        self.animation.setDuration(500)
+        self.animation.setStartValue(1)
+        self.animation.setEndValue(0)
+        self.animation.setEasingCurve(QEasingCurve.Linear)
+
+        self.animation.start()
+        self.animation.deleteLater()
+    
+    def graphicsEffect(self):
+        super().graphicsEffect()
 
     
 if __name__ == '__main__':

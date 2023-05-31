@@ -1,3 +1,7 @@
+QMainWindow#startup {
+    background-color: #151515;
+}
+
 QWidget#welcome {
     background-color: #151515;
 }

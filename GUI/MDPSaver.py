@@ -31,6 +31,7 @@ if __name__ == "__main__":
         login_page.recovery_login.connect(recovery_page.show)
 
         recovery_page.successful_recovery.connect(main_window.activate)
+        recovery_page.cancel_recovery.connect(login_page.show)
         recovery_page.failed_recovery.connect(sys.exit)
 
         login_page.show()

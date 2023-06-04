@@ -5,10 +5,12 @@ from controller import Controller, Recover
 class RecoveryPage(QDialog):
     successful_recovery = Signal()
     failed_recovery = Signal()
+    cancel_recovery = Signal()
 
     def __init__(self, controller: Controller, parent=None):
 
         self.controller = controller
+        self.setFixedSize(400, 400)
         self.recover = Recover(self.controller)
         self.good_answer = None # will be set to the good answer
 

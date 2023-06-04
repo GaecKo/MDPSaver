@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QApplication, QMainWindow, QStackedWidget, QMessageBox, QGroupBox, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QWidget, QLineEdit, QScrollArea, QGridLayout, QFrame, QSizePolicy, QSpacerItem
+from PySide6.QtWidgets import QMainWindow, QStackedWidget, QMessageBox, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QWidget, QLineEdit, QFrame
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QIcon
 from utils.PasswordPromp import PasswordPrompt

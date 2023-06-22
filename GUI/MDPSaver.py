@@ -7,7 +7,8 @@ from recovery import RecoveryPage
 from startup import AccountCreationWindow
 from controller import Controller 
 
-# TODO: set text selection: "selection-background-color: #2fa572;"
+# TODO: set text selection (when text is selected): "selection-background-color: #2fa572;"
+# TODO: time out of the app, in case of no user activity
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

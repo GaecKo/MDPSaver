@@ -1,4 +1,4 @@
-/* styles.css */
+/* TODO: Clear useless style */
 
 /* Window */
 QMainWindow {
@@ -85,5 +85,4 @@ QPushButton#forgotPassword:hover {
 
 QLabel#usernameLabel {
     font-weight: bold;
-    text-decoration: ;
 }

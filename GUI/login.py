@@ -6,6 +6,7 @@ from PySide6.QtGui import QPixmap, QCursor, QTransform
 from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QWidget, QFrame, QGraphicsView, QGraphicsScene, QSizePolicy, QMessageBox
 from controller import Controller
 
+# XXX: make user logo on left, text middle aligned
 
 class LoginWindow(QMainWindow):
     successful_login = Signal()

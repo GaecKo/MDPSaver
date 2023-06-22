@@ -9,12 +9,12 @@ class RecoveryPage(QDialog):
 
     def __init__(self, controller: Controller, parent=None):
 
+        super(RecoveryPage, self).__init__(parent)
+        
         self.controller = controller
         self.setFixedSize(400, 400)
         self.recover = Recover(self.controller)
         self.good_answer = None # will be set to the good answer
-
-        super(RecoveryPage, self).__init__(parent)
 
         self.setWindowTitle("Recovery")
 

@@ -6,19 +6,20 @@ from utils.SceneGenerator import SceneImage
 from controller import Controller
 
 # TODO: work on QMessageBox design as well as the horizontal alignement of the forms for general coherence
+# TODO: set max length of inputs ! 
 
 class Welcome(QWidget):
     def __init__(self, parent=None):
         # TODO: clean code and add comments
         super().__init__(parent)
 
-        self.setStyleSheet(open("startup.css").read())
+        self.setStyleSheet(open("MDPStyle/startup.css").read())
         self.setFixedSize(400, 400)
 
         self.setObjectName("welcome")
 
-        self.GenHBox = QVBoxLayout()
-        self.GenHBox.setSpacing(5)
+        self.GenVBox = QVBoxLayout()
+        self.GenVBox.setSpacing(5)
 
         line = QFrame(self)
         line.setObjectName("line")
@@ -47,11 +48,11 @@ class Welcome(QWidget):
         self.nextButton.setFixedHeight(50)
         self.nextButton.clicked.connect(parent.show_next_page)
 
-        self.GenHBox.addWidget(self.logo_scene, alignment=Qt.AlignCenter)
-        self.GenHBox.addWidget(line)
-        self.GenHBox.addWidget(self.presentation_text, alignment=Qt.AlignCenter)
-        self.GenHBox.addWidget(self.nextButton, alignment=Qt.AlignCenter)
-        self.setLayout(self.GenHBox)
+        self.GenVBox.addWidget(self.logo_scene, alignment=Qt.AlignCenter)
+        self.GenVBox.addWidget(line)
+        self.GenVBox.addWidget(self.presentation_text, alignment=Qt.AlignCenter)
+        self.GenVBox.addWidget(self.nextButton, alignment=Qt.AlignCenter)
+        self.setLayout(self.GenVBox)
 
 class LoginForm(QWidget):
     def __init__(self, parent=None):
@@ -62,12 +63,12 @@ class LoginForm(QWidget):
 
         self.parent = parent
 
-        self.setStyleSheet(open("startup.css").read())
+        self.setStyleSheet(open("MDPStyle/startup.css").read())
         self.setFixedSize(400, 400)
 
         self.setObjectName("login-form")
 
-        self.GenHBox = QVBoxLayout()
+        self.GenVBox = QVBoxLayout()
         
 
         self.title = QLabel(text="Login Information")
@@ -151,13 +152,13 @@ class LoginForm(QWidget):
         self.button_layout.addWidget(self.prevButton, 2)
         self.button_layout.addWidget(self.nextButton, 4)
 
-        self.GenHBox.addWidget(self.title, alignment=Qt.AlignCenter)
-        self.GenHBox.addWidget(line)
-        self.GenHBox.addLayout(self.username_layout)
-        self.GenHBox.addLayout(self.password_layout)
-        self.GenHBox.addLayout(self.button_layout)
+        self.GenVBox.addWidget(self.title, alignment=Qt.AlignCenter)
+        self.GenVBox.addWidget(line)
+        self.GenVBox.addLayout(self.username_layout)
+        self.GenVBox.addLayout(self.password_layout)
+        self.GenVBox.addLayout(self.button_layout)
         
-        self.setLayout(self.GenHBox)
+        self.setLayout(self.GenVBox)
 
     def validate_username(self, username):
         if len(username) < 2:
@@ -219,12 +220,12 @@ class RecoveryForm(QWidget):
         # [question, answer]
         self.parent = parent
 
-        self.setStyleSheet(open("startup.css").read())
+        self.setStyleSheet(open("MDPStyle/startup.css").read())
         self.setFixedSize(400, 400)
 
         self.setObjectName("recovery-form")
 
-        self.GenHBox = QVBoxLayout()
+        self.GenVBox = QVBoxLayout()
         
 
         self.title = QLabel(text="Recovery Information")
@@ -319,14 +320,14 @@ class RecoveryForm(QWidget):
         self.button_layout.addWidget(self.prevButton, 2)
         self.button_layout.addWidget(self.nextButton, 4)
 
-        self.GenHBox.addWidget(self.title, alignment=Qt.AlignCenter)
-        self.GenHBox.addWidget(line)
-        self.GenHBox.addWidget(self.explanation, alignment=Qt.AlignCenter)
-        self.GenHBox.addLayout(self.question_layout)
-        self.GenHBox.addLayout(self.answer_layout)
-        self.GenHBox.addLayout(self.button_layout)
+        self.GenVBox.addWidget(self.title, alignment=Qt.AlignCenter)
+        self.GenVBox.addWidget(line)
+        self.GenVBox.addWidget(self.explanation, alignment=Qt.AlignCenter)
+        self.GenVBox.addLayout(self.question_layout)
+        self.GenVBox.addLayout(self.answer_layout)
+        self.GenVBox.addLayout(self.button_layout)
         
-        self.setLayout(self.GenHBox)
+        self.setLayout(self.GenVBox)
 
     def connect_question(self):
         self.validate_question(self.question_input.text())
@@ -422,7 +423,7 @@ class AccountCreationWindow(QMainWindow):
 
         self.controller = controller
 
-        self.setStyleSheet(open("startup.css").read())
+        self.setStyleSheet(open("MDPStyle/startup.css").read())
         self.setObjectName("startup")
         self.setWindowTitle("MDPSaver Startup")
 

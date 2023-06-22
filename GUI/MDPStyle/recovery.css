@@ -1,0 +1,26 @@
+/* TODO: Clear useless style */
+
+QWidget#answering {
+    background-color: #151515;
+}
+
+QWidget#newinfo {
+    background-color: #151515;
+}
+
+QMainWindow#recovery {
+    background-color: #151515;
+}
+
+QLabel#title {
+    font-size: 26px;
+    font-weight: bold;
+    color: white;
+}
+
+QFrame#line{
+    background-color: rgb(75, 75, 75);
+    margin-right: 80px;
+    margin-left: 80px;
+    border: 0px;
+}

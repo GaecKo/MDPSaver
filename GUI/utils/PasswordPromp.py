@@ -3,6 +3,8 @@ from PySide6.QtCore import QSize
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QWidget, QLineEdit, QPushButton, QHBoxLayout, QSizePolicy, QGroupBox, QLayout
 
+# TODO: change eye logo for better appearance
+
 # Get the current directory of the script
 from_dir = os.path.dirname(os.path.abspath(__file__))
 

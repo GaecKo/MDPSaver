@@ -7,7 +7,7 @@ from controller import Controller
 
 # TODO: work on QMessageBox design as well as the horizontal alignement of the forms for general coherence
 # TODO: set max length of inputs ! 
-
+# XXX: back button:hover is green ! 
 class Welcome(QWidget):
     def __init__(self, parent=None):
         # TODO: clean code and add comments
@@ -133,7 +133,7 @@ class LoginForm(QWidget):
         
         empty = " " * 3
 
-        self.nextButton = QPushButton(text="Next" + empty, icon=QIcon("right-arrow.png"))
+        self.nextButton = QPushButton(text="Next" + empty, icon=QIcon("MDPStyle/right-arrow.png"))
         self.setStyleSheet("""QPushButton:hover {    background-color: #2fa572; border: none;}""")
         self.update()
         self.nextButton.setLayoutDirection(Qt.RightToLeft)
@@ -302,7 +302,7 @@ class RecoveryForm(QWidget):
         self.button_layout = QHBoxLayout()
         
 
-        self.nextButton = QPushButton(text="Create Account  ", icon=QIcon("right-arrow.png"))
+        self.nextButton = QPushButton(text="Create Account  ", icon=QIcon("MDPStyle/right-arrow.png"))
         self.setStyleSheet("""QPushButton:hover {    background-color: #2fa572; border: none;}""")
         self.update()
         self.nextButton.setLayoutDirection(Qt.RightToLeft)
@@ -351,7 +351,7 @@ class RecoveryForm(QWidget):
         self.verify_inputs()
     
     def is_not_in_question(self, answer, question):
-        if len(answer) == 0: return True\
+        if len(answer) == 0: return True
         
         question.replace("?", "")
         questions_words = question.split(" ")
@@ -405,15 +405,15 @@ class RecoveryForm(QWidget):
         self.nextButton.clicked.connect(self.finish_form)
         
     def finish_form(self):
-        self.parent.information_retrieved.emit()
+        self.parent.information_retrieve.emit()
 
     def get_question_answer(self):
         return self.question_input.text(), self.answer_input.text()
 
 class AccountCreationWindow(QMainWindow):
 
-    information_retrieved = Signal()
-    successfull_startup = Signal()
+    information_retrieve = Signal()
+    successful_startup = Signal()
     failed_startup = Signal()
 
 
@@ -443,7 +443,7 @@ class AccountCreationWindow(QMainWindow):
         self.setCentralWidget(self.QStackedWidget)
     
         # Set up signal so it retrieves informations from child pages
-        self.information_retrieved.connect(self.process_account_creation)
+        self.information_retrieve.connect(self.process_account_creation)
 
     def show_next_page(self):
         if self.cur_page == 2: return
@@ -477,7 +477,7 @@ class AccountCreationWindow(QMainWindow):
         question, answer = self.recovery_page.get_question_answer()
 
         if self.controller.initiate_db_settings(username, password, question, answer):
-            self.successfull_startup.emit()
+            self.successful_startup.emit()
             self.close()
             
         else:

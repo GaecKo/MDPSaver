@@ -67,7 +67,6 @@ class MainWindow(QMainWindow):
         layout.addWidget(QLabel("This is the Passwords page."))
 
         passwords = self.controller.get_all_passwords()
-        print("IN ABOVE")
         if passwords != None:
             for index, data in enumerate(passwords):
                 group = QGroupBox()

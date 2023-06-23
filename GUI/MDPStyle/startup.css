@@ -8,6 +8,10 @@ QWidget#welcome {
     background-color: #151515;
 }
 
+QLabel {
+    color: white;
+}
+
 QWidget#login-form {
     background-color: #151515;
 }
@@ -28,6 +32,17 @@ QPushButton {
 QPushButton:hover {
     background-color: #2f8c66;
     border: 4px solid white;
+}
+
+QPushButton#backButton {
+    background-color: #797979;
+    font-weight: normal;
+}
+
+QPushButton#backButton :hover {
+    background-color: #636363;
+    font-weight: bold;
+    border: none;
 }
 
 QGraphicsView {
@@ -63,17 +78,6 @@ QLabel#presentation-text {
     color: white;
     background-color: #151515;
     border: 0px;
-}
-
-QPushButton#backButton {
-    background-color: #797979;
-    font-weight: normal;
-}
-
-QPushButton#backButton :hover {
-    background-color: #636363;
-    font-weight: bold;
-    border: none;
 }
 
 QLineEdit {

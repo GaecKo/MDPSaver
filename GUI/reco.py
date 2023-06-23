@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QWidget, QMainWindow, QStackedWidget, QFrame
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QWidget, QMainWindow, QStackedWidget, QFrame, QGroupBox
 from PySide6.QtCore import Signal, Qt 
 from controller import Controller, Recover
 
@@ -17,6 +17,7 @@ class CheckAnswer(QWidget):
 
 
         self.GenVBox = QVBoxLayout()
+        self.GenVBox.setSpacing(5)
 
         self.title = QLabel("Recover Account")
         self.title.setObjectName("title")
@@ -28,12 +29,20 @@ class CheckAnswer(QWidget):
         line.setLineWidth(8)
 
 
-        self.explaination_text = "<span style='font-size:15; font-weight: italic;'>In order to recover your Access Password, please answer the question you created:</span>"
+        self.explaination_text = "<span style='font-size:15; font-style: italic;'>In order to recover your Access Password, please answer the question you created:</span>"
         self.explaination = QLabel(text=self.explaination_text)
+        self.explaination.setAlignment(Qt.AlignCenter)
         self.explaination.setWordWrap(True)
+        self.explaination.setFixedWidth(320)
+
+        # QUESTION - ANSWER GROUP
+        self.question_group = QGroupBox()
+        self.question_group.setContentsMargins(0, 0, 0, 0) 
+        self.question_group.setObjectName("question-group")
 
         # Question
         self.question_text = parent.get_question()
+
         self.question = QLabel(self.question_text)
         self.question.setObjectName("question")
 
@@ -41,10 +50,12 @@ class CheckAnswer(QWidget):
         self.answer = QLineEdit()
 
 
+        # Adding Widgets to layout
+
         self.GenVBox.addWidget(self.title, alignment=Qt.AlignCenter)
         self.GenVBox.addWidget(line)
-        self.GenVBox.addWidget(self.explaination)
-        self.GenVBox.addWidget(self.question)
+        self.GenVBox.addWidget(self.explaination, alignment=Qt.AlignCenter)
+        self.GenVBox.addWidget(self.question_group, alignment=Qt.AlignCenter)
 
         self.setLayout(self.GenVBox)
 

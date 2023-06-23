@@ -37,7 +37,6 @@ class Welcome(QWidget):
         self.presentation_text.setWordWrap(True)
         self.presentation_text.setText("""<span style="font-weight: bold;">MDPSaver</span> makes it easy to <span style="font-weight: bold;">store</span>, <span style="font-weight: bold;">access</span> & <span style="font-weight: bold;">generate passwords</span>. A single password gives you access to <span style="font-weight: bold;">all</span> your passwords, at <span style="font-weight: bold;">any</span> time.""")
         self.presentation_text.setFixedWidth(320)
-        self.presentation_text.setObjectName("presentation-text")
         
         empty = " " * 16
     

@@ -24,3 +24,12 @@ QFrame#line{
     margin-left: 80px;
     border: 0px;
 }
+
+QLabel {
+    color: white;
+}
+
+QGroupBox#question-group {
+    border: 2px solid black;
+    border-radius: 5px;
+}

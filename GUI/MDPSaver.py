@@ -2,7 +2,7 @@ import sys
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication
 from login import LoginWindow
-from pages import MainWindow
+from app import MainWindow
 from recovery import RecoveryPage
 from startup import AccountCreationWindow
 from controller import Controller 

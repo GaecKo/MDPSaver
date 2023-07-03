@@ -123,6 +123,7 @@ class RecoveryPage(QDialog):
         self.confirm_button.setEnabled(self.check_mandotary_inputs())
 
     # TODO: Check answer & question simultaneously 
+    # -> will be worked out with new reco.py
     def check_question(self, question):
         answer = self.new_answer.text()
         # Question validation criteria (1)

@@ -29,3 +29,4 @@
 #### Other:
 * [ ] Check for all `TODO` & `XXX` within code
 * [ ] Better/More comments 
+* [ ] `settings.json` to load personnalized settings of user

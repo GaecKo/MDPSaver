@@ -8,6 +8,8 @@ from controller import Controller
 # TODO: work on QMessageBox design as well as the horizontal alignement of the forms for general coherence
 # TODO: set max length of inputs ! 
 # XXX: back button:hover is green ! 
+# XXX: QMessageBox is affected by CSS: add object name to buttons & only affect them by CSS
+
 class Welcome(QWidget):
     def __init__(self, parent=None):
         # TODO: clean code and add comments

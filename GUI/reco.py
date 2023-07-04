@@ -30,7 +30,7 @@ class CheckAnswer(QWidget):
         line.setLineWidth(8)
 
 
-        self.explaination_text = "<span style='font-size:15; font-style: italic;'>In order to recover your Access Password, please answer the question you created:</span>"
+        self.explaination_text = "<span style='font-size:15; font-style: italic;'>You are about to <span style='font-weight:bold;'> recover your account</span>. This operation implies an <span style='font-weight:bold;'>update</span> of your current <span style='font-weight:bold;'>Access Password</span> & <span style='font-weight:bold;'>Security Question</span>. To process, please <span style='font-weight:bold;'>answer</span> the question you created:</span>"
         self.explaination = QLabel(text=self.explaination_text)
         self.explaination.setAlignment(Qt.AlignCenter)
         self.explaination.setWordWrap(True)

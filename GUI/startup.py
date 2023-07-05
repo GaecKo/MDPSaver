@@ -7,6 +7,7 @@ from controller import Controller
 
 # TODO: work on QMessageBox design as well as the horizontal alignement of the forms for general coherence
 # TODO: set max length of inputs ! 
+# TODO: on `enter`, goes to next page if it can
 # XXX: back button:hover is green ! 
 # XXX: QMessageBox is affected by CSS: add object name to buttons & only affect them by CSS
 
@@ -198,7 +199,7 @@ class LoginForm(QWidget):
                     self.nextButton.clicked.disconnect()
                     self.nextButtonConnected = False
                 
-                self.setStyleSheet("""QPushButton:hover {    background-color: #2fa572; border: none;}""")
+                self.setStyleSheet("""QPushButton:hover {background-color: #2fa572; border: none;}""")
                 self.update()
                 return
 
@@ -250,7 +251,7 @@ class RecoveryForm(QWidget):
 
         self.question_text = "<span style='font-weight: bold; color:white; font-size: 20px;'>Recovery Question*</span>"
 
-        self.question_requirement = "<span style='color: red; font-size:13px; font-style:italic;'>* 10+ chars, contains '?'</span>"
+        self.question_requirement = "<span style='color: red; font-size:13px; font-style:italic;'>* 10 to 70 chars, contains '?'</span>"
 
         self.question_label = QLabel(text=self.question_text)   
         self.question_requirement_label = QLabel(text=self.question_requirement)
@@ -336,7 +337,7 @@ class RecoveryForm(QWidget):
 
     def validate_question(self, question):
 
-        has_min_length = len(question) >= 10
+        has_min_length = len(question) >= 10 and len(question) <= 70
         has_question_mark = "?" in question
         
 

@@ -1,5 +1,5 @@
 /* TODO: Clear useless style */
-
+/*XXX: QPushButton also applies to button in messagebox, should add object name to next button*/
 QWidget#answering {
     background-color: #151515;
 }
@@ -18,8 +18,17 @@ QLabel#title {
     color: white;
 }
 
-QFrame#line{
+QLabel#question {
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: underline;
     background-color: rgb(75, 75, 75);
+    border: 3px solid rgb(75, 75, 75);
+    border-radius: 5px;
+}
+
+QFrame#line{
+    background-color: #2fa572;
     margin-right: 60px;
     margin-left: 60px;
     border: 0px;
@@ -30,7 +39,7 @@ QLabel {
 }
 
 QGroupBox#question-group {
-    border: 2px solid black;
+    border: 2px solid rgb(75, 75, 75);
     border-radius: 5px;
 }
 

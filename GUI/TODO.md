@@ -2,6 +2,9 @@
 
 ### General
 #### Front End:
+
+* [ ] Personnalized top bar
+
 * [ ] Finish window of Recovery Page (`reco.py` & `MDPStyle/recovery.css`)
     * [ ] Connect it to `main.py`
 

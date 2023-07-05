@@ -1,9 +1,11 @@
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QWidget, QMainWindow, QStackedWidget, QFrame, QGroupBox, QHBoxLayout
+from PySide6.QtWidgets import QDialog, QSizePolicy, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QWidget, QMainWindow, QStackedWidget, QFrame, QGroupBox, QHBoxLayout
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import Signal, Qt 
 from controller import Controller, Recover
 
 # TODO: works on comments
+# TODO: if back asked from new info inputs, ask for confirmation and go back to initial login
+# XXX: self.parent seems to interfere with the parent() method of QWidget
 
 class CheckAnswer(QWidget):
     def __init__(self, parent) -> None:
@@ -29,7 +31,6 @@ class CheckAnswer(QWidget):
         line.setFrameShadow(QFrame.Sunken)
         line.setLineWidth(8)
 
-
         self.explaination_text = "<span style='font-size:15; font-style: italic;'>You are about to <span style='font-weight:bold;'> recover your account</span>. This operation implies an <span style='font-weight:bold;'>update</span> of your current <span style='font-weight:bold;'>Access Password</span> & <span style='font-weight:bold;'>Security Question</span>. To process, please <span style='font-weight:bold;'>answer</span> the question you created:</span>"
         self.explaination = QLabel(text=self.explaination_text)
         self.explaination.setAlignment(Qt.AlignCenter)
@@ -48,21 +49,23 @@ class CheckAnswer(QWidget):
         self.question_text = parent.get_question()
 
         self.question = QLabel(self.question_text)
+        self.question.setWordWrap(True)
+        self.question.setAlignment(Qt.AlignCenter)
         self.question.setObjectName("question")
 
         # Answer
         self.answer = QLineEdit()
-        self.answer.setFixedWidth(330)
+        self.answer.setFixedWidth(340)
         self.answer.setFixedHeight(29)
+        self.answer.setPlaceholderText("Answer")
 
         # Question Group Box composition
-        self.question_layout.addWidget(self.question)
-        self.question_layout.addWidget(self.answer)
+        self.question_layout.addWidget(self.question, alignment=Qt.AlignCenter)
+        self.question_layout.addWidget(self.answer, alignment=Qt.AlignCenter)
         self.question_group.setLayout(self.question_layout)
 
         # Next button part
         self.button_layout = QHBoxLayout()
-        
 
         self.nextButton = QPushButton(text="Next  ", icon=QIcon("MDPStyle/right-arrow.png"))
         # self.setStyleSheet("""QPushButton:hover {    background-color: #2fa572; border: none;}""")
@@ -70,7 +73,7 @@ class CheckAnswer(QWidget):
         self.nextButton.setLayoutDirection(Qt.RightToLeft)
         self.nextButton.setCursor(Qt.PointingHandCursor)
         self.nextButton.setFixedHeight(50)
-        self.nextButton.clicked.connect(self.check_answer)
+        self.nextButton.clicked.connect(self.verify_answer)
 
         self.prevButton = QPushButton(text="Back")
         self.prevButton.setCursor(Qt.PointingHandCursor)
@@ -86,15 +89,17 @@ class CheckAnswer(QWidget):
 
         self.GenVBox.addWidget(self.title, alignment=Qt.AlignCenter)
         self.GenVBox.addWidget(line)
+        self.GenVBox.addSpacing(30)
         self.GenVBox.addWidget(self.explaination, alignment=Qt.AlignCenter)
+        self.GenVBox.addSpacing(30)
         self.GenVBox.addWidget(self.question_group, alignment=Qt.AlignCenter)
+        self.GenVBox.addSpacing(20)
         self.GenVBox.addLayout(self.button_layout)
 
         self.setLayout(self.GenVBox)
 
-    def check_answer(self):
-        answer = self.answer.text().rstrip()
-        if self.parent.get_hashed_answer() != answer:
+    def verify_answer(self):
+        if not self.parent.verify_answer(self.answer.text()):
             QMessageBox.warning(self, "Error", "Invalid credentials.")
         else:
             self.parent.show_next_page()
@@ -143,6 +148,9 @@ class Recovery(QMainWindow):
         self.QStackedWidget.setCurrentIndex(self.cur_page)
 
         self.setCentralWidget(self.QStackedWidget)
+
+    def verify_answer(self, given_answer: str):
+        return self.recover.verify_answer(given_answer)
 
     def show_next_page(self):
         if self.cur_page == 1: return

@@ -25,6 +25,8 @@
 * [ ] Add multiple user system (@GaecKo)
     * [  ] Optimized database querying 
 
+* [ ] Recovery bug: site & username get switched in recovery process
+
 #### Controller (`MDPSaver.py` & `controller.py`):
 * [ ] Automatic suspend of app after x minutes (@GaecKo)
 * [ ] Log system (@GaecKo)

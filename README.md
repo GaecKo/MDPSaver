@@ -1,4 +1,4 @@
-# <h1 align="center"><ins> MDPSaver</ins> ![Python](.git_files/python.ico) ![Windows](.git_files/Windows.ico)</h1>
+# <h1 align="center"><ins> MDPSaver</ins></h1>
 
 <h1 align="center">
 

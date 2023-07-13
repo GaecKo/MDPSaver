@@ -3,7 +3,7 @@ from PySide6.QtCore import QObject, Slot, QUrl, Signal
 from controller import Controller
 
 
-class Bridge(Controller, QObject):
+class Bridge(QObject, Controller):
     # Login Signals
     successful_login = Signal()
     recovery_login = Signal()
@@ -19,12 +19,9 @@ class Bridge(Controller, QObject):
     cancel_recovery = Signal()
 
     def __init__(self):
-        super().__init__()
+        Controller.__init__(self) # initialize controller class, all its methods are now accessible
+        QObject.__init__(self)
 
-
-
-
-        # initialize controller class, all its methods are now accessible
 
     @Slot(result=str)
     def hello(self):

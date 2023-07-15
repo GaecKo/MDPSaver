@@ -2,6 +2,7 @@ from MDPDatabase.MDPDatabase import MDPDatabase
 from MDPDatabase.security import *
 import os
 
+#TODO: update controller for multiple user system (WIP)
 
 class Controller:
     """
@@ -18,11 +19,11 @@ class Controller:
     def setUserId(self, userId):
         self.userId = userId
 
-    def get_all_passwords(self):
+    def get_all_passwords(self, username):
         if self.key == None:
             return None
 
-        passwords = list(self.db.get_all_passwords())
+        passwords = list(self.db.get_all_passwords(username))
 
         for index, data in enumerate(passwords):
             data = list(data)
@@ -35,11 +36,11 @@ class Controller:
 
         return passwords
 
-    def get_username(self):
-        return self.db.get_user("username")
+    def get_usernames(self):
+        return self.db.get_usernames()
 
-    def get_serial_number(self):
-        return self.db.get_user("serial_number")
+    def get_serial_number(self, username):
+        return self.db.get_user("serial_number", username)
 
     def get_times_connected(self):
         return self.db.get_user("times_connected")
@@ -72,9 +73,6 @@ class Controller:
         crypted_site = encrypt(self.key, site)
 
         self.db.add_password(crypted_site, crypted_username, crypted_password)
-
-    def is_first_startup(self):
-        return not self.db.is_app_initialized()
 
     # load key when starting
 

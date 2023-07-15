@@ -3,6 +3,8 @@ import os
 from .ApplySQL import apply_sql
 
 
+# TODO: Add type for all arguments and return values
+
 class MDPDatabase:
     def __init__(self):
         current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -36,18 +38,24 @@ class MDPDatabase:
         else:
             return None
 
-    def get_all_passwords(self):
-        self.cur.execute(f"SELECT site, username, password FROM Password")
+    def get_all_passwords(self, username):
+        self.cur.execute(f"SELECT site, username, password FROM Password WHERE user = {username}")
 
         result = self.cur.fetchall()
         return result
 
-    def get_user(self, attribute: str):
+    def get_usernames(self):
+        self.cur.execute(f"SELECT username FROM User")
+
+        result = self.cur.fetchall()
+        return result
+
+    def get_user(self, attribute: str, username):
 
         if attribute not in ["username", "times_connected", "serial_number"]:
             return None
 
-        self.cur.execute(f"SELECT {attribute} FROM User")
+        self.cur.execute(f"SELECT {attribute} FROM User WHERE username = '{username}'")
 
         result = self.cur.fetchone()
 
@@ -85,16 +93,6 @@ class MDPDatabase:
 
         self.con.commit()
 
-    def is_app_initialized(self):
-
-        self.cur.execute("SELECT username FROM User")
-
-        result = self.cur.fetchone()
-
-        if result:
-            return True
-        else:
-            return False
 
     def initiate_user(self, username, serial_number, number_of_connections=0) -> bool:
 
@@ -106,17 +104,17 @@ class MDPDatabase:
         except:
             return False
 
-    def delete_user_security(self):
+    def delete_user_security(self, username):
 
-        self.cur.execute(f"DELETE FROM UserSecurity")
+        self.cur.execute(f"DELETE FROM UserSecurity W")
         self.con.commit()
 
-    def delete_user(self):
+    def delete_user(self, username):
 
         self.cur.execute(f"DELETE FROM User")
         self.con.commit()
 
-    def set_serial_number(self, serial_number):
+    def set_serial_number(self, serial_number, username):
         username = self.get_user("username")
         self.cur.execute(f"UPDATE User SET serial_number WHERE username = {username}")
 

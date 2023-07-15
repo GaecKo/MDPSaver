@@ -6,13 +6,13 @@ CREATE TABLE Password (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user TEXT,
     site TEXT,
-    username TEXT,
+    identifier TEXT,
     password TEXT,
-    FOREIGN KEY(user) REFERENCES User(user)
+    FOREIGN KEY(user) REFERENCES User(username)
 );
 
 CREATE TABLE User (
-    user TEXT PRIMARY KEY,
+    username TEXT PRIMARY KEY,
     times_connected INTEGER,
     serial_number INTEGER UNIQUE
 );
@@ -24,5 +24,5 @@ CREATE TABLE UserSecurity (
     encrypted_password TEXT,
     encrypted_question TEXT,
     salt BINARY,
-    FOREIGN KEY(user) REFERENCES User(user)
+    FOREIGN KEY(user) REFERENCES User(username)
 );

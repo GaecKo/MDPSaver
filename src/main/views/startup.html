@@ -2,13 +2,35 @@
 <html lang="en">
 
     <body>
-        <p>startup</p>
-        <label for="input">
-            Input:
+        <h1>Startup Page</h1>
+
+        <label for="username_input">
+            Username:
         </label>
-        <input type="text" id="input">
-        <button>
-            submit the
+        <input type="text" id="username_input">
+
+        <br> <br>
+
+        <label for="password_input">
+            Password:
+        </label>
+        <input type="password" id="password_input">
+        <br> <br>
+
+        <label for="question_input">
+            Question:
+        </label>
+        <input type="text" id="question_input">
+        <br> <br>
+
+        <label for="answer_input">
+            Answer:
+        </label>
+        <input type="text" id="answer_input">
+        <br> <br>
+
+        <button onclick="submitAccount()">
+            Create Account
         </button>
     </body>
 </html>
@@ -20,6 +42,14 @@
             window.bridge = channel.objects.bridge;
         });
 
+        function submitAccount() {
+            // TODO: Add validation
+            const username = document.getElementById("username_input").value;
+            const password = document.getElementById("password_input").value;
+            const question = document.getElementById("question_input").value;
+            const answer = document.getElementById("answer_input").value;
 
+            window.bridge.submitAccount(username, password, question, answer);
+        }
 
 </script>

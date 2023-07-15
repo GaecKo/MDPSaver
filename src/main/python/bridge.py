@@ -21,15 +21,10 @@ class Bridge(QObject, Controller):
         Controller.__init__(self)  # initialize controller class, all its methods are now accessible
         QObject.__init__(self)
 
-
-
-    @Slot(result=str)
-    def hello(self):
-        return "Hello from Python!"
-
-    @Slot(str)
-    def buttonClicked(self, button_id):
-        print(f"Button {button_id} clicked!")
+    # Startup Methods
+    @Slot()
+    def submitAccount(self, username, password, question, answer):
+        self.createAccount(username, password, question, answer)
 
     @Slot(str)
     def successful_startup_emit(self):

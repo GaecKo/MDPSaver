@@ -9,7 +9,6 @@ class Bridge(QObject, Controller):
     recovery_login = Signal()
 
     # Startup Signals
-    information_retrieve = Signal()
     successful_startup = Signal()
     failed_startup = Signal()
 
@@ -19,8 +18,9 @@ class Bridge(QObject, Controller):
     cancel_recovery = Signal()
 
     def __init__(self):
-        Controller.__init__(self) # initialize controller class, all its methods are now accessible
+        Controller.__init__(self)  # initialize controller class, all its methods are now accessible
         QObject.__init__(self)
+
 
 
     @Slot(result=str)
@@ -30,3 +30,8 @@ class Bridge(QObject, Controller):
     @Slot(str)
     def buttonClicked(self, button_id):
         print(f"Button {button_id} clicked!")
+
+    @Slot(str)
+    def successful_startup_emit(self):
+        self.successful_startup.emit()
+        print(f"Startup Success")

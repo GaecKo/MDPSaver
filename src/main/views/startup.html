@@ -1,4 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-    <p>startup</p>
+
+    <body>
+        <p>startup</p>
+        <label for="input">
+            Input:
+        </label>
+        <input type="text" id="input">
+        <button>
+            submit the
+        </button>
+    </body>
 </html>
+
+<script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+<script>
+    // Create the QWebChannel object and connect to the bridge
+        new QWebChannel(qt.webChannelTransport, function (channel) {
+            window.bridge = channel.objects.bridge;
+        });
+
+
+
+</script>

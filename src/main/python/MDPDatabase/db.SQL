@@ -12,7 +12,7 @@ CREATE TABLE Password (
 );
 
 CREATE TABLE User (
-    username TEXT PRIMARY KEY,
+    username TEXT PRIMARY KEY UNIQUE ,
     times_connected INTEGER,
     serial_number INTEGER UNIQUE
 );

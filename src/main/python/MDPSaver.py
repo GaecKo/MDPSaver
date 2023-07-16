@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget
 from PySide6.QtWebChannel import QWebChannel
 import os
 from bridge import Bridge
+from jinja2 import Template
 
 
 class MDPSaver(QMainWindow):
@@ -29,6 +30,7 @@ class MDPSaver(QMainWindow):
         self.login_path = os.path.join(current_dir, "../views/login.html")
         self.recovery_path = os.path.join(current_dir, "../views/recovery.html")
         self.app_path = os.path.join(current_dir, "../views/app.html")
+
 
     def __init_ui__(self):
         # Initialize UI with the WebView, Channel, ...
@@ -56,7 +58,9 @@ class MDPSaver(QMainWindow):
 
         # Login Signals
         self.bridge.successful_login.connect(self.__load_app__)
+        self.bridge.failed_login.connect(self.__load_login__)
         self.bridge.recovery_login.connect(self.__load_recovery__)
+        self.bridge.create_account_login.connect(self.__load_startup__)
 
         # Recovery Signals
         self.bridge.successful_recovery.connect(self.__load_app__)
@@ -73,11 +77,19 @@ class MDPSaver(QMainWindow):
 
     def __load_startup__(self):
         # TODO: load page using Jinja2
+        # TODO: if app has usernames, button for login
         self.web_view.load(QUrl.fromLocalFile(self.startup_path))
 
-    def __load_login__(self):
+    def __load_login__(self, from_failed= False):
         # TODO: load page using Jinja2
-        self.web_view.load(QUrl.fromLocalFile(self.login_path))
+        if from_failed:
+            self.web_view.page().runJavaScript("alert('Login Failed!');")
+            return
+
+        template = Template(open(self.login_path).read())
+
+        self.web_view.setHtml(template.render(usernames=self.bridge.get_usernames()))
+
 
     def __load_recovery__(self):
         # TODO: load page using Jinja2

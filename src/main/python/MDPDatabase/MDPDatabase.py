@@ -13,9 +13,9 @@ class MDPDatabase:
         self.con = sqlite3.connect(database_path)
         self.cur = self.con.cursor()
 
-    def add_password(self, site: str, username: str, crypted_password: str) -> None:
-        self.cur.execute(f"INSERT INTO Password (site, username, password) VALUES (?,?,?)",
-                         (site, username, crypted_password))
+    def add_password(self, site: str, username: str, crypted_password: str, user: str) -> None:
+        self.cur.execute(f"INSERT INTO Password (user, site, identifier, password) VALUES (?,?,?,?)",
+                         (user, site, username, crypted_password))
         self.con.commit()
 
     def count(self, table):
@@ -28,7 +28,7 @@ class MDPDatabase:
         @return: a tuple: (site, username, crypted_password) if id in db
                  None otherwise
         """
-        self.cur.execute(f"SELECT site, username, password FROM Password WHERE id = {id}")
+        self.cur.execute(f"SELECT site, identifier, password FROM Password WHERE id = {id}")
 
         result = self.cur.fetchone()
 
@@ -39,7 +39,7 @@ class MDPDatabase:
             return None
 
     def get_all_passwords(self, username):
-        self.cur.execute(f"SELECT site, username, password FROM Password WHERE user = {username}")
+        self.cur.execute(f"SELECT site, identifier, password FROM Password WHERE user = {username}")
 
         result = self.cur.fetchall()
         return result
@@ -50,7 +50,7 @@ class MDPDatabase:
         result = self.cur.fetchall()
         return result
 
-    def get_user(self, attribute: str, username):
+    def get_user_attribute(self, attribute: str, username):
 
         if attribute not in ["username", "times_connected", "serial_number"]:
             return None
@@ -64,12 +64,12 @@ class MDPDatabase:
         else:
             return None
 
-    def get_user_security(self, attribute: str) -> str:
+    def get_user_security(self, attribute: str, username) -> str:
         if attribute not in ["username", "hashed_password", "hashed_answer", "encrypted_password", "encrypted_question",
                              "salt"]:
             return None
 
-        self.cur.execute(f"SELECT {attribute} FROM UserSecurity")
+        self.cur.execute(f"SELECT {attribute} FROM UserSecurity WHERE user = '{username}'")
 
         result = self.cur.fetchone()
 
@@ -78,21 +78,20 @@ class MDPDatabase:
         else:
             return None
 
-    def incr_connections(self) -> None:
-        self.cur.execute("UPDATE User SET times_connected = times_connected + 1")
+    def incr_connections(self, username) -> None:
+        self.cur.execute("UPDATE User SET times_connected = times_connected + 1 WHERE username = ?", (username,))
         self.con.commit()
 
-    def set_username(self, new_username: str) -> None:
-        self.cur.execute("UPDATE User SET username = ? WHERE id = 1", (new_username,))
+    def set_username(self, new_username: str, username) -> None:
+        self.cur.execute(f"UPDATE User SET username = ? WHERE username = {username}", (new_username,))
         self.con.commit()
 
-    def set_password(self, new_username, new_site, new_pass, id) -> None:
-        query = "UPDATE Password SET site = ?, username = ?, password = ? WHERE id = ?"
-        values = (new_site, new_username, new_pass, id)
+    def set_password(self, new_identifier, new_site, new_pass, username) -> None:
+        query = "UPDATE Password SET site = ?, identifier = ?, password = ? WHERE user = ?"
+        values = (new_site, new_identifier, new_pass, username)
         self.cur.execute(query, values)
 
         self.con.commit()
-
 
     def initiate_user(self, username, serial_number, number_of_connections=0) -> bool:
 
@@ -106,22 +105,26 @@ class MDPDatabase:
 
     def delete_user_security(self, username):
 
-        self.cur.execute(f"DELETE FROM UserSecurity W")
+        self.cur.execute(f"DELETE FROM UserSecurity WHERE user = {username}")
         self.con.commit()
 
     def delete_user(self, username):
 
-        self.cur.execute(f"DELETE FROM User")
+        self.cur.execute(f"DELETE FROM User WHERE username = {username}")
+        self.con.commit()
+
+    def delete_password(self, id):
+        self.cur.execute(f"DELETE FROM Password WHERE id = {id}")
         self.con.commit()
 
     def set_serial_number(self, serial_number, username):
         username = self.get_user("username")
-        self.cur.execute(f"UPDATE User SET serial_number WHERE username = {username}")
+        self.cur.execute(f"UPDATE User SET serial_number = ? WHERE username = {username}", (serial_number,))
 
     def initiate_user_security(self, username, hashed_password, hashed_answer, encrypted_password, encrypted_question,
                                salt) -> bool:
         self.cur.execute(
-            f"INSERT INTO UserSecurity (username, hashed_password, hashed_answer, encrypted_password, encrypted_question, salt) VALUES (?, ?, ?, ?, ?, ?)",
+            f"INSERT INTO UserSecurity (user, hashed_password, hashed_answer, encrypted_password, encrypted_question, salt) VALUES (?, ?, ?, ?, ?, ?)",
             (username, hashed_password, hashed_answer, encrypted_password, encrypted_question, salt))
         try:
             self.con.commit()

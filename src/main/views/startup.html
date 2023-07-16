@@ -29,8 +29,8 @@
         <input type="text" id="answer_input">
         <br> <br>
 
-        <button onclick="submitAccount()">
-            Create Account
+        <button onclick="submit()">
+            Create MDPSaver Account
         </button>
     </body>
 </html>
@@ -42,14 +42,15 @@
             window.bridge = channel.objects.bridge;
         });
 
-        function submitAccount() {
+        function submit() {
             // TODO: Add validation
             const username = document.getElementById("username_input").value;
             const password = document.getElementById("password_input").value;
             const question = document.getElementById("question_input").value;
             const answer = document.getElementById("answer_input").value;
 
-            window.bridge.submitAccount(username, password, question, answer);
+            bridge.submitAccount(username, password, question, answer)
+
         }
 
 </script>

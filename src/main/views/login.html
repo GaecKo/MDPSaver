@@ -1,4 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-    <p>login</p>
+    <h1>login</h1>
+    <select id="username">
+        {% for username in usernames %}
+            <option value="{{username}}">{{username}}</option>
+        {% endfor %}
+    </select>
+    <input type="password" id="password_input">
+    <button onclick="submitLogin()">Login</button>
+    <br> <br>
+    <button onclick="callRecovery()">Forgot Password</button>
+    <br> <br>
+    <button onclick="bridge.callStartup()">Create Account</button>
 </html>
+
+<script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+<script>
+    // Create the QWebChannel object and connect to the bridge
+        new QWebChannel(qt.webChannelTransport, function (channel) {
+            window.bridge = channel.objects.bridge;
+        });
+
+        function callStartup() {
+            bridge.callStartup();
+        }
+
+        function callRecovery() {
+            const username = document.getElementById("username").value;
+            bridge.callRecovery(username);
+        }
+
+        function submitLogin() {
+
+            const username = document.getElementById("username_input").value;
+            const password = document.getElementById("password_input").value;
+
+            bridge.submitLogin(username, password);
+
+        }
+
+</script>

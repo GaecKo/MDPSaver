@@ -1,6 +1,7 @@
 from MDPDatabase.MDPDatabase import MDPDatabase
 from MDPDatabase.security import *
 import os
+import time
 
 #TODO: update controller for multiple user system (WIP)
 
@@ -11,7 +12,7 @@ class Controller:
     def __init__(self):
         self.db = MDPDatabase()
         self.key = None  # Will contain the key to decrypt data
-        self.userId = None # has to be set when logged in!
+        self.username = None # has to be set when logged in!
 
     def getNumberOfUser(self):
         return self.db.count("User")
@@ -37,46 +38,46 @@ class Controller:
         return passwords
 
     def get_usernames(self):
-        return self.db.get_usernames()
+        return list(self.db.get_usernames())[0]
 
-    def get_serial_number(self, username):
-        return self.db.get_user("serial_number", username)
+    def get_serial_number(self):
+        return self.db.get_user_attribute("serial_number", self.username)
 
     def get_times_connected(self):
-        return self.db.get_user("times_connected")
+        return self.db.get_user_attribute("times_connected", self.username)
 
     def get_hashed_password(self):
-        return self.db.get_user_security("hashed_password")
+        return self.db.get_user_security("hashed_password", self.username)
 
     def get_hashed_answer(self):
-        return self.db.get_user_security("hashed_answer")
+        return self.db.get_user_security("hashed_answer", self.username)
 
     def get_encrypted_password(self):
-        return self.db.get_user_security("encrypted_password")
+        return self.db.get_user_security("encrypted_password", self.username)
 
     def get_encrypted_question(self):
-        return self.db.get_user_security("encrypted_question")
+        return self.db.get_user_security("encrypted_question", self.username)
 
     def get_salt(self):
-        return self.db.get_user_security("salt")
+        return self.db.get_user_security("salt", self.username)
 
     def get_db(self):
         return self.db
 
     def add_connection(self):
         print("Added Connections")
-        self.db.incr_connections()
+        self.db.incr_connections(self.username)
 
     def add_password(self, site, username, password):
         crypted_password = encrypt(self.key, password)
         crypted_username = encrypt(self.key, username)
         crypted_site = encrypt(self.key, site)
 
-        self.db.add_password(crypted_site, crypted_username, crypted_password)
+        self.db.add_password(crypted_site, crypted_username, crypted_password, self.username)
 
-    # load key when starting
-
-    def load_app(self, password):
+    # load key when starting the app, as well as the username of the current user
+    def load_app(self, username, password):
+        self.username = username
         self.key = load_key(password, self.get_salt())
         self.add_connection()
 
@@ -86,7 +87,7 @@ class Controller:
         salt = os.urandom(16)
 
         # 2) Create the serial number (used to encrypt the question)
-        serial_number = abs(int(low_hash(password)))
+        serial_number = abs(int(time.time()))
 
         # 3) Hash of the AP
         hashed_password = hashing(password)
@@ -111,17 +112,18 @@ class Controller:
 
         return True
 
-    def check_login(self, password):
-        return hashing(password) == self.db.get_user_security("hashed_password")
+    def check_login(self, password, username):
+        return hashing(password) == self.db.get_user_security("hashed_password", username)
 
     def kill_db(self):
         print("KILLED DB")
-        self.db.apply_sql()
+        self.db.reset_db()
 
 
 class Recover:
     def __init__(self, controller: Controller):
         self.controller = controller
+        self.username = self.controller.username
         self.db = self.controller.get_db()
 
     def get_personnal_question(self):
@@ -137,14 +139,14 @@ class Recover:
         return hashing(answer) == self.controller.get_hashed_answer()
 
     def delete_user_security(self):
-        self.db.delete_user_security()
+        self.db.delete_user_security(self.username)
 
-    def delete_user(self):
-        self.db.delete_user()
+    def delete_user(self, username):
+        self.db.delete_user(username)
 
-    def update_passwords(self, old_password, old_salt, new_password, new_salt) -> None:
-        data = self.db.get_all_passwords()
-        # Loal old and new key
+    def update_passwords(self, old_password, old_salt, new_password, new_salt, username) -> None:
+        data = self.db.get_all_passwords(self.username)
+        # Load old and new key
         old_key = load_key(old_password, old_salt)
         new_key = load_key(new_password, new_salt)
 
@@ -178,7 +180,7 @@ class Recover:
         nbr_connections = self.controller.get_times_connected()
         encrypted_password = self.controller.get_encrypted_password()
         old_password = self.get_old_password(old_answer, encrypted_password, old_salt)
-        username = self.controller.get_username()
+        username = self.username
 
         # 1) Delete current User Security
         self.delete_user_security()
@@ -193,9 +195,9 @@ class Recover:
 
         new_salt = self.controller.get_salt()  # It'different than initial salt, as user security has been updated just above
 
-        self.update_passwords(old_password, old_salt, new_password, new_salt)
+        self.update_passwords(old_password, old_salt, new_password, new_salt, username)
 
         # 4) Load app with new password
-        self.controller.load_app(new_password)
+        self.controller.load_app(new_password, self.username)
 
         return True

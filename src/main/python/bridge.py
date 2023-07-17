@@ -1,9 +1,9 @@
 from PySide6.QtCore import QObject, Slot, QUrl, Signal
 
-from controller import Controller
+from controller import Controller, Recover
 
 
-class Bridge(QObject, Controller):
+class Bridge(QObject, Controller, Recover):
     # Login Signals
     successful_login = Signal()
     failed_login = Signal()
@@ -23,11 +23,17 @@ class Bridge(QObject, Controller):
         Controller.__init__(self)  # initialize controller class, all its methods are now accessible
         QObject.__init__(self)
 
-    # @Slot(str)
-    # def buttonClicked(self, button_id):
-    #     print(f"Button {button_id} clicked!")
 
-    # Login Methods
+    ###### App Methods ######
+
+    ###### Recovery Methods ######
+    @Slot(str, result=bool)
+    def submitAnswer(self, answer):
+        if self.verify_answer(answer):
+            return True
+        return False
+
+    ###### Login Methods ######
     @Slot(str, str)
     def submitLogin(self, username, password):
         if self.check_login(username, password):
@@ -45,12 +51,21 @@ class Bridge(QObject, Controller):
 
     @Slot(str)
     def callRecovery(self, username):
-        # TODO: auto select username for recovery
+        # Initiate recovery class, all its methods are now accessible, it needs the controller (self) in order to work
+        Recover.__init__(self, self)
+
         print("Recovery Called")
-        self.username = username  # articifically set username for recovery
+
+        # articifically set username for recovery, will be overwritten by user later on
+        self.username = username
+
         self.recovery_login.emit()
 
-    # Startup Methods
+    @Slot(str)
+    def printf(self, string):
+        print(string)
+
+    ###### Startup Methods ######
     @Slot(str, str, str, str)
     def submitAccount(self, username, password, question, answer):
 

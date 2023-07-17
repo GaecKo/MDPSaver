@@ -1,4 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
     <p>recovery</p>
+
+    <select id="username_input">
+        {% for username in usernames %} <!--Automatically select username for which recovery was asked-->
+            {% if username == selected_username %}
+                <option value="{{username}}" selected>{{username}}</option>
+            {% else %}
+                <option value="{{username}}">{{username}}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+
 </html>
+<button onclick="askQuestion()">
+    start
+</button>
+
+<script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+<script>
+    // Create the QWebChannel object and connect to the bridge
+        new QWebChannel(qt.webChannelTransport, function (channel) {
+            window.bridge = channel.objects.bridge;
+        });
+
+        function askQuestion() {
+            const username = document.getElementById("username_input").value;
+            bridge.askQuestion(username);
+        }
+
+
+</script>

@@ -5,6 +5,7 @@ from PySide6.QtWebChannel import QWebChannel
 import os
 from bridge import Bridge
 from jinja2 import Template
+from controller import Recover
 
 
 class MDPSaver(QMainWindow):
@@ -58,7 +59,7 @@ class MDPSaver(QMainWindow):
 
         # Login Signals
         self.bridge.successful_login.connect(self.__load_app__)
-        self.bridge.failed_login.connect(self.__load_login__)
+        self.bridge.failed_login.connect(lambda: self.__load_login__(from_failed=True))
         self.bridge.recovery_login.connect(self.__load_recovery__)
         self.bridge.create_account_login.connect(self.__load_startup__)
 
@@ -82,18 +83,20 @@ class MDPSaver(QMainWindow):
 
     def __load_login__(self, from_failed= False):
         # TODO: load page using Jinja2
-        if from_failed:
-            self.web_view.page().runJavaScript("alert('Login Failed!');")
-            return
 
         template = Template(open(self.login_path).read())
 
-        self.web_view.setHtml(template.render(usernames=self.bridge.get_usernames()))
+        self.web_view.setHtml(template.render(usernames=self.bridge.get_usernames(), from_failed=from_failed))
 
 
-    def __load_recovery__(self):
+    def __load_recovery__(self, from_failed= False):
         # TODO: load page using Jinja2
-        self.web_view.load(QUrl.fromLocalFile(self.recovery_path))
+
+        question = self.bridge.get_personnal_question() # XXX: Using templating or asking from JS?
+
+        template = Template(open(self.recovery_path).read())
+
+        self.web_view.setHtml(template.render(usernames=self.bridge.get_usernames(), selected_username=self.bridge.username))
 
     def __load_app__(self):
         # TODO: load page using Jinja2

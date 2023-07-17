@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
     <h1>login</h1>
-    <select id="username">
+    {% if from_failed %}
+        <h2 style="color: red">Incorrect username or password, please retry or access recovery</h2>
+    {% endif %}
+    <select id="username_input">
         {% for username in usernames %}
             <option value="{{username}}">{{username}}</option>
         {% endfor %}
@@ -26,7 +29,7 @@
         }
 
         function callRecovery() {
-            const username = document.getElementById("username").value;
+            const username = document.getElementById("username_input").value;
             bridge.callRecovery(username);
         }
 

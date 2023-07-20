@@ -38,7 +38,7 @@ class Controller:
         return passwords
 
     def get_usernames(self):
-        return list(self.db.get_usernames())[0]
+        return list(self.db.get_usernames())
 
     def get_serial_number(self):
         return self.db.get_user_attribute("serial_number", self.username)

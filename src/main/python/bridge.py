@@ -23,6 +23,10 @@ class Bridge(QObject, Controller, Recover):
         Controller.__init__(self)  # initialize controller class, all its methods are now accessible
         QObject.__init__(self)
 
+    def __init_recover__(self):
+        # Initiate recovery class, all its methods are now accessible,
+        # it needs the controller (self) in order to work
+        Recover.__init__(self, self)
 
     ###### App Methods ######
 
@@ -32,6 +36,15 @@ class Bridge(QObject, Controller, Recover):
         if self.verify_answer(answer):
             return True
         return False
+
+    @Slot(str, result=str)
+    def getQuestion(self, username):
+        self.username = username  # re-attribute username to the one asked for recovery
+        return self.get_personnal_question()
+
+    @Slot()
+    def cancelRecovery(self):
+        self.cancel_recovery.emit()
 
     ###### Login Methods ######
     @Slot(str, str)
@@ -51,8 +64,8 @@ class Bridge(QObject, Controller, Recover):
 
     @Slot(str)
     def callRecovery(self, username):
-        # Initiate recovery class, all its methods are now accessible, it needs the controller (self) in order to work
-        Recover.__init__(self, self)
+        # Initiate Recovery class
+        self.__init_recover__()
 
         print("Recovery Called")
 

@@ -90,9 +90,8 @@ class MDPSaver(QMainWindow):
 
 
     def __load_recovery__(self, from_failed= False):
-        # TODO: load page using Jinja2
 
-        question = self.bridge.get_personnal_question() # XXX: Using templating or asking from JS?
+        # question = self.bridge.get_personnal_question() # XXX: Using templating or asking from JS?
 
         template = Template(open(self.recovery_path).read())
 

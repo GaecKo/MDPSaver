@@ -6,7 +6,7 @@
     {% endif %}
     <select id="username_input">
         {% for username in usernames %}
-            <option value="{{username}}">{{username}}</option>
+            <option value="{{username[0]}}">{{username[0]}}</option>
         {% endfor %}
     </select>
     <input type="password" id="password_input">

@@ -2,12 +2,12 @@
 <html lang="en">
     <p>recovery</p>
 
-    <select id="username_input">
+    <select id="username_input" onchange="disable()">
         {% for username in usernames %} <!--Automatically select username for which recovery was asked-->
             {% if username == selected_username %}
-                <option value="{{username}}" selected>{{username}}</option>
+                <option value="{{username[0]}}" selected>{{username[0]}}</option>
             {% else %}
-                <option value="{{username}}">{{username}}</option>
+                <option value="{{username[0]}}">{{username[0]}}</option>
             {% endif %}
         {% endfor %}
     </select>
@@ -16,18 +16,53 @@
 <button onclick="askQuestion()">
     start
 </button>
+<br><br>
+
+<label for="question_input" disabled="Waiting for start" id="question">
+
+</label>
+<input type="text" disabled id="question_input" placeholder="Answer">
+<button disabled id="submit_answer">
+    Submit answer
+</button>
+
+<br><br>
+<button onclick="backLogin()">
+    back to login
+</button>
 
 <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
 <script>
+    // TODO: Submit Answer in controller + comments on this page in order to understand how it works
     // Create the QWebChannel object and connect to the bridge
         new QWebChannel(qt.webChannelTransport, function (channel) {
             window.bridge = channel.objects.bridge;
         });
 
-        function askQuestion() {
-            const username = document.getElementById("username_input").value;
-            bridge.askQuestion(username);
+        function backLogin() {
+            bridge.cancelRecovery();
         }
 
+        async function askQuestion() {
+            const username = document.getElementById("username_input").value;
+
+            document.getElementById("question").innerHTML = await bridge.getQuestion(username);
+            document.getElementById("question_input").disabled = false;
+            document.getElementById("submit_answer").disabled = false;
+
+        }
+
+        async function submitAnswer() {
+            const username = document.getElementById("username_input").value;
+            const answer = document.getElementById("question_input").value;
+
+            await bridge.submitAnswer(username, answer);
+        }
+
+        function disable() {
+            document.getElementById("question").innerHTML = "";
+            document.getElementById("question_input").disabled = true;
+            document.getElementById("submit_answer").disabled = true;
+        }
 
 </script>

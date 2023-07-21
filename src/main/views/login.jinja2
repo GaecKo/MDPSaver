@@ -1,46 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-    <h1>login</h1>
-    {% if from_failed %}
-        <h2 style="color: red">Incorrect username or password, please retry or access recovery</h2>
-    {% endif %}
-    <select id="username_input">
-        {% for username in usernames %}
-            <option value="{{username[0]}}">{{username[0]}}</option>
-        {% endfor %}
-    </select>
-    <input type="password" id="password_input">
-    <button onclick="submitLogin()">Login</button>
-    <br> <br>
-    <button onclick="callRecovery()">Forgot Password</button>
-    <br> <br>
-    <button onclick="bridge.callStartup()">Create Account</button>
+    <body onload="createBridge()">
+        <h1>login hf8wefew</h1>
+
+        <h2 style="color: red;" id="wrong_password"></h2>
+
+        <select id="username_input">
+            {% for username in usernames %}
+                <option value="{{username[0]}}">{{username[0]}}</option>
+            {% endfor %}
+        </select>
+
+        <input type="password" id="password_input">
+        <button onclick="submitLogin()">Login</button>
+        <br> <br>
+        <button onclick="callRecovery()">Forgot Password</button>
+        <br> <br>
+        <button onclick="bridge.callStartup()">Create Account</button>
+    </body>
 </html>
 
 <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
 <script>
+    async function createBridge() {
+        await new QWebChannel(qt.webChannelTransport, function (channel) {
+        window.bridge = channel.objects.bridge;
+
+        print = bridge.printJS;
+    });
+    }
     // Create the QWebChannel object and connect to the bridge
-        new QWebChannel(qt.webChannelTransport, function (channel) {
-            window.bridge = channel.objects.bridge;
-        });
 
-        function callStartup() {
-            bridge.callStartup();
+
+
+
+    function callStartup() {
+        bridge.callStartup();
+    }
+
+    function callRecovery() {
+        const username = document.getElementById("username_input").value;
+        bridge.callRecovery(username);
+    }
+
+    async function submitLogin() {
+
+
+        const username = document.getElementById("username_input").value;
+        const password = document.getElementById("password_input").value;
+
+        if (await bridge.submitLogin(username, password) === true) {
+            bridge.callMain();
+        } else {
+            document.getElementById("wrong_password").innerHTML = "wowow bad password";
         }
 
-        function callRecovery() {
-            const username = document.getElementById("username_input").value;
-            bridge.callRecovery(username);
-        }
-
-        function submitLogin() {
-
-            const username = document.getElementById("username_input").value;
-            const password = document.getElementById("password_input").value;
-
-            bridge.submitLogin(username, password);
-
-        }
+    }
 
 </script>
 

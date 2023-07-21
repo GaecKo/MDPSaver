@@ -13,6 +13,7 @@ class Bridge(QObject, Controller, Recover):
     # Startup Signals
     successful_startup = Signal()
     failed_startup = Signal()
+    back_login_startup = Signal()
 
     # Recovery Signals
     successful_recovery = Signal()
@@ -28,6 +29,10 @@ class Bridge(QObject, Controller, Recover):
         # it needs the controller (self) in order to work
         Recover.__init__(self, self)
 
+    @Slot(str)
+    def printJS(self, string):
+        print("JS: " + string)
+
     ###### App Methods ######
 
     ###### Recovery Methods ######
@@ -42,20 +47,35 @@ class Bridge(QObject, Controller, Recover):
         self.username = username  # re-attribute username to the one asked for recovery
         return self.get_personnal_question()
 
+    @Slot(str, str, str, str, result=bool)
+    def submitNewInformations(self, new_password, new_question, new_answer, old_answer):
+        if self.applicate_recovery(new_password, new_question, new_answer, old_answer):
+            return True
+        return False
+
+    @Slot()
+    def successfulRecovery(self):
+        self.successful_recovery.emit()
+
     @Slot()
     def cancelRecovery(self):
         self.cancel_recovery.emit()
 
     ###### Login Methods ######
-    @Slot(str, str)
+    @Slot(str, str, result=bool)
     def submitLogin(self, username, password):
         if self.check_login(username, password):
             print(f"Login Success")
             self.load_app(username, password)
-            self.successful_login.emit()
+            return True
         else:
             print(f"Login Failed")
-            self.failed_login.emit()
+            return False
+
+    @Slot()
+    def callMain(self):
+        print("Main Called")
+        self.successful_login.emit()
 
     @Slot()
     def callStartup(self):
@@ -87,3 +107,9 @@ class Bridge(QObject, Controller, Recover):
             self.successful_startup.emit()
         else:
             self.failed_startup.emit()
+
+
+    @Slot()
+    def callLogin(self):
+        print("Back Login Called")
+        self.back_login_startup.emit()

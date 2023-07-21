@@ -70,7 +70,7 @@ class MDPSaver(QMainWindow):
 
         # Login Signals
         self.bridge.successful_login.connect(self.__load_app__)
-        self.bridge.failed_login.connect(lambda: self.__load_login__(from_failed=True))
+        self.bridge.failed_login.connect(self.__load_login__)
         self.bridge.recovery_login.connect(self.__load_recovery__)
         self.bridge.create_account_login.connect(self.__load_startup__)
 
@@ -121,10 +121,10 @@ class MDPSaver(QMainWindow):
         else:
             self.web_view.setHtml(html)
 
-    def __load_login__(self, from_failed=False):
+    def __load_login__(self):
 
         template = Template(open(self.login_jinja).read())
-        html = template.render(usernames=self.bridge.get_usernames(), from_failed=from_failed)
+        html = template.render(usernames=self.bridge.get_usernames())
 
         if self.debug:
             self.__write_jinja__(self.login_path, html)

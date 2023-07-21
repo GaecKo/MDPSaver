@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <body>
+    <body onload="createBridge()">
         <h1>Startup Page</h1>
 
         <label for="username_input">
@@ -35,7 +35,7 @@
         <br> <br>
         {% if nbr_user > 0 %}
             <button onclick="bridge.callLogin()">
-                Login
+                Login Instead
             </button>
         {% endif %}
     </body>
@@ -44,19 +44,23 @@
 <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
 <script>
     // Create the QWebChannel object and connect to the bridge
-        new QWebChannel(qt.webChannelTransport, function (channel) {
-            window.bridge = channel.objects.bridge;
-        });
+    async function createBridge() {
+        await new QWebChannel(qt.webChannelTransport, function (channel) {
+        window.bridge = channel.objects.bridge;
 
-        function submit() {
-            // TODO: Add validation
-            const username = document.getElementById("username_input").value;
-            const password = document.getElementById("password_input").value;
-            const question = document.getElementById("question_input").value;
-            const answer = document.getElementById("answer_input").value;
+        print = bridge.printJS;
+    });
+    }
 
-            bridge.submitAccount(username, password, question, answer)
+    function submit() {
+        // TODO: Add validation
+        const username = document.getElementById("username_input").value;
+        const password = document.getElementById("password_input").value;
+        const question = document.getElementById("question_input").value;
+        const answer = document.getElementById("answer_input").value;
 
-        }
+        bridge.submitAccount(username, password, question, answer)
+
+    }
 
 </script>

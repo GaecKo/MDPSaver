@@ -1,137 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
+    <body onload="createBridge()">
+        <h1>recovery</h1>
 
-    <h1>recovery</h1>
+        <div id="username_select_zone">
+            <select id="username_input" onchange="disable()">
+                {% for username in usernames %} <!--Automatically select username for which recovery was asked-->
+                    {% if username == selected_username %}
+                        <option value="{{username[0]}}" selected>{{username[0]}}</option>
+                    {% else %}
+                        <option value="{{username[0]}}">{{username[0]}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
 
-    <div id="username_select_zone">
-        <select id="username_input" onchange="disable()">
-            {% for username in usernames %} <!--Automatically select username for which recovery was asked-->
-                {% if username == selected_username %}
-                    <option value="{{username[0]}}" selected>{{username[0]}}</option>
-                {% else %}
-                    <option value="{{username[0]}}">{{username[0]}}</option>
-                {% endif %}
-            {% endfor %}
-        </select>
+            <button onclick="enableResponseZone()">
+                start
+            </button>
 
-        <button onclick="enableReponseZone()">
-            start
-        </button>
+            <br> <br>
 
-        <br> <br>
+            <button id="backLogin" onclick="backLogin()">
+                Back to login
+            </button>
 
-        <button id="backLogin" onclick="backLogin()">
-            Back to login
-        </button>
+        </div>
 
-    </div>
-
-<br><br>
-
-
-    <div id="response_zone" hidden>
-        <label for="question_input" id="question"> </label>
-
-        <input type="text"  id="question_input" placeholder="Answer">
-
-        <button  id="submit_answer" onclick="submitAnswer()">
-            Submit answer
-        </button>
-    </div>
+    <br><br>
 
 
-<br><br>
+        <div id="response_zone" hidden>
+            <label for="answer_input" id="question"> </label>
+
+            <input type="text"  id="answer_input" placeholder="Answer">
+
+            <button  id="submit_answer" onclick="submitAnswer()">
+                Submit answer
+            </button>
+            <button onclick="backToRecover()">
+                Back
+            </button>
+        </div>
 
 
-    <div id="new_informations_zone" hidden>
-        <label for="new_password_input">
-            New Password:
-        </label>
-        <input type="password" id="new_password_input">
-        <br> <br>
+    <br><br>
 
-        <label for="new_question_input">
-            New Question:
-        </label>
-        <input type="text" id="new_question_input">
-        <br> <br>
 
-        <label for="new_answer_input">
-            New Answer:
-        </label>
-        <input type="text" id="new_answer_input">
-        <br> <br>
+        <div id="new_informations_zone" hidden>
+            <label for="new_password_input">
+                New Password:
+            </label>
+            <input type="password" id="new_password_input">
+            <br> <br>
 
-        <button onclick="submitNewInformations()">
-            Submit new informations
-        </button>
-        <br><br>
+            <label for="new_question_input">
+                New Question:
+            </label>
+            <input type="text" id="new_question_input">
+            <br> <br>
 
-        <button id="cancel-new-info" disabled onclick="hideNewInformations()">
-            Back
-        </button>
+            <label for="new_answer_input">
+                New Answer:
+            </label>
+            <input type="text" id="new_answer_input">
+            <br> <br>
 
-    </div>
+            <button onclick="submitNewInformations()">
+                Submit new informations
+            </button>
+            <br><br>
+
+            <button id="cancel-new-info" onclick="backToRecover()">
+                Back
+            </button>
+
+        </div>
+    </body>
 </html>
 
 <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
 <script>
     // TODO: Submit Answer in controller + comments on this page in order to understand how it works
     // Create the QWebChannel object and connect to the bridge
-        new QWebChannel(qt.webChannelTransport, function (channel) {
-            window.bridge = channel.objects.bridge;
-        });
+    async function createBridge() {
+        await new QWebChannel(qt.webChannelTransport, function (channel) {
+        window.bridge = channel.objects.bridge;
 
-        function backLogin() {
-            bridge.cancelRecovery();
+        print = bridge.printJS;
+    });
+    }
+
+    function backLogin() {
+        bridge.cancelRecovery();
+    }
+
+    async function enableResponseZone() {
+        const username = document.getElementById("username_input").value;
+
+        document.getElementById("question").innerHTML = await bridge.getQuestion(username);
+
+        document.getElementById("username_select_zone").hidden = true;
+        document.getElementById("response_zone").hidden = false;
+        document.getElementById("new_informations_zone").hidden = true;
+
+    }
+
+    function backToRecover() {
+        document.getElementById("username_select_zone").hidden = false;
+        document.getElementById("response_zone").hidden = true;
+        document.getElementById("new_informations_zone").hidden = true;
+    }
+
+    function submitNewInformations() {
+        const new_password = document.getElementById("new_password_input").value;
+        const new_question = document.getElementById("new_question_input").value;
+        const new_answer = document.getElementById("new_answer_input").value;
+        const old_answer = document.getElementById("answer_input").value;
+
+        if (bridge.submitNewInformations(new_password, new_question, new_answer, old_answer) === true) {
+            bridge.successfulRecovery();
+        } else {
+            alert("Recovery failed, please retry or contact support.");
         }
+    }
 
-        async function EnableResponseZone() {
-            const username = document.getElementById("username_input").value;
 
-            document.getElementById("question").innerHTML = await bridge.getQuestion(username);
+    function showNewInformations() {
 
-            document.getElementById("response_zone").hidden = false;
+        document.getElementById("response_zone").hidden = true;
+        document.getElementById("new_informations_zone").hidden = false;
+    }
 
+    async function submitAnswer() {
+        const answer = document.getElementById("answer_input").value;
+
+        if (await bridge.submitAnswer(answer) ===true) {
+            showNewInformations()
+        } else {
+            alert("Wrong answer");
         }
+    }
 
-        function submitNewInformations() {
-            const username = document.getElementById("username_input").value;
-            const password = document.getElementById("new_password_input").value;
-            const question = document.getElementById("new_question_input").value;
-            const answer = document.getElementById("new_answer_input").value;
-
-            bridge.submitNewInformations(username, password, question, answer);
-        }
-
-        function backToRecover() {
-            document.getElementById("new_informations").hidden = true;
-            document.getElementById("cancel-new-info").disabled = true;
-            document.getElementById("backLogin").disabled = false;
-        }
-
-        function showNewInformations() {
-            document.getElementById("new_informations").hidden = false;
-            document.getElementById("cancel-new-info").disabled = false;
-            document.getElementById("backLogin").disabled = true;
-        }
-
-        async function submitAnswer() {
-            const answer = document.getElementById("question_input").value;
-
-            if (await bridge.submitAnswer(answer)) {
-                showNewInformations()
-            } else {
-                alert("Wrong answer");
-            }
-        }
-
-
-
-        function disable() {
-            document.getElementById("question").innerHTML = "";
-            document.getElementById("question_input").disabled = true;
-            document.getElementById("submit_answer").disabled = true;
-        }
 
 </script>

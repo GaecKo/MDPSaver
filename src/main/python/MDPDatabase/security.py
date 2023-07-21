@@ -1,8 +1,9 @@
 # author: Arthur De Neyer - GaecKo
 # last update: check github (https://github.com/GaecKo/MDPSaver)
 #           ==== ⚠ DISCLAIMER ⚠ ====
-# This part of the code concernes the security of the program. It uses verified and secured methods of famous modules (listed in the imports just below). 
-# In case of any suspicion on the system reliability and security, please open a new Issue on github. 
+# This part of the code concerns the security of the program. It uses verified and secured methods of
+# famous modules (listed in the imports just below).
+# In case of any suspicion on the system reliability and security, please open a new Issue on github.
 
 import sys, os, base64
 from Crypto.Hash import SHA256
@@ -14,12 +15,13 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 def load_key(password, salt) -> bytes:
     password = password.encode()
     kdf = PBKDF2HMAC(
-    algorithm=hashes.SHA256(),
-    length=32,
-    salt=salt,
-    iterations=380000)
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=salt,
+        iterations=380000)
     key = base64.urlsafe_b64encode(kdf.derive(password))
     return key
+
 
 def encrypt(key: bytes, to_encrypt: str) -> str:
     f = Fernet(key)
@@ -44,41 +46,42 @@ def try_decrypt(key, to_decrypt):
     except:
         return False
 
-def encrypt_extern_password(password:str, to_encrypt: str, salt) -> str:
 
+def encrypt_extern_password(password: str, to_encrypt: str, salt) -> str:
     password = password.encode()
     kdf = PBKDF2HMAC(
-    algorithm=hashes.SHA256(),
-    length=32,
-    salt=salt,
-    iterations=380000)
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=salt,
+        iterations=380000)
     key = base64.urlsafe_b64encode(kdf.derive(password))
     f = Fernet(key)
     token = f.encrypt(to_encrypt.encode())
     return token.decode()
 
-def decrypt_extern_password(password:str, to_decrypt: str, salt) -> str:
 
+def decrypt_extern_password(password: str, to_decrypt: str, salt) -> str:
     password = password.encode()
     kdf = PBKDF2HMAC(
-    algorithm=hashes.SHA256(),
-    length=32,
-    salt=salt,
-    iterations=380000)
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=salt,
+        iterations=380000)
     key = base64.urlsafe_b64encode(kdf.derive(password))
     f = Fernet(key)
     decrypted = f.decrypt(to_decrypt.encode())
     return decrypted.decode()
 
 
-
 def hashing(to_hash):
     return SHA256.new(data=to_hash.encode()).hexdigest()
+
 
 def low_hash(string):
     """
     Not good hash !!
     """
+
     def to_32(value):
         """
         Fonction interne utilisée par hashing.
@@ -89,7 +92,7 @@ def low_hash(string):
         :return (int): entier signé de 32 bits représentant 'value'
         """
         value = value % (2 ** 32)
-        if value >= 2**31:
+        if value >= 2 ** 31:
             value = value - 2 ** 32
         value = int(value)
         return value
@@ -98,7 +101,7 @@ def low_hash(string):
         x = ord(string[0]) << 7
         m = 1000003
         for c in string:
-            x = to_32((x*m) ^ ord(c))
+            x = to_32((x * m) ^ ord(c))
         x ^= len(string)
         if x == -1:
             x = -2

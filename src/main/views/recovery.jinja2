@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <h1>recovery</h1>
+
+    <div id="username_select_zone">
+        <select id="username_input" onchange="disable()">
+            {% for username in usernames %} <!--Automatically select username for which recovery was asked-->
+                {% if username == selected_username %}
+                    <option value="{{username[0]}}" selected>{{username[0]}}</option>
+                {% else %}
+                    <option value="{{username[0]}}">{{username[0]}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+
+        <button onclick="enableReponseZone()">
+            start
+        </button>
+
+        <br> <br>
+
+        <button id="backLogin" onclick="backLogin()">
+            Back to login
+        </button>
+
+    </div>
+
+<br><br>
+
+
+    <div id="response_zone" hidden>
+        <label for="question_input" id="question"> </label>
+
+        <input type="text"  id="question_input" placeholder="Answer">
+
+        <button  id="submit_answer" onclick="submitAnswer()">
+            Submit answer
+        </button>
+    </div>
+
+
+<br><br>
+
+
+    <div id="new_informations_zone" hidden>
+        <label for="new_password_input">
+            New Password:
+        </label>
+        <input type="password" id="new_password_input">
+        <br> <br>
+
+        <label for="new_question_input">
+            New Question:
+        </label>
+        <input type="text" id="new_question_input">
+        <br> <br>
+
+        <label for="new_answer_input">
+            New Answer:
+        </label>
+        <input type="text" id="new_answer_input">
+        <br> <br>
+
+        <button onclick="submitNewInformations()">
+            Submit new informations
+        </button>
+        <br><br>
+
+        <button id="cancel-new-info" disabled onclick="hideNewInformations()">
+            Back
+        </button>
+
+    </div>
+</html>
+
+<script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+<script>
+    // TODO: Submit Answer in controller + comments on this page in order to understand how it works
+    // Create the QWebChannel object and connect to the bridge
+        new QWebChannel(qt.webChannelTransport, function (channel) {
+            window.bridge = channel.objects.bridge;
+        });
+
+        function backLogin() {
+            bridge.cancelRecovery();
+        }
+
+        async function EnableResponseZone() {
+            const username = document.getElementById("username_input").value;
+
+            document.getElementById("question").innerHTML = await bridge.getQuestion(username);
+
+            document.getElementById("response_zone").hidden = false;
+
+        }
+
+        function submitNewInformations() {
+            const username = document.getElementById("username_input").value;
+            const password = document.getElementById("new_password_input").value;
+            const question = document.getElementById("new_question_input").value;
+            const answer = document.getElementById("new_answer_input").value;
+
+            bridge.submitNewInformations(username, password, question, answer);
+        }
+
+        function backToRecover() {
+            document.getElementById("new_informations").hidden = true;
+            document.getElementById("cancel-new-info").disabled = true;
+            document.getElementById("backLogin").disabled = false;
+        }
+
+        function showNewInformations() {
+            document.getElementById("new_informations").hidden = false;
+            document.getElementById("cancel-new-info").disabled = false;
+            document.getElementById("backLogin").disabled = true;
+        }
+
+        async function submitAnswer() {
+            const answer = document.getElementById("question_input").value;
+
+            if (await bridge.submitAnswer(answer)) {
+                showNewInformations()
+            } else {
+                alert("Wrong answer");
+            }
+        }
+
+
+
+        function disable() {
+            document.getElementById("question").innerHTML = "";
+            document.getElementById("question_input").disabled = true;
+            document.getElementById("submit_answer").disabled = true;
+        }
+
+</script>

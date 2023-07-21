@@ -32,6 +32,12 @@
         <button onclick="submit()">
             Create MDPSaver Account
         </button>
+        <br> <br>
+        {% if nbr_user > 0 %}
+            <button onclick="bridge.callLogin()">
+                Login
+            </button>
+        {% endif %}
     </body>
 </html>
 

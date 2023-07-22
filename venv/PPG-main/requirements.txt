@@ -1,0 +1,6 @@
+PyInstaller==4.5.1
+rsa>=3.4.2
+boto3
+sentry-sdk>=0.6.6
+termcolor==1.1.0
+

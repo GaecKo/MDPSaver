@@ -77,8 +77,6 @@ class MDPDatabase:
         result = self.cur.fetchone()
 
         if result:
-            print("Attribute: ", attribute, "\nUsername: ", username, "\nResult: ", result[0])
-
             return result[0]
         else:
             return None

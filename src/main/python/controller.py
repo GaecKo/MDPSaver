@@ -58,7 +58,6 @@ class Controller:
         return self.db.get_user_security("encrypted_question", self.username)
 
     def get_salt(self):
-        print("Salt: ", self.db.get_user_security("salt", self.username))
         return self.db.get_user_security("salt", self.username)
 
     def get_db(self):

@@ -25,14 +25,15 @@ class Controller:
             return None
 
         passwords = list(self.db.get_all_passwords(username))
+        print(passwords)
 
         for index, data in enumerate(passwords):
             data = list(data)
             c_site, c_username, c_password = data[0], data[1], data[2]
 
-            site, username, password = decrypt(self.key, c_site), decrypt(self.key, c_username), decrypt(self.key,
-                                                                                                         c_password)
-            passwords[index] = [site, username, password]
+            site, username, password = decrypt(self.key, c_site), decrypt(self.key, c_username), decrypt(self.key, c_password)
+            # passwords[index] = [site, username, password]
+            passwords[index] = {"target": site, "username": username, "password": password}
 
         return passwords
 
@@ -67,12 +68,12 @@ class Controller:
         print("Added Connections")
         self.db.incr_connections(self.username)
 
-    def add_password(self, site, username, password):
+    def add_password(self, site, username, password, icon):
         crypted_password = encrypt(self.key, password)
         crypted_username = encrypt(self.key, username)
         crypted_site = encrypt(self.key, site)
 
-        self.db.add_password(crypted_site, crypted_username, crypted_password, self.username)
+        self.db.add_password(crypted_site, crypted_username, crypted_password, self.username, "None" if icon is None else icon)
 
     # load key when starting the app, as well as the username of the current user
     def load_app(self, username, password):

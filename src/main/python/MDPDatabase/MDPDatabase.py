@@ -14,9 +14,10 @@ class MDPDatabase:
         self.con = sqlite3.connect(database_path)
         self.cur = self.con.cursor()
 
-    def add_password(self, site: str, username: str, crypted_password: str, user: str) -> None:
-        self.cur.execute(f"INSERT INTO Password (user, site, identifier, password) VALUES (?,?,?,?)",
-                         (user, site, username, crypted_password))
+    def add_password(self, site: str, username: str, crypted_password:str, user:str, icon: str) -> None:
+        user_serial = self.get_user_attribute("serial_number", user)
+        self.cur.execute(f"INSERT INTO Password (user, site, identifier, password, icon) VALUES (?,?,?,?,?)",
+                         (user_serial, site, user_serial, crypted_password, icon))
         self.con.commit()
 
     def count(self, table):
@@ -29,21 +30,26 @@ class MDPDatabase:
         @return: a tuple: (site, username, crypted_password) if id in db
                  None otherwise
         """
-        self.cur.execute(f"SELECT site, identifier, password FROM Password WHERE id = '{id}'")
+        self.cur.execute(f"SELECT site, identifier, password, icon FROM Password WHERE id = '{id}'")
 
         result = self.cur.fetchone()
 
         if result:
-            site, username, password = result
-            return (site, username, password)
+            site, username, password, icon = result
+            return (site, username, password, icon)
         else:
             return None
 
     def get_all_passwords(self, username):
-        self.cur.execute(f"SELECT site, identifier, password FROM Password WHERE user = '{username}'")
+        # get user serial number
+        try :
+            user_serial = self.get_user_attribute("serial_number", username)
+            self.cur.execute(f"SELECT site, identifier, password FROM Password WHERE user = '{user_serial}'")
 
-        result = self.cur.fetchall()
-        return result
+            result = self.cur.fetchall()
+            return result
+        except:
+            return []
 
     def get_usernames(self):
         self.cur.execute(f"SELECT username FROM User")

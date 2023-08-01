@@ -1,3 +1,5 @@
+import subprocess
+
 from PySide6.QtCore import QObject, Slot, QUrl, Signal
 
 from controller import Controller, Recover
@@ -19,6 +21,10 @@ class Bridge(QObject, Controller, Recover):
     successful_recovery = Signal()
     failed_recovery = Signal()
     cancel_recovery = Signal()
+
+    # main app signals
+    add_password_view = Signal()
+    push_password = Signal(str, str, str, str)
 
     def __init__(self):
         Controller.__init__(self)  # initialize controller class, all its methods are now accessible
@@ -113,3 +119,13 @@ class Bridge(QObject, Controller, Recover):
     def callLogin(self):
         print("Back Login Called")
         self.back_login_startup.emit()
+
+    @Slot()
+    def callAddPassword(self):
+        self.add_password_view.emit()
+
+    @Slot(str, str, str, str)
+    def callPushPassword(self, target, username, password, icon):
+ 
+        self.push_password.emit(target, username, password, icon)
+

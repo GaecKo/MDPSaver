@@ -106,7 +106,6 @@ class MDPSaver(QMainWindow):
         self.app_watcher.fileChanged.connect(self.__load_app__)
         self.add_password_watcher.fileChanged.connect(self.__add_password__)
 
-
         # Create debug html files:
         open(self.startup_path, "w").write("")
         open(self.login_path, "w").write("")
@@ -119,6 +118,7 @@ class MDPSaver(QMainWindow):
             f.write(html)
 
     def __remove_debug_file__(self):
+        print("Removing debug files")
         # delete html files
         os.remove(self.app_path)
         os.remove(self.login_path)
@@ -165,7 +165,7 @@ class MDPSaver(QMainWindow):
         username = self.bridge.username
         passwords = self.bridge.get_all_passwords()
         print(username, passwords)
-        html = template.render(username=self.bridge.username, passwords=passwords) # to complete further on
+        html = template.render(username=self.bridge.username, passwords=passwords)  # to complete further on
         if self.debug:
             self.__write_jinja__(self.app_path, html)
             self.web_view.load(QUrl.fromLocalFile(self.app_path))
@@ -180,10 +180,6 @@ class MDPSaver(QMainWindow):
             self.web_view.load(QUrl.fromLocalFile(self.add_password_path))
         else:
             self.web_view.setHtml(html)
-
-
-
-
 
     def closeEvent(self, event):
         # Stop monitoring the file for changes when the window is closed

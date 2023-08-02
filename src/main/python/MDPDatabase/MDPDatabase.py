@@ -14,9 +14,9 @@ class MDPDatabase:
         self.con = sqlite3.connect(database_path)
         self.cur = self.con.cursor()
 
-    def add_password(self, site: str, username: str, crypted_password: str, user: str) -> None:
-        self.cur.execute(f"INSERT INTO Password (user, site, identifier, password) VALUES (?,?,?,?)",
-                         (user, site, username, crypted_password))
+    def add_password(self, c_site: str, c_identifier: str, c_password:str, user:str, icon: str) -> None:
+        self.cur.execute(f"INSERT INTO Password (user, site, identifier, password, icon) VALUES (?,?,?,?,?)",
+                         (user, c_site, c_identifier, c_password, icon))
         self.con.commit()
 
     def count(self, table):
@@ -29,21 +29,26 @@ class MDPDatabase:
         @return: a tuple: (site, username, crypted_password) if id in db
                  None otherwise
         """
-        self.cur.execute(f"SELECT site, identifier, password FROM Password WHERE id = '{id}'")
+        self.cur.execute(f"SELECT site, identifier, password, icon FROM Password WHERE id = '{id}'")
 
         result = self.cur.fetchone()
 
         if result:
-            site, username, password = result
-            return (site, username, password)
+            site, username, password, icon = result
+            return (site, username, password, icon)
         else:
             return None
 
-    def get_all_passwords(self, username):
-        self.cur.execute(f"SELECT site, identifier, password FROM Password WHERE user = '{username}'")
+    def get_all_passwords(self, username: str) -> list:
 
+        self.cur.execute(f"SELECT site, identifier, password FROM Password WHERE user = '{username}'")
         result = self.cur.fetchall()
-        return result
+
+        if result:
+            return result
+        else:
+            return []
+
 
     def get_usernames(self):
         self.cur.execute(f"SELECT username FROM User")
@@ -77,8 +82,6 @@ class MDPDatabase:
         result = self.cur.fetchone()
 
         if result:
-            print("Attribute: ", attribute, "\nUsername: ", username, "\nResult: ", result[0])
-
             return result[0]
         else:
             return None

@@ -111,13 +111,15 @@
         document.getElementById("new_informations_zone").hidden = true;
     }
 
-    function submitNewInformations() {
+    async function submitNewInformations() {
         const new_password = document.getElementById("new_password_input").value;
         const new_question = document.getElementById("new_question_input").value;
         const new_answer = document.getElementById("new_answer_input").value;
         const old_answer = document.getElementById("answer_input").value;
 
-        if (bridge.submitNewInformations(new_password, new_question, new_answer, old_answer) === true) {
+        
+
+        if (await bridge.submitNewInformations(new_password, new_question, new_answer, old_answer) === true) {
             bridge.successfulRecovery();
         } else {
             alert("Recovery failed, please retry or contact support.");

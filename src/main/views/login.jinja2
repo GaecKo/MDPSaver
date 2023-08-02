@@ -12,7 +12,7 @@
         </select>
 
         <input type="password" id="password_input">
-        <button onclick="submitLogin()">Login</button>
+        <button onclick="submitLogin()" id="login_button">Login</button>
         <br> <br>
         <button onclick="callRecovery()">Forgot Password</button>
         <br> <br>
@@ -22,6 +22,7 @@
 
 <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
 <script>
+    // Create the QWebChannel object and connect to the bridge
     async function createBridge() {
         await new QWebChannel(qt.webChannelTransport, function (channel) {
         window.bridge = channel.objects.bridge;
@@ -29,7 +30,6 @@
         print = bridge.printJS;
     });
     }
-    // Create the QWebChannel object and connect to the bridge
 
 
 
@@ -56,6 +56,20 @@
         }
 
     }
+
+    // Get the input field
+        var input = document.getElementById("password_input");
+
+        // Execute a function when the user presses a key on the keyboard
+        input.addEventListener("keypress", function(event) {
+        // If the user presses the "Enter" key on the keyboard
+        if (event.key === "Enter") {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            document.getElementById("login_button").click();
+        }
+        });
 
 </script>
 

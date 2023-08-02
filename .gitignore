@@ -1,5 +1,6 @@
 target/
 venv/
+.env/
 
 *.pyc
 __pycache__/
@@ -13,3 +14,6 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+
+src/main/python/MDPDatabase/MDPDatabase.sqlite
+src/main/python/MDPDatabase/MDPdatabase.sqlite

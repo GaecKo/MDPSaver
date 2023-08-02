@@ -28,4 +28,7 @@ os.system(f"python {repo_path / venv_folder_name / 'lib' / 'site-packages' / 'PP
 # remove PPG extract
 shutil.rmtree(ppg_extract_path)
 
+# install other dependencies
+os.system(f"python -m pip install -r {repo_path / 'requirements' / 'requirements.txt'}")
+
 

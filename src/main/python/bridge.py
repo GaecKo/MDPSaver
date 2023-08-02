@@ -1,5 +1,7 @@
 import subprocess
 
+import subprocess
+
 from PySide6.QtCore import QObject, Slot, QUrl, Signal
 
 from controller import Controller, Recover
@@ -21,6 +23,7 @@ class Bridge(QObject, Controller, Recover):
     successful_recovery = Signal()
     failed_recovery = Signal()
     cancel_recovery = Signal()
+
 
     # main app signals
     add_password_view = Signal()

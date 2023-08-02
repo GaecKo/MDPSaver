@@ -30,10 +30,13 @@ class MDPDatabase:
                  None otherwise
         """
         self.cur.execute(f"SELECT site, identifier, password, icon FROM Password WHERE id = '{id}'")
+        self.cur.execute(f"SELECT site, identifier, password, icon FROM Password WHERE id = '{id}'")
 
         result = self.cur.fetchone()
 
         if result:
+            site, username, password, icon = result
+            return (site, username, password, icon)
             site, username, password, icon = result
             return (site, username, password, icon)
         else:

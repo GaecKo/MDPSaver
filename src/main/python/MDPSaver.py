@@ -1,9 +1,15 @@
 from PySide6.QtCore import QUrl, QFileSystemWatcher, QFile, QFileInfo
 from PySide6.QtGui import QAbstractFileIconProvider
+from PySide6.QtCore import QUrl, QFileSystemWatcher, QFile, QFileInfo
+from PySide6.QtGui import QAbstractFileIconProvider
 from PySide6.QtWebEngineWidgets import QWebEngineView
+from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QFileDialog
 from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QFileDialog
 from PySide6.QtWebChannel import QWebChannel
 import os
+import random, uuid
+import requests
+from bs4 import BeautifulSoup
 from bridge import Bridge
 from jinja2 import Template
 

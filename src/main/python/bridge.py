@@ -1,5 +1,7 @@
 import subprocess
 
+import subprocess
+
 from PySide6.QtCore import QObject, Slot, QUrl, Signal
 
 from controller import Controller, Recover
@@ -22,12 +24,13 @@ class Bridge(QObject, Controller, Recover):
     failed_recovery = Signal()
     cancel_recovery = Signal()
 
+
     # main app signals
     add_password_view = Signal()
-    push_password = Signal(str, str, str, str)
+    menu_view = Signal()
 
-    def __init__(self):
-        Controller.__init__(self)  # initialize controller class, all its methods are now accessible
+    def __init__(self, parent=None):
+        Controller.__init__(self, parent)  # initialize controller class, all its methods are now accessible
         QObject.__init__(self)
 
     def __init_recover__(self):
@@ -40,6 +43,18 @@ class Bridge(QObject, Controller, Recover):
         print("JS: " + string)
 
     ###### App Methods ######
+    @Slot()
+    def callAddPassword(self):
+        self.add_password_view.emit()
+
+    @Slot(str, str, str, str)
+    def callPushPassword(self, target, username, password, icon):
+        self.__push_password__(target, username, password, icon)
+
+
+    @Slot()
+    def backToMenu(self):
+        self.menu_view.emit()
 
     ###### Recovery Methods ######
     @Slot(str, result=bool)
@@ -52,6 +67,7 @@ class Bridge(QObject, Controller, Recover):
     def getQuestion(self, username):
         self.username = username  # re-attribute username to the one asked for recovery
         return self.get_personnal_question()
+
 
     @Slot(str, str, str, str, result=bool)
     def submitNewInformations(self, new_password, new_question, new_answer, old_answer):
@@ -119,13 +135,4 @@ class Bridge(QObject, Controller, Recover):
     def callLogin(self):
         print("Back Login Called")
         self.back_login_startup.emit()
-
-    @Slot()
-    def callAddPassword(self):
-        self.add_password_view.emit()
-
-    @Slot(str, str, str, str)
-    def callPushPassword(self, target, username, password, icon):
- 
-        self.push_password.emit(target, username, password, icon)
 

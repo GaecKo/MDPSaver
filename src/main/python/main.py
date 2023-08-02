@@ -1,5 +1,4 @@
 import sys
-from ppg_runtime.application_context.PySide6 import ApplicationContext, PPGLifeCycle
 from PySide6.QtWidgets import QMainWindow, QLabel
 
 import sys

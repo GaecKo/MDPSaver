@@ -8,6 +8,7 @@ CREATE TABLE Password (
     site TEXT,
     identifier TEXT,
     password TEXT,
+    icon TEXT,
     FOREIGN KEY(user) REFERENCES User(username)
 );
 

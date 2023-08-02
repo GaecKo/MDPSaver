@@ -1,15 +1,22 @@
 from MDPDatabase.MDPDatabase import MDPDatabase
 from MDPDatabase.security import *
-import os
-import time
+import os, time, random
 
-#TODO: update controller for multiple user system (WIP)
+from bs4 import BeautifulSoup
+import random, uuid
+import requests
+from bs4 import BeautifulSoup
+
+from PySide6.QtCore import QFileInfo
+from PySide6.QtGui import QAbstractFileIconProvider
+from PySide6.QtWidgets import QFileDialog
 
 class Controller:
     """
     Controller is an interface for the database usage.
     """
-    def __init__(self):
+    def __init__(self, parent=None):
+        self.parent = parent
         self.db = MDPDatabase()
         self.key = None  # Will contain the key to decrypt data
         self.username = None # has to be set when logged in!
@@ -20,12 +27,11 @@ class Controller:
     def setUserId(self, userId):
         self.userId = userId
 
-    def get_all_passwords(self, username):
+    def get_all_passwords(self) -> list[dict]:
         if self.key == None:
             return None
 
-        passwords = list(self.db.get_all_passwords(username))
-        print(passwords)
+        passwords = list(self.db.get_all_passwords(self.username))
 
         for index, data in enumerate(passwords):
             data = list(data)
@@ -68,12 +74,79 @@ class Controller:
         print("Added Connections")
         self.db.incr_connections(self.username)
 
-    def add_password(self, site, username, password, icon):
+    def add_password(self, site, identifier, password, icon):
+        print(f"Adding: {site}, {identifier}, {password}, {icon}")
         crypted_password = encrypt(self.key, password)
-        crypted_username = encrypt(self.key, username)
+        crypted_username = encrypt(self.key, identifier)
         crypted_site = encrypt(self.key, site)
 
         self.db.add_password(crypted_site, crypted_username, crypted_password, self.username, "None" if icon is None else icon)
+
+    def get_favicon_url(self, target):
+        favicon = None
+        if target.startswith("http://") or target.startswith("https://"):
+            try:
+                soup = BeautifulSoup(requests.get(target, timeout=3).text, 'html.parser')
+                favicon_tag = soup.find('link', rel='icon')
+                favicon = favicon_tag['href'] if favicon_tag and 'href' in favicon_tag.attrs else None
+            except:
+                return None
+        return favicon
+
+    def generate_unique_filename(self):
+        filename = str(uuid.uuid4()) + str(uuid.uuid4()) + str(uuid.uuid4())
+        return filename[:random.randint(6, len(filename))]
+
+    def save_favicon_locally(self, favicon_url): # XXX: unused function ?
+        if favicon_url:
+            try:
+                favicon = requests.get(favicon_url).content
+                filename = self.generate_unique_filename()
+
+
+                print("Path: ", os.path.join(os.environ['APPDATA'], "MDPSaver", f"{filename}.ico"))
+                with open(os.path.join(os.environ['APPDATA'], "MDPSaver", f"{filename}.ico"), "wb") as f:
+                    f.write(favicon)
+
+                return filename
+            except:
+                pass
+        return None
+
+    def get_image_or_icon_file_path(self):
+        file_name, _ = QFileDialog.getOpenFileName(None, "Select Image or Icon", "", "Image Files (*.png *.jpg *.jpeg *.bmp *.gif);;Icon Files (*.ico);;Executable Files (*.exe)")
+        return file_name
+
+    def extract_icon_from_executable(self, executable_path):
+        icon = QAbstractFileIconProvider().icon(QFileInfo(executable_path))
+        return icon.pixmap(32, 32).toImage()
+
+    def __push_password__(self, target, username, password, icon):
+        if not os.path.exists(os.path.join(os.environ['APPDATA'], "MDPSaver")):
+                    os.makedirs(os.path.join(os.environ['APPDATA'], "MDPSaver"), exist_ok=True)
+        favicon = self.get_favicon_url(target)
+        if icon == "on":
+            if favicon is None:
+                # show filebrowser dialog
+                file_name, _ = QFileDialog.getOpenFileName(self.parent, "Select Icon - Just quit to not use one.", "", "Icon Files (*.ico);;Image Files (*.png *.svg);;Executable Files (*.exe *.dll);;All Files (*)")
+                if file_name:
+                    if file_name.endswith(".exe") or file_name.endswith(".dll"):
+                        # extract icon from executable
+                        try :
+                            favicon = self.generate_unique_filename()
+                            icon = self.extract_icon_from_executable(file_name)
+                            open(os.path.join(os.environ['APPDATA'], "MDPSaver", f"{favicon}.ico"), "wb").write(icon)
+                        except:
+                            favicon = None
+
+                    else:
+                        # copy file to appdata
+                        favicon = self.generate_unique_filename()
+                        open(os.path.join(os.environ['APPDATA'], "MDPSaver", f"{favicon}.ico"), "wb").write(open(file_name, "rb").read())
+
+
+        self.add_password(target, username, password, favicon)
+
 
     # load key when starting the app, as well as the username of the current user
     def load_app(self, username, password):

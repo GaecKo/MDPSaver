@@ -192,4 +192,6 @@ class MDPSaver(QMainWindow):
 
             self.__remove_debug_file__()
 
+        self.bridge.close_app()
+
         event.accept()

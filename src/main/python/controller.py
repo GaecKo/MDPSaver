@@ -188,6 +188,9 @@ class Controller:
     def check_login(self, username, password):
         return hashing(password) == self.db.get_user_security("hashed_password", username)
 
+    def close_app(self):
+        self.db.close_cursor()
+
     def kill_db(self):
         print("KILLED DB")
         self.db.reset_db()

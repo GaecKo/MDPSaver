@@ -42,18 +42,17 @@ class MDPSaver(QMainWindow):
             self.login_path = os.path.join(current_dir, "../views/login.html")
             self.recovery_path = os.path.join(current_dir, "../views/recovery.html")
             self.app_path = os.path.join(current_dir, "../views/app.html")
-            self.add_password_path = os.path.join(current_dir, "../views/add_password.html")
 
         # jinja templates
         self.startup_jinja = os.path.join(current_dir, "../views/startup.jinja2")
         self.login_jinja = os.path.join(current_dir, "../views/login.jinja2")
         self.recovery_jinja = os.path.join(current_dir, "../views/recovery.jinja2")
         self.app_jinja = os.path.join(current_dir, "../views/app.jinja2")
-        self.add_password_path_jinja = os.path.join(current_dir, "../views/add_password.jinja2")
 
     def __init_ui__(self):
         # Initialize UI with the WebView, Channel, ...
         self.setWindowTitle("MDPSaver")
+        self.setContentsMargins(0, 0, 0, 0)
 
         self.web_view = QWebEngineView()
         self.setCentralWidget(self.web_view)
@@ -88,8 +87,7 @@ class MDPSaver(QMainWindow):
         self.bridge.cancel_recovery.connect(self.__load_login__)
 
         # App Signals
-        self.bridge.add_password_view.connect(self.__add_password__)
-        self.bridge.menu_view.connect(self.__load_app__)
+        self.bridge.refresh_menu.connect(self.__load_app__)
 
     def __init_debug__(self):
         # Watch for changes in the jinja files and update the html files
@@ -98,20 +96,17 @@ class MDPSaver(QMainWindow):
         self.login_watcher = QFileSystemWatcher([self.login_jinja], self)
         self.recovery_watcher = QFileSystemWatcher([self.recovery_jinja], self)
         self.app_watcher = QFileSystemWatcher([self.app_jinja], self)
-        self.add_password_watcher = QFileSystemWatcher([self.add_password_path_jinja], self)
 
         self.startup_watcher.fileChanged.connect(self.__load_startup__)
         self.login_watcher.fileChanged.connect(self.__load_login__)
         self.recovery_watcher.fileChanged.connect(self.__load_recovery__)
         self.app_watcher.fileChanged.connect(self.__load_app__)
-        self.add_password_watcher.fileChanged.connect(self.__add_password__)
 
         # Create debug html files:
         open(self.startup_path, "w").write("")
         open(self.login_path, "w").write("")
         open(self.recovery_path, "w").write("")
         open(self.app_path, "w").write("")
-        open(self.add_password_path, "w").write("")
 
     def __write_jinja__(self, html_path, html):
         with open(html_path, "w") as f:
@@ -124,7 +119,6 @@ class MDPSaver(QMainWindow):
         os.remove(self.login_path)
         os.remove(self.recovery_path)
         os.remove(self.startup_path)
-        os.remove(self.add_password_path)
 
     def __load_startup__(self):
         template = Template(open(self.startup_jinja).read())
@@ -172,15 +166,6 @@ class MDPSaver(QMainWindow):
         else:
             self.web_view.setHtml(html)
 
-    def __add_password__(self):
-        template = Template(open(self.add_password_path_jinja).read())
-        html = template.render(username=self.bridge.username)
-        if self.debug:
-            self.__write_jinja__(self.add_password_path, html)
-            self.web_view.load(QUrl.fromLocalFile(self.add_password_path))
-        else:
-            self.web_view.setHtml(html)
-
     def closeEvent(self, event):
         # Stop monitoring the file for changes when the window is closed
         if self.debug:
@@ -188,7 +173,6 @@ class MDPSaver(QMainWindow):
             self.login_watcher.removePaths(self.login_watcher.files())
             self.recovery_watcher.removePaths(self.recovery_watcher.files())
             self.app_watcher.removePaths(self.app_watcher.files())
-            self.add_password_watcher.removePaths(self.add_password_watcher.files())
 
             self.__remove_debug_file__()
 

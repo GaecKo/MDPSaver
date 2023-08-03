@@ -26,8 +26,7 @@ class Bridge(QObject, Controller, Recover):
 
 
     # main app signals
-    add_password_view = Signal()
-    menu_view = Signal()
+    refresh_menu = Signal()
 
     def __init__(self, parent=None):
         Controller.__init__(self, parent)  # initialize controller class, all its methods are now accessible
@@ -43,9 +42,6 @@ class Bridge(QObject, Controller, Recover):
         print("JS: " + string)
 
     ###### App Methods ######
-    @Slot()
-    def callAddPassword(self):
-        self.add_password_view.emit()
 
     @Slot(str, str, str, str)
     def callPushPassword(self, target, username, password, icon):
@@ -53,8 +49,8 @@ class Bridge(QObject, Controller, Recover):
 
 
     @Slot()
-    def backToMenu(self):
-        self.menu_view.emit()
+    def refreshMenu(self):
+        self.refresh_menu.emit()
 
     ###### Recovery Methods ######
     @Slot(str, result=bool)

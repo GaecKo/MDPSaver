@@ -1,54 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <body onload="createBridge()">
-        <div class="header">
-            <div class="header-logo"></div>
-            <h1>MDPSaver - {{ username }}</h1>
+<head>
+  <link rel="stylesheet" type="text/css" href="../static/app.css">
+  <title>MDPSaver - {{ username }}</title>
+</head>
+
+<body onload="createBridge()">
+  <div class="header">
+    <div class="header-logo"></div>
+    <h1>MDPSaver - {{ username }}</h1>
+  </div>
+  <div class="main">
+    <div class="passwd-section">
+      <div class="navbar">
+        <div class="search-block">
+          <input type="text" id="searchflied">
+          <button onclick="filter()">Search</button>
         </div>
-        <div class="main">
-                <div class="passwd-section">
-                    <div class="navbar">
-                        <div class="search-block">
-                            <input type="text" id="searchflied">
-                            <button onclick="filter()">Search</button>
-                        </div>
-                        <button onclick="addPassword()">Add</button>
-                    </div>
-
-                    <div class="passwd-list">
-                        {% for passwd in passwords %}
-                        <div class="passwd-item">
-                            <div class="passwd-icon" style="background-image: {{ passwd.icon }}"></div>
-
-                            <div class="passwd-data">
-                                <div class="passwd-name">
-                                    <h5>Application or website : </h5>
-                                    <h2>{{ passwd.name }}</h2>
-                                    <button onclick="openTarget({{ passwd.target }})">Open</button>
-                                </div>
-                                <div class="passwd-login">
-                                    <h5>Login : </h5>
-                                    <div class="passwd-block">
-                                        <h3>{{ passwd.login }}</h3>
-                                        <button onclick="copyToClipboard({{ passwd.login }})">Copy</button>
-                                    </div>
-                                </div>
-                                <div class="passwd-password">
-                                    <h5>Password : </h5>
-                                    <div class="passwd-block">
-                                        <h3>{{ passwd.password }} <button onclick="reveal()">reveal</button></h3>
-                                        <button onclick="copyToClipboard({{ passwd.password }})">Copy</button>
-                                    </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
+        <button onclick="showPasswordPopup()">Add password</button>
+        <div class="popup-container" id="popup" style="display:none;">
+          <span class="popup-close-btn" onclick="hidePopup()">&times;</span>
+          <h1>Add password here</h1>
+          <div class="add-password-form">
+            <div class="add-password-form">
+                <label for="target">Application name</label>
+                <input type="text" name="target" id="target" required>
+                <br>
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" required>
+                <br>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+                <br>
+                <label for="Add_icon">Manually provide icon if not found automatically.</label>
+                <input type="checkbox" name="Add_icon" id="Add_icon" checked>
+                <br>
+                <input type="submit" value="Add" id="add" onclick="pushPassword()">
             </div>
         </div>
-    </body>
+
+          </div>
+        </div>
+      </div>
+      <div class="passwd-list">
+        {% for passwd in passwords %}
+        <div class="passwd-item">
+          <div class="passwd-icon" style="background-image: url({{ passwd.icon }})"></div>
+          <div class="passwd-info">
+            <div class="passwd-info-row">
+              <div class="passwd-name">
+                <h5>Application or website:</h5>
+                <h2>{{ passwd.target }}</h2>
+              </div>
+              <div class="passwd-login">
+                <h5>Login:</h5>
+                <div class="passwd-block">
+                  <h3>{{ passwd.username }}</h3>
+                </div>
+              </div>
+              <div class="passwd-password">
+                <h5>Password:</h5>
+                <div class="passwd-block">
+                  <h3>{{ passwd.password }} <button onclick="reveal()">reveal</button></h3>
+                </div>
+              </div>
+            </div>
+            <div class="passwd-info-row">
+              <button onclick="openTarget('{{ passwd.target }}')">Open</button>
+              <button onclick="copyToClipboard('{{ passwd.username }}')">Copy Username</button>
+              <button onclick="copyToClipboard('{{ passwd.password }}')">Copy Password</button>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</body>
+
 </html>
+
+
 
 
     <!-- import Qt library  -->
@@ -66,6 +99,49 @@
 
         function addPassword() {
             bridge.callAddPassword();
+        }
+
+        // Function to show the popup
+        function showPasswordPopup() {
+          var popup = document.getElementById("popup");
+          popup.style.display = "block";
+        }
+
+        // Function to hide the popup
+        function hidePopup() {
+          var popup = document.getElementById("popup");
+          popup.style.display = "none";
+        }
+
+        // Get the input field
+        var input = document.getElementById("password");
+
+        // Execute a function when the user presses a key on the keyboard
+        input.addEventListener("keypress", function(event) {
+            // If the user presses the "Enter" key on the keyboard
+            if (event.key === "Enter" && document.getElementById("username").value !== ""  && input.value !== "") {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("add").click();
+            }
+        });
+
+        async function pushPassword() {
+            const target = document.getElementById("target").value;
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const icons = document.getElementById("Add_icon").value;
+
+            // check that the 3 fields are not empty
+            if (target === "" || username === "" || password === "") {
+                alert("Please fill all the fields");
+
+            } else {
+                await bridge.callPushPassword(target, username, password, icons);
+                await bridge.refreshMenu();
+
+            }
         }
     </script>
 

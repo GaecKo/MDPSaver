@@ -1,3 +1,4 @@
+import PySide6
 from PySide6.QtCore import QUrl, QFileSystemWatcher, QFile, QFileInfo
 from PySide6.QtGui import QAbstractFileIconProvider
 from PySide6.QtCore import QUrl, QFileSystemWatcher, QFile, QFileInfo
@@ -43,6 +44,11 @@ class MDPSaver(QMainWindow):
             self.recovery_path = os.path.join(current_dir, "../views/recovery.html")
             self.app_path = os.path.join(current_dir, "../views/app.html")
 
+            self.startup_css = os.path.join(current_dir, "../static/startup.css")
+            self.login_css = os.path.join(current_dir, "../static/login.css")
+            self.app_css = os.path.join(current_dir, "../static/app.css")
+            self.recovery_css = os.path.join(current_dir, "../static/recovery.css")
+
         # jinja templates
         self.startup_jinja = os.path.join(current_dir, "../views/startup.jinja2")
         self.login_jinja = os.path.join(current_dir, "../views/login.jinja2")
@@ -54,6 +60,8 @@ class MDPSaver(QMainWindow):
         self.setWindowTitle("MDPSaver")
         self.setContentsMargins(0, 0, 0, 0)
 
+        self.setFixedSize(930, 570)
+
         self.web_view = QWebEngineView()
         self.setCentralWidget(self.web_view)
 
@@ -62,6 +70,10 @@ class MDPSaver(QMainWindow):
         self.web_view.page().setWebChannel(channel)
 
         channel.registerObject("bridge", self.bridge)
+
+    def resizeEvent(self, event:PySide6.QtGui.QResizeEvent) -> None:
+        print(self.size())
+        super().resizeEvent(event)
 
     def __launch_ui__(self):
         # Choose initial page to load
@@ -92,10 +104,10 @@ class MDPSaver(QMainWindow):
     def __init_debug__(self):
         # Watch for changes in the jinja files and update the html files
 
-        self.startup_watcher = QFileSystemWatcher([self.startup_jinja], self)
-        self.login_watcher = QFileSystemWatcher([self.login_jinja], self)
-        self.recovery_watcher = QFileSystemWatcher([self.recovery_jinja], self)
-        self.app_watcher = QFileSystemWatcher([self.app_jinja], self)
+        self.startup_watcher = QFileSystemWatcher([self.startup_jinja, self.startup_css], self)
+        self.login_watcher = QFileSystemWatcher([self.login_jinja, self.login_css], self)
+        self.recovery_watcher = QFileSystemWatcher([self.recovery_jinja, self.recovery_css], self)
+        self.app_watcher = QFileSystemWatcher([self.app_jinja, self.app_css], self)
 
         self.startup_watcher.fileChanged.connect(self.__load_startup__)
         self.login_watcher.fileChanged.connect(self.__load_login__)

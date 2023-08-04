@@ -1,3 +1,42 @@
+/* Styles for main container */
+title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr
+}
+
+.main-container .left-container{
+    background-color: #373434;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-container .left-container a{
+    padding: 19px 24px;
+    border: none;
+    border-radius: 20px;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.main-container .left-container a:hover{
+    padding: 19px 24px;
+    border: none;
+    background-color: #282626;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+
 /* Styles for header section */
 .header {
   display: flex;
@@ -11,7 +50,6 @@
   width: 40px;
   height: 40px;
   background-color: #fff;
-  margin-right: 10px;
 }
 
 /* Styles for main content */
@@ -23,8 +61,7 @@
 
 /* Styles for password section */
 .passwd-section {
-  border: 1px solid #444;
-  border-radius: 5px;
+  border: none;
   padding: 10px;
 }
 
@@ -39,13 +76,24 @@
   align-items: center;
 }
 
+.search-block button {
+  background-color: transparent;
+    border: none;
+}
+
 .search-block input {
   padding: 5px;
-  margin-right: 10px;
   border: 1px solid #777;
   border-radius: 5px;
   background-color: #444;
   color: #fff;
+}
+
+.add-password-block button{
+    border-radius: 4px;
+    background-color: #0B99FF;
+    border: none;
+    padding: 8px 20px;
 }
 
 .passwd-list {
@@ -54,38 +102,92 @@
 }
 
 .passwd-item {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  background-color: #444;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  padding: 10px;
+    background-color: #DBDCD6;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 
 .passwd-icon {
-  width: 60px;
-  height: 60px;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  border-radius: 50%;
-  margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .passwd-info {
-  flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 60px;
+    padding-left: 60px;
 }
 
 .passwd-info-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
 }
 
-.passwd-info-row h2,
-.passwd-info-row h3 {
-  margin: 0;
+.password-section{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.password-section h5{
+    color: #5E5E51;
+}
+
+.password-section h4{
+    padding: 5px 100px 5px 5px;
+    background-color: #5E5E51;
+    color: #FFFFFF;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+.password-section button{
+    background-color: transparent;
+    border: none;
+}
+
+
+.passwd-block{
+    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+
+.passwd-name{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.passwd-name button{
+    border: none;
+    background-color: transparent;
+}
+
+.passwd-name h5{
+    padding-right: 20px;
+    color: #5E5E51;
+}
+
+.passwd-name h4{
+    padding: 5px 300px 5px 5px;
+    background-color: #5E5E51;
+    color: #FFFFFF;
+    border-radius: 5px;
+    float: right;
+}
+
+.passwd-edit-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Styles for popup container */

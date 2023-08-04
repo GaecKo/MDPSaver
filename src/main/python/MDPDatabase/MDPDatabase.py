@@ -9,12 +9,17 @@ from .ApplySQL import apply_sql
 class MDPDatabase:
     def __init__(self):
         current_dir = os.path.dirname(os.path.abspath(__file__))
+        database_path = os.path.join(current_dir, "MDPDatabase.sqlite")
 
-        database_path = os.path.join(current_dir, "MDPdatabase.sqlite")
+        print("DB FILE EXIST: ", os.path.exists(database_path))
+
+        if not os.path.exists(database_path):
+            apply_sql()
+
         self.con = sqlite3.connect(database_path)
         self.cur = self.con.cursor()
 
-    def add_password(self, c_site: str, c_identifier: str, c_password:str, user:str, icon: str) -> None:
+    def add_password(self, c_site: str, c_identifier: str, c_password: str, user: str, icon: str) -> None:
         self.cur.execute(f"INSERT INTO Password (user, site, identifier, password, icon) VALUES (?,?,?,?,?)",
                          (user, c_site, c_identifier, c_password, icon))
         self.con.commit()
@@ -52,7 +57,6 @@ class MDPDatabase:
         else:
             return []
 
-
     def get_usernames(self):
         self.cur.execute(f"SELECT username FROM User")
 
@@ -78,7 +82,6 @@ class MDPDatabase:
         if attribute not in ["username", "hashed_password", "hashed_answer", "encrypted_password", "encrypted_question",
                              "salt"]:
             return None
-
 
         self.cur.execute(f"SELECT {attribute} FROM UserSecurity WHERE user = '{username}'")
 
@@ -145,6 +148,7 @@ class MDPDatabase:
 
     def close_cursor(self):
         self.cur.close()
+        self.con.close()
 
     def reset_db(self):
         apply_sql()

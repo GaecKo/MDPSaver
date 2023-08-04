@@ -1,11 +1,16 @@
-import sqlite3
+import sqlite3, os
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+SQL_FILE = os.path.join(current_dir, "db.SQL")
+DB_FILE = os.path.join(current_dir, "MDPDatabase.sqlite")
 
 def apply_sql():
+    print("Applying SQL file")
     # Connect to the database (or create it if it doesn't exist)
-    conn = sqlite3.connect('MDPdatabase.sqlite')
+    conn = sqlite3.connect(DB_FILE)
 
     # Open and read the SQL file
-    with open('db.SQL', 'r') as f:
+    with open(SQL_FILE, 'r') as f:
         sql = f.read()
 
     # Execute the SQL commands in the file
@@ -16,6 +21,7 @@ def apply_sql():
 
     # Close the connection
     conn.close()
+    print("SQL file applied")
 
 if __name__ == "__main__":
     apply_sql()

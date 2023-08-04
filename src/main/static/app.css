@@ -1,4 +1,9 @@
 /* Styles for main container */
+html {
+    font-family: Inter, serif;
+    background-color: red; /* to show the bad border */
+}
+
 title{
     display: flex;
     justify-content: center;

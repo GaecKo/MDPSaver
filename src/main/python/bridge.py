@@ -122,6 +122,7 @@ class Bridge(QObject, Controller, Recover):
 
         if self.initiate_db_settings(username, password, question, answer):
             print(f"Startup Success")
+            self.load_app(username, password)
             self.successful_startup.emit()
         else:
             self.failed_startup.emit()

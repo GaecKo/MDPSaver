@@ -5,7 +5,6 @@ from PySide6.QtCore import QUrl, QFileSystemWatcher, QFile, QFileInfo
 from PySide6.QtGui import QAbstractFileIconProvider
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QFileDialog
-from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QFileDialog
 from PySide6.QtWebChannel import QWebChannel
 import os
 import random, uuid
@@ -64,6 +63,7 @@ class MDPSaver(QMainWindow):
 
         self.web_view = QWebEngineView()
         self.setCentralWidget(self.web_view)
+        self.web_view.setSizePolicy(PySide6.QtWidgets.QSizePolicy.Expanding, PySide6.QtWidgets.QSizePolicy.Expanding)
 
         # Create a web channel and bridge between Python and JavaScript
         channel = QWebChannel(self.web_view.page())
@@ -170,7 +170,6 @@ class MDPSaver(QMainWindow):
         # get all user passwords in the database
         username = self.bridge.username
         passwords = self.bridge.get_all_passwords()
-        print(username, passwords)
         html = template.render(username=self.bridge.username, passwords=passwords)  # to complete further on
         if self.debug:
             self.__write_jinja__(self.app_path, html)

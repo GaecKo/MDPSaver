@@ -1,7 +1,20 @@
 /* Styles for main container */
 html {
     font-family: Inter, serif;
-    background-color: red; /* to show the bad border */
+    background-color: #373434; /* to show the bad border */
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #777;
 }
 
 title{
@@ -24,9 +37,9 @@ title{
 }
 
 .main-container .left-container a{
-    padding: 19px 24px;
+    padding: 10px 52px;
     border: none;
-    border-radius: 20px;
+    border-radius: 15px;
     background-color: transparent;
     color: white;
     cursor: pointer;
@@ -34,7 +47,7 @@ title{
 }
 
 .main-container .left-container a:hover{
-    padding: 19px 24px;
+    padding: 10px 52px;
     border: none;
     background-color: #282626;
     color: white;
@@ -102,31 +115,32 @@ title{
 }
 
 .passwd-list {
-  display: flex;
-  flex-wrap: wrap;
+    overflow: scroll;
+    width: 700px;
+    height: 342px;
 }
 
 .passwd-item {
     background-color: #DBDCD6;
     margin-bottom: 10px;
     border-radius: 5px;
-    padding: 10px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    padding-bottom: 10px;
 }
 
 .passwd-icon {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-left: 10px;
+    margin-right: 15px;
 }
 
 .passwd-info {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-right: 60px;
-    padding-left: 60px;
 }
 
 .passwd-info-row {
@@ -142,15 +156,11 @@ title{
 
 .password-section h5{
     color: #5E5E51;
+    margin-left: 10px;
 }
 
 .password-section h4{
-    padding: 5px 100px 5px 5px;
-    background-color: #5E5E51;
     color: #FFFFFF;
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
 }
 
 .password-section button{
@@ -159,16 +169,39 @@ title{
 }
 
 
+.passwd-block-header{
+    border-radius: 20px;
+    background-color: #5E5E51;
+    width: 225px;
+    padding-left: 10px;
+    max-width: 225px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
 .passwd-block{
     align-items: center;
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
 
+.passwd-password .passwd-block .passwd-block-header button{
+    margin-left: 170px;
+}
+
+
 
 .passwd-name{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+}
+
+.passwd-block-button-name{
+    margin-top: 20px;
+}
+
+button:hover{
+    cursor: pointer;
 }
 
 .passwd-name button{
@@ -177,7 +210,6 @@ title{
 }
 
 .passwd-name h5{
-    padding-right: 20px;
     color: #5E5E51;
 }
 
@@ -193,6 +225,11 @@ title{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.passwd-edit-icon button{
+    background-color: transparent;
+    border: none;
 }
 
 /* Styles for popup container */
@@ -215,4 +252,39 @@ title{
   right: 5px;
   cursor: pointer;
   color: #fff;
+}
+
+.popup-container h1{
+    display: flex;
+    justify-content: center;
+}
+
+.add-password-form{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.add-password-form{
+    color: #5E5E51;
+    background-color:#DBDCD6;
+    padding: 10px 10px 10px 10px;
+    border-radius: 10px;
+}
+
+.add-password-form [type=text], [type=password]{
+    background-color: #5E5E51;
+    padding: 7px 15px 5px 10px;
+    margin-top: 2px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    color: white;git stat
+}
+
+.add-password-form [type=submit]{
+    border-radius: 4px;
+    background-color: #0B99FF;
+    border: none;
+    padding: 8px 20px;
 }

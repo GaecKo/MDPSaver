@@ -24,7 +24,7 @@
                     <div class="navbar">
                         <div class="search-block">
                             <input type="text" id="searchflied" placeholder="Search for a site">
-                            <button onclick="filter()"> <a href=""><img src="../resources/search.ico" width="15px" height="15px"></a></button>
+                            <button onclick="filter()"> <a href=""><img src="../resources/search.ico" width="20px" height="20px"></a></button>
                         </div>
                         <div class="add-password-block">
                             <button onclick="showPasswordPopup()">Add a new password</button>
@@ -33,24 +33,23 @@
                         <div class="popup-container" id="popup" style="display:none;">
                             <span class="popup-close-btn" onclick="hidePopup()">&times;</span>
                             <h1>Add password here</h1>
-                          <div class="add-password-form">
-                            <div class="add-password-form">
-                                <label for="target">Application name</label>
-                                <input type="text" name="target" id="target" required>
-                                <br>
-                                <label for="username">Username</label>
-                                <input type="text" name="username" id="username" required>
-                                <br>
-                                <label for="password">Password</label>
-                                <input type="password" name="password" id="password" required>
-                                <br>
-                                <label for="Add_icon">Manually provide icon if not found automatically.</label>
-                                <input type="checkbox" name="Add_icon" id="Add_icon" checked>
-                                <br>
-                                <input type="submit" value="Add" id="add" onclick="pushPassword()">
+                            <div class="add-password-form-all">
+                                <div class="add-password-form">
+                                    <label for="target">Application name</label>
+                                    <input type="text" name="target" id="target" placeholder="application name" required>
+                                    <br>
+                                    <label for="username">Username</label>
+                                    <input type="text" name="username" id="username" placeholder="username" required>
+                                    <br>
+                                    <label for="password">Password</label>
+                                    <input type="password" name="password" id="password" placeholder="password" required>
+                                    <br>
+                                    <label for="Add_icon">Manually provide icon if not found automatically.</label>
+                                    <input type="checkbox" name="Add_icon" id="Add_icon" checked>
+                                    <br>
+                                    <input type="submit" value="Add" id="add" onclick="pushPassword()">
+                                </div>
                             </div>
-                          </div>
-
                         </div>
                     </div>
                 </div>
@@ -58,35 +57,48 @@
                     {% for passwd in passwords %}
                     <div class="passwd-item">
                       <div class="passwd-icon" style="background-image: url({{ passwd.icon }})">
-                          <img src="../resources/copy_icon.ico" width="15px" height="15px">
+                          <img src="../resources/blank-profile-picture.ico" width="70px" height="70px">
                       </div>
                       <div class="passwd-info">
                         <div class="passwd-info-row">
                           <div class="passwd-name">
                             <h5>Application or website:</h5>
-                            <h4>{{ passwd.target }}</h4>
-                              <button class="reveal-button" onclick="openTarget('{{ passwd.target }}')"><img src="../resources/copy_icon.ico" width="15px" height="15px"> </button>
+                            <div class="passwd-block-header-name">
+                                <h4>{{ passwd.target }}</h4>
+                            </div>
+                              <div class="passwd-block-button-name">
+                                  <button class="reveal-button" onclick="openTarget('{{ passwd.target }}')"><img src="../resources/pop_out_external_link_open_icon_178265.ico" width="25px" height="25px"> </button>
+                              </div>
                           </div>
                           <div class="password-section">
                               <div class="passwd-login">
                                 <h5>username / mail adress:</h5>
                                 <div class="passwd-block">
-                                  <h4>{{ passwd.username }}</h4>
-                                    <button onclick="copyToClipboard('{{ passwd.username }}')"><img src="../resources/copy_icon.ico" width="15px" height="15px"></button>
+                                    <div class="passwd-block-header">
+                                        <h4>{{ passwd.username }}</h4>
+                                    </div>
+                                    <div class="passwd-block-button">
+                                        <button onclick="copyToClipboard('{{ passwd.username }}')"><img src="../resources/copy_filled_icon_202354.ico" width="25px" height="25px"></button>
+                                    </div>
                                 </div>
                               </div>
                               <div class="passwd-password">
                                 <h5>password:</h5>
                                 <div class="passwd-block">
-                                  <h4>{{ passwd.password }} <button onclick="reveal()"><img src="../resources/copy_icon.ico" width="15px" height="15px"></button></h4>
-                                    <button onclick="copyToClipboard('{{ passwd.password }}')"><img src="../resources/copy_icon.ico" width="15px" height="15px"></button>
+                                    <div class="passwd-block-header">
+                                        <h4>{{ passwd.password }} </h4>
+                                        <button onclick="reveal()"><img src="../resources/hide_icon_148530.ico" width="25px" height="20px"></button>
+                                    </div>
+                                    <div class="passwd-block-button">
+                                        <button onclick="copyToClipboard('{{ passwd.password }}')"><img src="../resources/copy_filled_icon_202354.ico" width="25px" height="25px"></button>
+                                    </div>
                                 </div>
                               </div>
                           </div>
                         </div>
                       </div>
-                      <div class="passwd-edit-icon" style="background-image: url({{ passwd.icon }})">
-                          <img src="../resources/copy_icon.ico" width="15px" height="15px">
+                      <div class="passwd-edit-icon">
+                          <button onclick=""><img src="../resources/person_edit_filled_icon_200410.ico" width="25px" height="25px"></button>
                       </div>
                     </div>
                     {% endfor %}

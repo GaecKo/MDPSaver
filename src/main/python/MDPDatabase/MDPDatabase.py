@@ -49,7 +49,7 @@ class MDPDatabase:
 
     def get_all_passwords(self, username: str) -> list:
 
-        self.cur.execute(f"SELECT site, identifier, password FROM Password WHERE user = '{username}'")
+        self.cur.execute(f"SELECT site, identifier, password, icon FROM Password WHERE user = '{username}'")
         result = self.cur.fetchall()
 
         if result:

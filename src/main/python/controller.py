@@ -1,15 +1,27 @@
 from MDPDatabase.MDPDatabase import MDPDatabase
 from MDPDatabase.security import *
 import os, time, random
+from pathlib import Path
 
 from bs4 import BeautifulSoup
 import random, uuid
 import requests
 from bs4 import BeautifulSoup
+from PIL import Image
 
 from PySide6.QtCore import QFileInfo
 from PySide6.QtGui import QAbstractFileIconProvider
 from PySide6.QtWidgets import QFileDialog
+
+import io
+import win32con
+import win32api
+import win32ui
+import win32gui
+
+
+BI_RGB = 0
+DIB_RGB_COLORS = 0
 
 class Controller:
     """
@@ -20,6 +32,13 @@ class Controller:
         self.db = MDPDatabase()
         self.key = None  # Will contain the key to decrypt data
         self.username = None # has to be set when logged in!
+        self.icon_path = Path(__file__).parent.parent
+        self.icon_path = self.icon_path / "resources" / "icons"
+
+
+        # Create icon folder if not exists
+        if not os.path.exists(self.icon_path):
+            os.makedirs(self.icon_path, exist_ok=True)
 
     def getNumberOfUser(self):
         return self.db.count("User")
@@ -39,7 +58,7 @@ class Controller:
 
             site, username, password = decrypt(self.key, c_site), decrypt(self.key, c_username), decrypt(self.key, c_password)
             # passwords[index] = [site, username, password]
-            passwords[index] = {"target": site, "username": username, "password": password}
+            passwords[index] = {"target": site, "username": username, "password": password, "icon": data[3]}
 
         return passwords
 
@@ -89,63 +108,109 @@ class Controller:
                 soup = BeautifulSoup(requests.get(target, timeout=3).text, 'html.parser')
                 favicon_tag = soup.find('link', rel='icon')
                 favicon = favicon_tag['href'] if favicon_tag and 'href' in favicon_tag.attrs else None
+                # if not present, add the base target url to the favicon url
+                if not favicon.startswith('http://') or not favicon.startswith('https://'):
+                    # remove the first slash if present
+                    if favicon.startswith('/') and target.endswith('/'):
+                        favicon = favicon[1:]
+                    # add the slash if present nowhere
+                    elif not favicon.startswith('/') and not target.endswith('/'):
+                        favicon = '/' + favicon
+                    favicon = target + favicon
+                    # return downloaded favicon bytes
+                    return requests.get(favicon).content
             except:
                 return None
-        return favicon
+        
 
     def generate_unique_filename(self):
-        filename = str(uuid.uuid4()) + str(uuid.uuid4()) + str(uuid.uuid4())
+        filename = str(uuid.uuid4()) + str(uuid.uuid4())
         return filename[:random.randint(6, len(filename))]
 
-    def save_favicon_locally(self, favicon_url): # XXX: unused function ?
-        if favicon_url:
-            try:
-                favicon = requests.get(favicon_url).content
-                filename = self.generate_unique_filename()
-
-
-                print("Path: ", os.path.join(os.environ['APPDATA'], "MDPSaver", f"{filename}.ico"))
-                with open(os.path.join(os.environ['APPDATA'], "MDPSaver", f"{filename}.ico"), "wb") as f:
-                    f.write(favicon)
-
-                return filename
-            except:
-                pass
-        return None
+    def save_favicon_locally(self, favicon): # XXX: unused function ?
+        filename = self.generate_unique_filename()
+        open(self.icon_path / f"{filename}.ico", "wb").write(favicon)
+        return filename
 
     def get_image_or_icon_file_path(self):
-        file_name, _ = QFileDialog.getOpenFileName(None, "Select Image or Icon", "", "Image Files (*.png *.jpg *.jpeg *.bmp *.gif);;Icon Files (*.ico);;Executable Files (*.exe)")
+        file_types = "All Files (*)"
+        file_types += ";;Image Files (*.png *.jpg *.jpeg *.bmp *.gif)"
+        file_types += ";;Icon Files (*.ico)"
+
+        file_name, _ = QFileDialog.getOpenFileName(None, "Select Image or Icon", "", file_types)
         return file_name
 
     def extract_icon_from_executable(self, executable_path):
-        icon = QAbstractFileIconProvider().icon(QFileInfo(executable_path))
-        return icon.pixmap(32, 32).toImage()
+        executable_file = win32api.LoadLibraryEx(executable_path, 0, win32con.LOAD_LIBRARY_AS_DATAFILE)
+
+        # Extraire l'icône du groupe spécifié
+        icon_handle = win32gui.ExtractIconEx(executable_path, 0)[0]
+        
+
+        # Obtenir les données brutes de l'icône
+        icon_info = win32gui.GetIconInfo(icon_handle)
+        bmp_handle = icon_info[4]
+
+        # Obtenir les informations du bitmap
+        bmp_info = win32gui.GetObject(bmp_handle)
+
+        # Créer un contexte de périphérique compatible et un bitmap
+        hdc = win32ui.CreateDCFromHandle(win32gui.GetDC(0))
+        hbmp = win32ui.CreateBitmap()
+        hbmp.CreateCompatibleBitmap(hdc, bmp_info.bmWidth, bmp_info.bmHeight)
+        hdc = hdc.CreateCompatibleDC()
+
+        # Sélectionner le bitmap dans le contexte de périphérique
+        hdc.SelectObject(hbmp)
+
+        # Dessiner l'icône sur le bitmap
+        hdc.DrawIcon((0, 0), icon_handle)
+
+        bmpstr = hbmp.GetBitmapBits(True)
+        img = Image.frombuffer(
+            'RGB',
+            (32, 32),
+            bmpstr,
+            'raw',
+            'BGRX',
+            0,
+            1
+        )
+
+        unique_filename = self.generate_unique_filename()
+        ico_path = self.icon_path / f"{unique_filename}.ico"
+
+        img.save(ico_path, format="ICO", quality=95)  # Adjust quality if needed
+
+        print("Icon saved to:", ico_path, " with name:", unique_filename)
+
+        win32gui.DestroyIcon(icon_handle)
+
+        return unique_filename
 
     def __push_password__(self, target, username, password, icon):
-        if not os.path.exists(os.path.join(os.environ['APPDATA'], "MDPSaver")):
-                    os.makedirs(os.path.join(os.environ['APPDATA'], "MDPSaver"), exist_ok=True)
         favicon = self.get_favicon_url(target)
-        if icon == "on":
-            if favicon is None:
+        filename = "None"
+        if favicon is None:
+            if icon is True:
                 # show filebrowser dialog
-                file_name, _ = QFileDialog.getOpenFileName(self.parent, "Select Icon - Just quit to not use one.", "", "Icon Files (*.ico);;Image Files (*.png *.svg);;Executable Files (*.exe *.dll);;All Files (*)")
+                file_name = self.get_image_or_icon_file_path()
+                print(file_name)
                 if file_name:
                     if file_name.endswith(".exe") or file_name.endswith(".dll"):
                         # extract icon from executable
                         try :
-                            favicon = self.generate_unique_filename()
-                            icon = self.extract_icon_from_executable(file_name)
-                            open(os.path.join(os.environ['APPDATA'], "MDPSaver", f"{favicon}.ico"), "wb").write(icon)
-                        except:
-                            favicon = None
-
+                            filename =  self.extract_icon_from_executable(file_name)
+                        except Exception as e :
+                            print(e)
                     else:
                         # copy file to appdata
-                        favicon = self.generate_unique_filename()
-                        open(os.path.join(os.environ['APPDATA'], "MDPSaver", f"{favicon}.ico"), "wb").write(open(file_name, "rb").read())
+                        favicon = open(file_name, "rb").read()
+                        filename = self.save_favicon_locally(favicon)
+        else:
+            filename = self.save_favicon_locally(favicon)
 
-
-        self.add_password(target, username, password, favicon)
+        self.add_password(target, username, password, filename)
 
 
     # load key when starting the app, as well as the username of the current user

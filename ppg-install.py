@@ -28,6 +28,12 @@ os.system(f"python {repo_path / venv_folder_name / 'lib' / 'site-packages' / 'PP
 # remove PPG extract
 shutil.rmtree(ppg_extract_path)
 
+# setup ppg main module
+ppg_state = open(repo_path / venv_folder_name / "Lib" / "site-packages" / "ppg" / "_state.py", "r").read()
+ppg_state = ppg_state.replace("SETTINGS = {}", "SETTINGS = {'main_module': 'src/main/python/main.py'}")
+open(repo_path / venv_folder_name / "Lib" / "site-packages" / "ppg" / "_state.py", "w").write(ppg_state)
+
+
 # install other dependencies
 os.system(f"python -m pip install -r {repo_path / 'requirements' / 'requirements.txt'}")
 

@@ -169,6 +169,9 @@ class MDPSaver(QMainWindow):
         # get all user passwords in the database
         username = self.bridge.username
         passwords = self.bridge.get_all_passwords()
+        # append the full path to passwords
+        for p in passwords:
+            p["icon"] = self.bridge.icon_path / p["icon"] if p["icon"] != "None" else self.bridge.icon_path.parent / "blank-profile-picture"
         html = template.render(username=self.bridge.username, passwords=passwords)  # to complete further on
         if self.debug:
             self.__write_jinja__(self.app_path, html)

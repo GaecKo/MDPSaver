@@ -61,8 +61,8 @@
                   <div class="passwd-list" id="passwd-list-top">
                     {% for passwd in passwords %}
                     <div class="passwd-item">
-                      <div class="passwd-icon" style="background-image: url({{ passwd.icon }})">
-                          <img src="../resources/blank-profile-picture.ico" width="70px" height="70px">
+                      <div class="passwd-icon">
+                          <img src="{{ passwd.icon }}.ico" width="70px" height="70px">
                       </div>
                     <div class="passwd-info-row">
                       <div class="passwd-name">
@@ -178,7 +178,7 @@
             const target = document.getElementById("target").value;
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
-            const icons = document.getElementById("Add_icon").value;
+            const icons = document.getElementById("Add_icon").checked;
 
             // check that the 3 fields are not empty
             if (target === "" || username === "" || password === "") {

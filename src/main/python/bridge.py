@@ -43,7 +43,7 @@ class Bridge(QObject, Controller, Recover):
 
     ###### App Methods ######
 
-    @Slot(str, str, str, str)
+    @Slot(str, str, str, bool)
     def callPushPassword(self, target, username, password, icon):
         self.__push_password__(target, username, password, icon)
 
@@ -132,4 +132,8 @@ class Bridge(QObject, Controller, Recover):
     def callLogin(self):
         print("Back Login Called")
         self.back_login_startup.emit()
+
+    @Slot(str)
+    def debug(self, string):
+        print(string)
 

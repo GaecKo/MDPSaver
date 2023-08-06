@@ -11,23 +11,28 @@
         <div class="left-container">
             <a href="">Passowrds</a>
             <a href="">Generate</a>
-            <br><br><br> <!-- to make look better (I suck at front end) -->
             <a href="">Settings</a>
         </div>
         <div class="right-container">
             <div class="header">
-                <div class="header-logo"></div>
-                <h1>MDPSaver - {{ username }}</h1>
+                <h1>Salut, {{ username }}</h1>
             </div>
             <div class="main">
                 <div class="passwd-section">
                     <div class="navbar">
-                        <div class="search-block">
-                            <input type="text" id="searchflied" placeholder="Search for a site">
-                            <button onclick="filter()"> <a href=""><img src="../resources/search.ico" width="20px" height="20px"></a></button>
+                        <div id="cover">
+                            <div class="tb">
+                              <div class="td"><input type="text" placeholder="Search for a site"></div>
+                              <div class="td" id="s-cover">
+                                <button onclick="filter()">
+                                  <div id="s-circle"></div>
+                                  <span></span>
+                                </button>
+                              </div>
+                            </div>
                         </div>
                         <div class="add-password-block">
-                            <button onclick="showPasswordPopup()">Add a new password</button>
+                            <button onclick="showPasswordPopup()">Add a new password <b>+</b></button>
                         </div>
 
                         <div class="popup-container" id="popup" style="display:none;">
@@ -53,7 +58,7 @@
                         </div>
                     </div>
                 </div>
-                  <div class="passwd-list">
+                  <div class="passwd-list" id="passwd-list-top">
                     {% for passwd in passwords %}
                     <div class="passwd-item">
                       <div class="passwd-icon" style="background-image: url({{ passwd.icon }})">
@@ -118,6 +123,28 @@
     <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
 
     <script>
+
+        // Get the button
+        let mybutton = document.getElementById("myBtn");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+          if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            mybutton.style.display = "block";
+          } else {
+            mybutton.style.display = "none";
+          }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        }
+
+
         // Create the QWebChannel object and connect to the bridge
         async function createBridge() {
             await new QWebChannel(qt.webChannelTransport, function (channel) {

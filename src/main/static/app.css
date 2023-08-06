@@ -17,7 +17,12 @@ html {
   background: #777;
 }
 
-title{
+::-webkit-scrollbar-corner{
+    background-color: transparent;
+}
+
+
+.header{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -59,7 +64,7 @@ title{
 .header {
   display: flex;
   align-items: center;
-  padding: 20px;
+  padding: 3px;
   background-color: #333;
   color: #fff;
 }
@@ -89,29 +94,138 @@ title{
   justify-content: space-between;
 }
 
-.search-block {
-  display: flex;
-  align-items: center;
+.td {
+  display: table-cell;
+  vertical-align: middle;
 }
 
-.search-block button {
-  background-color: transparent;
-    border: none;
-}
 
-.search-block input {
-  padding: 5px;
-  border: 1px solid #777;
-  border-radius: 5px;
-  background-color: #444;
+input, button {
   color: #fff;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background-color: transparent;
+  border: none;
+  outline: none;
 }
+
+#cover {
+  width: 300px;
+  padding: 20px;
+  background-color: #282626;
+  border-radius: 20px;
+  box-shadow: 0 5px 5px #444, 0 0 0 5px #ffffffeb;
+  transform: scale(0.6);
+}
+
+.td input[type="text"] {
+    width: 100%;
+    height: 15px;
+    font-size: 25px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.td input[type="text"]::placeholder {
+  color: #444444;
+}
+
+#s-cover {
+  width: 1px;
+  padding-left: 10px;
+}
+
+
+.td button {
+  position: relative;
+  display: block;
+  width: 84px;
+  height: 15px;
+  cursor: pointer;
+}
+
+#s-circle {
+  position: relative;
+  top: -8px;
+  left: 35px;
+  width: 15px;
+  height: 15px;
+  margin-top: 0;
+  border: 5px solid #fff;
+  background-color: transparent;
+  border-radius: 50%;
+  transition: 0.5s ease all;
+}
+
+button span {
+  position: absolute;
+  top: 0;
+  right: 6px;
+  display: block;
+  width: 45px;
+  height: 15px;
+  background-color: transparent;
+  border-radius: 10px;
+  transform: rotateZ(52deg);
+  transition: 0.5s ease all;
+}
+
+button span:before,
+button span:after {
+  content: "";
+  position: absolute;
+  bottom: 1px;
+  right: 2px;
+  width: 15px;
+  height: 5px;
+  background-color: #fff;
+  border-radius: 10px;
+  transform: rotateZ(0);
+  transition: 0.5s ease all;
+}
+
+#s-cover:hover #s-circle {
+  top: 0;
+  width: 30px;
+  height: 5px;
+  border-width: 0;
+  background-color: #fff;
+  border-radius: 20px;
+}
+
+#s-cover:hover span {
+  top: 67%;
+  left: 50px;
+  width: 15px;
+  margin-top: -12px;
+  transform: rotateZ(0);
+}
+
+#s-cover:hover button span:before {
+  bottom: 11px;
+  transform: rotateZ(52deg);
+}
+
+#s-cover:hover button span:after {
+  bottom: -4px;
+  transform: rotateZ(-52deg);
+}
+#s-cover:hover button span:before,
+#s-cover:hover button span:after {
+  right: -6px;
+  width: 20px;
+  background-color: #fff;
+}
+
 
 .add-password-block button{
     border-radius: 4px;
     background-color: #0B99FF;
     border: none;
-    padding: 8px 20px;
+    padding: 14px 40px;
+    font-size: 15px;
+    margin-left: 70px;
 }
 
 .passwd-list {
@@ -143,6 +257,10 @@ title{
     align-items: center;
 }
 
+.passwd-login{
+    margin-right: 20px;
+}
+
 .passwd-info-row {
   display: flex;
   align-items: center;
@@ -172,12 +290,13 @@ title{
 .passwd-block-header{
     border-radius: 20px;
     background-color: #5E5E51;
-    width: 225px;
+    width: 230px;
     padding-left: 10px;
-    max-width: 225px;
+    max-width: 230px;
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
+
 
 .passwd-block{
     align-items: center;
@@ -186,7 +305,7 @@ title{
 }
 
 .passwd-password .passwd-block .passwd-block-header button{
-    margin-left: 170px;
+    margin-left: 50px;
 }
 
 

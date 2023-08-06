@@ -240,32 +240,20 @@ button span:after {
     border-radius: 5px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    padding-bottom: 10px;
 }
 
 .passwd-icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 10px;
-    margin-right: 15px;
+    margin: 60px 15px 60px 10px;
 }
 
-.passwd-info {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 .passwd-login{
     margin-right: 20px;
 }
 
-.passwd-info-row {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
 
 .password-section{
     display: grid;
@@ -287,28 +275,25 @@ button span:after {
 }
 
 
-.passwd-block-header{
+.passwd-block h4{
     border-radius: 20px;
     background-color: #5E5E51;
-    width: 230px;
+    width: 200px;
     padding-left: 10px;
-    max-width: 230px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    max-width: 200px;
 }
 
 
 .passwd-block{
-    align-items: center;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 
-.passwd-password .passwd-block .passwd-block-header button{
-    margin-left: 50px;
+.reveal{
+    margin-right: 10px;
 }
-
-
 
 .passwd-name{
     display: grid;
@@ -344,6 +329,7 @@ button:hover{
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 60px 15px 60px 10px;
 }
 
 .passwd-edit-icon button{

@@ -64,44 +64,34 @@
                       <div class="passwd-icon" style="background-image: url({{ passwd.icon }})">
                           <img src="../resources/blank-profile-picture.ico" width="70px" height="70px">
                       </div>
-                      <div class="passwd-info">
-                        <div class="passwd-info-row">
-                          <div class="passwd-name">
-                            <h5>Application or website:</h5>
-                            <div class="passwd-block-header-name">
-                                <h4>{{ passwd.target }}</h4>
-                            </div>
-                              <div class="passwd-block-button-name">
-                                  <button class="reveal-button" onclick="openTarget('{{ passwd.target }}')"><img src="../resources/pop_out_external_link_open_icon_178265.ico" width="25px" height="25px"> </button>
-                              </div>
-                          </div>
-                          <div class="password-section">
-                              <div class="passwd-login">
-                                <h5>username / mail adress:</h5>
-                                <div class="passwd-block">
-                                    <div class="passwd-block-header">
-                                        <h4>{{ passwd.username }}</h4>
-                                    </div>
-                                    <div class="passwd-block-button">
-                                        <button onclick="copyToClipboard('{{ passwd.username }}')"><img src="../resources/copy_filled_icon_202354.ico" width="25px" height="25px"></button>
-                                    </div>
-                                </div>
-                              </div>
-                              <div class="passwd-password">
-                                <h5>password:</h5>
-                                <div class="passwd-block">
-                                    <div class="passwd-block-header">
-                                        <h4>{{ passwd.password }} </h4>
-                                        <button onclick="reveal()"><img src="../resources/hide_icon_148530.ico" width="25px" height="20px"></button>
-                                    </div>
-                                    <div class="passwd-block-button">
-                                        <button onclick="copyToClipboard('{{ passwd.password }}')"><img src="../resources/copy_filled_icon_202354.ico" width="25px" height="25px"></button>
-                                    </div>
-                                </div>
-                              </div>
-                          </div>
+                    <div class="passwd-info-row">
+                      <div class="passwd-name">
+                        <h5>Application or website:</h5>
+                        <div class="passwd-block-header-name">
+                            <h4>{{ passwd.target }}</h4>
                         </div>
+                          <div class="passwd-block-button-name">
+                              <button class="reveal-button" onclick="openTarget('{{ passwd.target }}')"><img src="../resources/pop_out_external_link_open_icon_178265.ico" width="25px" height="25px"> </button>
+                          </div>
                       </div>
+                      <div class="password-section">
+                          <div class="passwd-login">
+                            <h5>username / mail adress:</h5>
+                            <div class="passwd-block">
+                                <h4>{{ passwd.username }}</h4>
+                                <button onclick="copyToClipboard('{{ passwd.username }}')"><img src="../resources/copy_filled_icon_202354.ico" width="25px" height="25px"></button>
+                            </div>
+                          </div>
+                          <div class="passwd-password">
+                            <h5>password:</h5>
+                            <div class="passwd-block">
+                                <h4>{{ passwd.password }} </h4>
+                                <button class="reveal" onclick="reveal()"><img src="../resources/hide_icon_148530.ico" width="25px" height="20px"></button>
+                                <button onclick="copyToClipboard('{{ passwd.password }}')"><img src="../resources/copy_filled_icon_202354.ico" width="25px" height="25px"></button>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
                       <div class="passwd-edit-icon">
                           <button onclick=""><img src="../resources/person_edit_filled_icon_200410.ico" width="25px" height="25px"></button>
                       </div>

@@ -28,6 +28,10 @@ html {
     align-items: center;
 }
 
+body{
+    margin:0;
+}
+
 .main-container{
     display: grid;
     grid-template-columns: 1fr 1fr
@@ -58,6 +62,10 @@ html {
     color: white;
     cursor: pointer;
     text-decoration: none;
+}
+
+.right-container{
+    width: 100%;
 }
 
 /* Styles for header section */
@@ -222,6 +230,15 @@ button span:after {
 .add-password-block button{
     border-radius: 4px;
     background-color: #0B99FF;
+    border: none;
+    padding: 14px 40px;
+    font-size: 15px;
+    margin-left: 70px;
+}
+
+.add-password-block button:hover{
+    border-radius: 4px;
+    background-color: darkblue;
     border: none;
     padding: 14px 40px;
     font-size: 15px;

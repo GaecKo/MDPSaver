@@ -63,7 +63,6 @@ class MDPSaver(QMainWindow):
 
         self.web_view = QWebEngineView()
         self.setCentralWidget(self.web_view)
-        self.web_view.setSizePolicy(PySide6.QtWidgets.QSizePolicy.Expanding, PySide6.QtWidgets.QSizePolicy.Expanding)
 
         # Create a web channel and bridge between Python and JavaScript
         channel = QWebChannel(self.web_view.page())

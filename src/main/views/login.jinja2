@@ -2,22 +2,25 @@
 <html lang="en">
 <link rel="stylesheet" type="text/css" href="../static/login.css">
     <body onload="createBridge()">
-        <h1>Login</h1>
+        <h1>MDPSaver</h1>
+        <div class="login-body">
+            <h2 style="color: red;" id="wrong_password"></h2>
 
-        <h2 style="color: red;" id="wrong_password"></h2>
+            <select id="username_input">
+                <option value="Username">Username</option>
+                {% for username in usernames %}
+                    <option value="{{username[0]}}">{{username[0]}}</option>
+                {% endfor %}
+            </select>
 
-        <select id="username_input">
-            {% for username in usernames %}
-                <option value="{{username[0]}}">{{username[0]}}</option>
-            {% endfor %}
-        </select>
-
-        <input type="password" id="password_input">
-        <button onclick="submitLogin()" id="login_button">Login</button>
-        <br> <br>
-        <button onclick="callRecovery()">Forgot Password</button>
-        <br> <br>
-        <button onclick="bridge.callStartup()">Create Account</button>
+            <label for="password_input">
+                <b>Password</b>
+            </label>
+            <input placeholder="Password..." type="password" id="password_input">
+            <button class="forget-button" onclick="callRecovery()"><b>Forgot password ?</b></button>
+            <button onclick="submitLogin()" id="login_button">Login</button>
+            <button onclick="bridge.callStartup()">Create Account</button>
+        </div>
     </body>
 </html>
 

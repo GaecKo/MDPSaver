@@ -59,8 +59,6 @@ class MDPSaver(QMainWindow):
         self.setWindowTitle("MDPSaver")
         self.setContentsMargins(0, 0, 0, 0)
 
-        self.setFixedSize(930, 570)
-
         self.web_view = QWebEngineView()
         self.setCentralWidget(self.web_view)
 
@@ -142,6 +140,8 @@ class MDPSaver(QMainWindow):
         else:
             self.web_view.setHtml(html)
 
+        self.setFixedSize(350, 450)
+
     def __load_login__(self):
 
         template = Template(open(self.login_jinja).read())
@@ -153,6 +153,8 @@ class MDPSaver(QMainWindow):
         else:
             self.web_view.setHtml(html)
 
+        self.setFixedSize(350, 450)
+
     def __load_recovery__(self):
 
         template = Template(open(self.recovery_jinja).read())
@@ -162,6 +164,8 @@ class MDPSaver(QMainWindow):
             self.web_view.load(QUrl.fromLocalFile(self.recovery_path))
         else:
             self.web_view.setHtml(html)
+
+        self.setFixedSize(350, 450)
 
     def __load_app__(self):
 
@@ -178,6 +182,8 @@ class MDPSaver(QMainWindow):
             self.web_view.load(QUrl.fromLocalFile(self.app_path))
         else:
             self.web_view.setHtml(html)
+
+        self.setFixedSize(930, 570)
 
     def closeEvent(self, event):
         # Stop monitoring the file for changes when the window is closed

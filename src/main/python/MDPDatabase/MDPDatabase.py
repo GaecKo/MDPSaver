@@ -10,7 +10,6 @@ class MDPDatabase:
     def __init__(self):
         current_dir = os.path.dirname(os.path.abspath(__file__))
         database_path = os.path.join(current_dir, "MDPDatabase.sqlite")
-
         print("DB FILE EXIST: ", os.path.exists(database_path))
 
         if not os.path.exists(database_path):

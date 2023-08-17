@@ -6,6 +6,10 @@ body {
     flex-direction: column;
 }
 
+h1 {
+    height: 20px;
+}
+
 .login-body{
     background-color: #DBDCD6;
     padding: 0 10px 40px 10px;
@@ -32,6 +36,7 @@ button:hover {
     border-radius: 4px;
     border: none;
     padding: 8px 20px;
+    cursor: pointer;
 }
 
 input {
@@ -43,6 +48,10 @@ input {
     color: white;
 }
 
+input:hover {
+    cursor: text;
+}
+
 .forget-button{
     background-color: transparent;
     margin-left: 75px;
@@ -52,11 +61,19 @@ input {
 
 .forget-button:hover{
     background-color: transparent;
+    text-decoration: underline;
     margin-left: 75px;
     color: #5E5E51;
     margin-top: 0;
     cursor: pointer;
 }
+
+#login-button {
+    font-size: larger;
+    font-weight: bold;
+}
+
+
 
 label{
   color: #5E5E51;
@@ -74,4 +91,12 @@ select{
     border-radius: 7px;
     border: none;
     font-size: 20px;
+}
+
+select:hover{
+    cursor: pointer;
+}
+
+select:focus{
+    outline: none;
 }

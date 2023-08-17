@@ -7,7 +7,6 @@
             <h2 style="color: red;" id="wrong_password"></h2>
 
             <select id="username_input">
-                <option value="Username">Username</option>
                 {% for username in usernames %}
                     <option value="{{username[0]}}">{{username[0]}}</option>
                 {% endfor %}
@@ -18,7 +17,7 @@
             </label>
             <input placeholder="Password..." type="password" id="password_input">
             <button class="forget-button" onclick="callRecovery()"><b>Forgot password ?</b></button>
-            <button onclick="submitLogin()" id="login_button">Login</button>
+            <button onclick="submitLogin()" id="login-button">Login</button>
             <button onclick="bridge.callStartup()">Create Account</button>
         </div>
     </body>
@@ -56,7 +55,7 @@
         if (await bridge.submitLogin(username, password) === true) {
             bridge.callMain();
         } else {
-            document.getElementById("wrong_password").innerHTML = "wowow bad password";
+            document.getElementById("wrong_password").innerHTML = "Incorrect password";
         }
 
     }

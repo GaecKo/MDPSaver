@@ -19,22 +19,23 @@ import win32api
 import win32ui
 import win32gui
 
-
 BI_RGB = 0
 DIB_RGB_COLORS = 0
+
 
 class Controller:
     """
     Controller is an interface for the database usage.
     """
+
     def __init__(self, parent=None):
         self.parent = parent
         self.db = MDPDatabase()
+
         self.key = None  # Will contain the key to decrypt data
-        self.username = None # has to be set when logged in!
+        self.username = None  # has to be set when logged in!
         self.icon_path = Path(__file__).parent.parent
         self.icon_path = self.icon_path / "resources" / "icons"
-
 
         # Create icon folder if not exists
         if not os.path.exists(self.icon_path):
@@ -56,7 +57,8 @@ class Controller:
             data = list(data)
             c_site, c_username, c_password = data[0], data[1], data[2]
 
-            site, username, password = decrypt(self.key, c_site), decrypt(self.key, c_username), decrypt(self.key, c_password)
+            site, username, password = decrypt(self.key, c_site), decrypt(self.key, c_username), decrypt(self.key,
+                                                                                                         c_password)
             # passwords[index] = [site, username, password]
             passwords[index] = {"target": site, "username": username, "password": password, "icon": data[3]}
 
@@ -99,7 +101,8 @@ class Controller:
         crypted_username = encrypt(self.key, identifier)
         crypted_site = encrypt(self.key, site)
 
-        self.db.add_password(crypted_site, crypted_username, crypted_password, self.username, "None" if icon is None else icon)
+        self.db.add_password(crypted_site, crypted_username, crypted_password, self.username,
+                             "None" if icon is None else icon)
 
     def get_favicon_url(self, target):
         favicon = None
@@ -121,13 +124,12 @@ class Controller:
                     return requests.get(favicon).content
             except:
                 return None
-        
 
     def generate_unique_filename(self):
         filename = str(uuid.uuid4()) + str(uuid.uuid4())
         return filename[:random.randint(6, len(filename))]
 
-    def save_favicon_locally(self, favicon): # XXX: unused function ?
+    def save_favicon_locally(self, favicon):  # XXX: unused function ?
         filename = self.generate_unique_filename()
         open(self.icon_path / f"{filename}.ico", "wb").write(favicon)
         return filename
@@ -145,7 +147,6 @@ class Controller:
 
         # Extraire l'icône du groupe spécifié
         icon_handle = win32gui.ExtractIconEx(executable_path, 0)[0]
-        
 
         # Obtenir les données brutes de l'icône
         icon_info = win32gui.GetIconInfo(icon_handle)
@@ -199,9 +200,9 @@ class Controller:
                 if file_name:
                     if file_name.endswith(".exe") or file_name.endswith(".dll"):
                         # extract icon from executable
-                        try :
-                            filename =  self.extract_icon_from_executable(file_name)
-                        except Exception as e :
+                        try:
+                            filename = self.extract_icon_from_executable(file_name)
+                        except Exception as e:
                             print(e)
                     else:
                         # copy file to appdata
@@ -211,7 +212,6 @@ class Controller:
             filename = self.save_favicon_locally(favicon)
 
         self.add_password(target, username, password, filename)
-
 
     # load key when starting the app, as well as the username of the current user
     def load_app(self, username, password):
@@ -335,7 +335,6 @@ class Recover:
         # 3) Make transition of password encrypting
 
         new_salt = self.controller.get_salt()  # It's different than initial salt, as user security has been updated just above
-
 
         self.update_passwords(old_password, old_salt, new_password, new_salt, username)
 

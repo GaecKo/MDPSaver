@@ -60,7 +60,7 @@ class Controller:
             site, username, password = decrypt(self.key, c_site), decrypt(self.key, c_username), decrypt(self.key,
                                                                                                          c_password)
             # passwords[index] = [site, username, password]
-            passwords[index] = {"target": site, "username": username, "password": password, "icon": data[3]}
+            passwords[index] = {"target": site, "username": username, "password": password, "icon": data[3], "id": data[4]}
 
         return passwords
 
@@ -104,6 +104,16 @@ class Controller:
         self.db.add_password(crypted_site, crypted_username, crypted_password, self.username,
                              "None" if icon is None else icon)
 
+    def remove_password(self, id):
+        self.db.remove_password(id)
+
+    # TODO: icon modification?
+    def update_password(self, site, identifier, password, id):
+        crypted_password = encrypt(self.key, password)
+        crypted_username = encrypt(self.key, identifier)
+        crypted_site = encrypt(self.key, site)
+
+        self.db.set_password(crypted_site, crypted_username, crypted_password, id)
     def get_favicon_url(self, target):
         favicon = None
         if target.startswith("http://") or target.startswith("https://"):
@@ -285,6 +295,7 @@ class Recover:
     def delete_user(self, username):
         self.db.delete_user(username)
 
+    # TODO: this function won't work with multy agent function! Has to be checked
     def update_passwords(self, old_password, old_salt, new_password, new_salt, username) -> None:
         data = self.db.get_all_passwords(username)
         # Load old and new key
@@ -293,7 +304,7 @@ class Recover:
 
         for index, old_data in enumerate(data):
             # Retrieve old crypted data;
-            old_c_username, old_c_site, old_c_pass = old_data[0], old_data[1], old_data[2]
+            old_c_username, old_c_site, old_c_pass, id = old_data[0], old_data[1], old_data[2], old_data[3]
 
             # Translate it to real values;
             username, site, passw = decrypt(old_key, old_c_username), decrypt(old_key, old_c_site), decrypt(old_key,
@@ -304,7 +315,7 @@ class Recover:
                 new_key, passw)
 
             # Update DB
-            self.db.set_password(crypted_username, crypted_site, crypted_pass, index + 1)
+            self.db.set_password(crypted_site, crypted_username, crypted_pass, id)
 
     def write_user_security(self, username, password, rec_question, rec_answer, nbr_connections):
         # XXX call 2 functions so user isnt replaced

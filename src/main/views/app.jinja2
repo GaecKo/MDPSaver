@@ -60,42 +60,45 @@
                 </div>
                   <div class="passwd-list" id="passwd-list-top">
                     {% for passwd in passwords %}
-                    <div class="passwd-item">
-                      <div class="passwd-icon">
-                          <img src="{{ passwd.icon }}.ico" width="70px" height="70px">
-                      </div>
-                    <div class="passwd-info-row">
-                      <div class="passwd-name">
-                        <h5>Application or website:</h5>
-                        <div class="passwd-block-header-name">
-                            <h4>{{ passwd.target }}</h4>
+                        <div class="passwd-item">
+                          <div class="passwd-icon">
+                              <img src="{{ passwd.icon }}.ico" width="70px" height="70px">
+                          </div>
+                        <div class="passwd-info-row">
+                          <div class="passwd-name">
+                            <h5>Application or website:</h5>
+                            <div class="passwd-block-header-name">
+                                <input disabled value="{{ passwd.target }}" id="site-{{ passwd.id }}"></input>
+                            </div>
+                              <div class="passwd-block-button-name">
+                                  <button class="reveal-button" onclick="openTarget('{{ passwd.target }}')"><img src="../resources/pop_out_external_link_open_icon_178265.ico" width="25px" height="25px"> </button>
+                              </div>
+                          </div>
+                          <div class="password-section">
+                              <div class="passwd-login">
+                                <h5>username / mail adress:</h5>
+                                <div class="passwd-block">
+                                    <input value="{{ passwd.username }}" disabled id="username-{{ passwd.id }}"></input>
+                                    <button onclick="copyToClipboard('{{ passwd.username }}')"><img src="../resources/copy_filled_icon_202354.ico" width="25px" height="25px"></button>
+                                </div>
+                              </div>
+                              <div class="passwd-password">
+                                <h5>password:</h5>
+                                <div class="passwd-block">
+                                    <input value="{{ passwd.password }}" disabled type="password" id="password-{{ passwd.id }}"></input>
+                                    <button class="reveal" onclick="reveal({{ passwd.id }})"><img src="../resources/hide_icon_148530.ico" width="25px" height="20px"></button>
+                                    <button onclick="copyToClipboard('{{ passwd.password }}')"><img src="../resources/copy_filled_icon_202354.ico" width="25px" height="25px"></button>
+                                </div>
+                              </div>
+                          </div>
                         </div>
-                          <div class="passwd-block-button-name">
-                              <button class="reveal-button" onclick="openTarget('{{ passwd.target }}')"><img src="../resources/pop_out_external_link_open_icon_178265.ico" width="25px" height="25px"> </button>
+                          <div class="passwd-edit-icon">
+                              <button onclick="enableModification({{ passwd.id }})" id="modif-{{ passwd.id }}"><img src="../resources/person_edit_filled_icon_200410.ico" width="25px" height="25px"></button>
                           </div>
-                      </div>
-                      <div class="password-section">
-                          <div class="passwd-login">
-                            <h5>username / mail adress:</h5>
-                            <div class="passwd-block">
-                                <h4>{{ passwd.username }}</h4>
-                                <button onclick="copyToClipboard('{{ passwd.username }}')"><img src="../resources/copy_filled_icon_202354.ico" width="25px" height="25px"></button>
-                            </div>
-                          </div>
-                          <div class="passwd-password">
-                            <h5>password:</h5>
-                            <div class="passwd-block">
-                                <h4>{{ passwd.password }} </h4>
-                                <button class="reveal" onclick="reveal()"><img src="../resources/hide_icon_148530.ico" width="25px" height="20px"></button>
-                                <button onclick="copyToClipboard('{{ passwd.password }}')"><img src="../resources/copy_filled_icon_202354.ico" width="25px" height="25px"></button>
-                            </div>
-                          </div>
-                      </div>
-                    </div>
-                      <div class="passwd-edit-icon">
-                          <button onclick=""><img src="../resources/person_edit_filled_icon_200410.ico" width="25px" height="25px"></button>
-                      </div>
-                    </div>
+                            <!-- TODO: clean this code, it was hardcoded for function test -->
+                                <button id="save-{{ passwd.id }}"><img src="../resources/ok.ico" width="25px" height="25px" style="display: flex"></button>
+                                <button id="cancel-{{ passwd.id }}"><img src="../resources/cancel.png" width="25px" height="25px" style="display: flex"></button>
+                        </div>
                     {% endfor %}
                   </div>
             </div>
@@ -134,13 +137,85 @@
           document.documentElement.scrollTop = 0;
         }
 
+        function copyToClipboard(text) {
+            bridge.copyToClipBoard(text)
+        }
+
+        function reveal(id) {
+            passwordType = document.getElementById("password-" + id).type;
+            if (passwordType == "text") {
+                document.getElementById("password-" + id).type = "password";
+            } else {
+                document.getElementById("password-" + id).type = "text";
+            }
+        }
+
+        function enableModification(id) {
+            // Save current values
+            const site = document.getElementById("site-" + id).value;
+            const username = document.getElementById("username-" + id).value;
+            const password = document.getElementById("password-" + id).value;
+
+            // Set actions for cancel and apply buttons
+            document.getElementById("cancel-" + id).onclick = function() {cancelModification(id, site, username, password)};
+            document.getElementById("save-" + id).onclick = function() {applyModification(id)};
+
+            // Enable inputs
+            document.getElementById("site-" + id).disabled = false;
+            document.getElementById("site-" + id).value = site;
+
+            document.getElementById("username-" + id).disabled = false;
+            document.getElementById("username-" + id).value = username;
+
+            document.getElementById("password-" + id).disabled = false;
+            document.getElementById("password-" + id).value = password;
+
+            // Show buttons
+            document.getElementById("modif-" + id).style.display = "none";
+            document.getElementById("save-" + id).style.display = "flex";
+            document.getElementById("cancel-" + id).style.display = "flex";
+        }
+
+        function disableModification(id) {
+            // Disable inputs
+            document.getElementById("site-" + id).disabled = true;
+            document.getElementById("username-" + id).disabled = true;
+            document.getElementById("password-" + id).disabled = true;
+
+            // Hide buttons
+            document.getElementById("save-" + id).style.display = "none";
+            document.getElementById("cancel-" + id).style.display = "none";
+
+            // Show edit button
+            document.getElementById("modif-" + id).style.display = "flex";
+        }
+
+        function cancelModification(id, site, username, password) {
+            document.getElementById("site-" + id).value = site;
+            document.getElementById("username-" + id).value = username;
+            document.getElementById("password-" + id).value = password;
+
+            disableModification(id);
+        }
+
+        function applyModification(id) {
+            const site = document.getElementById("site-" + id).value;
+            const username = document.getElementById("username-" + id).value;
+            const password = document.getElementById("password-" + id).value;
+
+            bridge.updatePassword(site, username, password, id);
+
+            disableModification(id);
+
+        }
+
 
         // Create the QWebChannel object and connect to the bridge
         async function createBridge() {
             await new QWebChannel(qt.webChannelTransport, function (channel) {
             window.bridge = channel.objects.bridge;
 
-            print = bridge.printJS;
+            printPY = bridge.printJS;
         });
         }
 

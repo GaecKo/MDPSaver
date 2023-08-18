@@ -1,9 +1,8 @@
 import subprocess
 
-import subprocess
-
 from PySide6.QtCore import QObject, Slot, QUrl, Signal
 
+from pyperclip import copy
 from controller import Controller, Recover
 
 
@@ -47,10 +46,18 @@ class Bridge(QObject, Controller, Recover):
     def callPushPassword(self, target, username, password, icon):
         self.__push_password__(target, username, password, icon)
 
+    @Slot(str)
+    def copyToClipBoard(self, text):
+        copy(text)
 
     @Slot()
     def refreshMenu(self):
         self.refresh_menu.emit()
+
+    @Slot(str, str, str, int)
+    def updatePassword(self, site, identifier, password, id):
+        print("Updating password: ID: " + str(id) + " Site: " + site + " Identifier: " + identifier + " Password: " + password)
+        self.update_password(site, identifier, password, id)
 
     ###### Recovery Methods ######
     @Slot(str, result=bool)

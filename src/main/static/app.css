@@ -291,9 +291,10 @@ button span:after {
     background-color: transparent;
     border: none;
 }
-
-
-.passwd-block h4{
+.passwd-block-header-name input { /* TODO: rectify this part (kind of hardcoded) */
+    margin-left: 0px;
+    margin-top: 15px;
+    height: 20px;
     border-radius: 20px;
     background-color: #5E5E51;
     width: 200px;
@@ -303,6 +304,17 @@ button span:after {
     max-width: 200px;
 }
 
+.passwd-block input{
+    margin-left: 0px;
+    height: 20px;
+    border-radius: 20px;
+    background-color: #5E5E51;
+    width: 200px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    max-width: 200px;
+}
 
 .passwd-block{
     display: grid;

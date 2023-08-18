@@ -48,7 +48,7 @@ class MDPDatabase:
 
     def get_all_passwords(self, username: str) -> list:
 
-        self.cur.execute(f"SELECT site, identifier, password, icon FROM Password WHERE user = '{username}'")
+        self.cur.execute(f"SELECT site, identifier, password, icon, id FROM Password WHERE user = '{username}'")
         result = self.cur.fetchall()
 
         if result:
@@ -99,9 +99,9 @@ class MDPDatabase:
         self.cur.execute(f"UPDATE User SET username = ? WHERE username = {username}", (new_username,))
         self.con.commit()
 
-    def set_password(self, new_identifier, new_site, new_pass, username) -> None:
-        query = "UPDATE Password SET site = ?, identifier = ?, password = ? WHERE user = ?"
-        values = (new_site, new_identifier, new_pass, username)
+    def set_password(self, new_site, new_identifier, new_pass, id) -> None:
+        query = "UPDATE Password SET site = ?, identifier = ?, password = ? WHERE id = ?"
+        values = (new_site, new_identifier, new_pass, id)
         self.cur.execute(query, values)
 
         self.con.commit()

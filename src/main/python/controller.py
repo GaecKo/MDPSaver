@@ -14,10 +14,11 @@ from PySide6.QtGui import QAbstractFileIconProvider
 from PySide6.QtWidgets import QFileDialog
 
 import io
-import win32con
-import win32api
-import win32ui
-import win32gui
+if os.name == "nt":
+    import win32con
+    import win32api
+    import win32ui
+    import win32gui
 
 BI_RGB = 0
 DIB_RGB_COLORS = 0
@@ -208,7 +209,7 @@ class Controller:
                 file_name = self.get_image_or_icon_file_path()
                 print(file_name)
                 if file_name:
-                    if file_name.endswith(".exe") or file_name.endswith(".dll"):
+                    if file_name.endswith(".exe") or file_name.endswith(".dll") and os.name == "nt":
                         # extract icon from executable
                         try:
                             filename = self.extract_icon_from_executable(file_name)

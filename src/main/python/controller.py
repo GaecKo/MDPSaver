@@ -305,7 +305,8 @@ class Recover:
 
         for index, old_data in enumerate(data):
             # Retrieve old crypted data;
-            old_c_username, old_c_site, old_c_pass, id = old_data[0], old_data[1], old_data[2], old_data[3]
+            # old_data = (crypted_username, crypted_site, crypted_pass, icon, id)
+            old_c_username, old_c_site, old_c_pass, id = old_data[0], old_data[1], old_data[2], old_data[4]
 
             # Translate it to real values;
             username, site, passw = decrypt(old_key, old_c_username), decrypt(old_key, old_c_site), decrypt(old_key,

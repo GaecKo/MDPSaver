@@ -135,12 +135,13 @@ class MDPSaver(QMainWindow):
 
         if self.debug:
             self.__write_jinja__(self.startup_path, html)
-
+            self.setFixedSize(350, 450)
             self.web_view.load(QUrl.fromLocalFile(self.startup_path))
         else:
+            self.setFixedSize(350, 450)
             self.web_view.setHtml(html)
 
-        self.setFixedSize(350, 450)
+
 
     def __load_login__(self):
 
@@ -149,11 +150,13 @@ class MDPSaver(QMainWindow):
 
         if self.debug:
             self.__write_jinja__(self.login_path, html)
+            self.setFixedSize(350, 450)
             self.web_view.load(QUrl.fromLocalFile(self.login_path))
         else:
+            self.setFixedSize(350, 450)
             self.web_view.setHtml(html)
 
-        self.setFixedSize(350, 450)
+
 
     def __load_recovery__(self):
 
@@ -161,11 +164,12 @@ class MDPSaver(QMainWindow):
         html = template.render(usernames=self.bridge.get_usernames(), selected_username=self.bridge.username)
         if self.debug:
             self.__write_jinja__(self.recovery_path, html)
+            self.setFixedSize(350, 450)
             self.web_view.load(QUrl.fromLocalFile(self.recovery_path))
         else:
+            self.setFixedSize(350, 450)
             self.web_view.setHtml(html)
 
-        self.setFixedSize(350, 450)
 
     def __load_app__(self):
 
@@ -180,10 +184,10 @@ class MDPSaver(QMainWindow):
         if self.debug:
             self.__write_jinja__(self.app_path, html)
             self.web_view.load(QUrl.fromLocalFile(self.app_path))
+            self.setMinimumSize(930, 570)
         else:
             self.web_view.setHtml(html)
-
-        self.setMinimumSize(930, 570)
+            self.setMinimumSize(930, 570)
 
     def closeEvent(self, event):
         # Stop monitoring the file for changes when the window is closed

@@ -183,7 +183,7 @@ class MDPSaver(QMainWindow):
         else:
             self.web_view.setHtml(html)
 
-        self.setFixedSize(930, 570)
+        self.setMinimumSize(930, 570)
 
     def closeEvent(self, event):
         # Stop monitoring the file for changes when the window is closed

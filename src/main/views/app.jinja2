@@ -9,7 +9,7 @@
 <body onload="createBridge()">
     <div class="main-container">
         <div class="left-container">
-            <a href="">Passowrds</a>
+            <a href="">Passwords</a>
             <a href="">Generate</a>
             <a href="">Settings</a>
         </div>
@@ -79,7 +79,7 @@
                                 <h5>username / mail adress:</h5>
                                 <div class="passwd-block">
                                     <input value="{{ passwd.username }}" disabled id="username-{{ passwd.id }}"></input>
-                                    <button onclick="copyToClipboard('{{ passwd.username }}')"><img src="../resources/copy_filled_icon_202354.ico" width="25px" height="25px"></button>
+                                    <button onclick="copyToClipboard('username-{{ passwd.id }}')"><img src="../resources/copy_filled_icon_202354.ico" width="25px" height="25px"></button>
                                 </div>
                               </div>
                               <div class="passwd-password">
@@ -87,7 +87,7 @@
                                 <div class="passwd-block">
                                     <input value="{{ passwd.password }}" disabled type="password" id="password-{{ passwd.id }}"></input>
                                     <button class="reveal" onclick="reveal({{ passwd.id }})"><img src="../resources/hide_icon_148530.ico" width="25px" height="20px"></button>
-                                    <button onclick="copyToClipboard('{{ passwd.password }}')"><img src="../resources/copy_filled_icon_202354.ico" width="25px" height="25px"></button>
+                                    <button onclick="copyToClipboard('password-{{ passwd.id }}')"><img src="../resources/copy_filled_icon_202354.ico" width="25px" height="25px"></button>
                                 </div>
                               </div>
                           </div>
@@ -137,7 +137,8 @@
           document.documentElement.scrollTop = 0;
         }
 
-        function copyToClipboard(text) {
+        function copyToClipboard(id) {
+            text = document.getElementById(id).value;
             bridge.copyToClipBoard(text)
         }
 
@@ -162,13 +163,10 @@
 
             // Enable inputs
             document.getElementById("site-" + id).disabled = false;
-            document.getElementById("site-" + id).value = site;
 
             document.getElementById("username-" + id).disabled = false;
-            document.getElementById("username-" + id).value = username;
 
             document.getElementById("password-" + id).disabled = false;
-            document.getElementById("password-" + id).value = password;
 
             // Show buttons
             document.getElementById("modif-" + id).style.display = "none";

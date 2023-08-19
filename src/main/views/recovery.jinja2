@@ -162,7 +162,7 @@
         await new QWebChannel(qt.webChannelTransport, function (channel) {
         window.bridge = channel.objects.bridge;
 
-        print = bridge.printJS;
+        printPY = bridge.printJS;
     });
     }
 
@@ -192,8 +192,6 @@
         const new_question = document.getElementById("new_question_input").value;
         const new_answer = document.getElementById("new_answer_input").value;
         const old_answer = document.getElementById("answer_input").value;
-
-        
 
         if (await bridge.submitNewInformations(new_password, new_question, new_answer, old_answer) === true) {
             bridge.successfulRecovery();

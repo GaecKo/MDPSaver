@@ -1,267 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <link rel="stylesheet" type="text/css" href="../static/app.css">
-  <title>MDSaver - {{ username }}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDSaver - {{ username }}</title>
+    <link rel="stylesheet" href="../static/app.css">
+    <script src="https://kit.fontawesome.com/740ac721d2.js" crossorigin="anonymous"></script>
 </head>
-
 <body onload="createBridge()">
     <div class="main-container">
-        <div class="left-container">
-            <a href="">Passwords</a>
-            <a href="">Generate</a>
-            <a href="">Settings</a>
-        </div>
-        <div class="right-container">
-            <div class="header">
-                <h1>Salut, {{ username }}</h1>
+        <div class="left-section">
+            <div class="top-elements">
+                <div class="accounts-button">
+                    <p>Accounts</p>
+                </div>
+                <div class="passwords-button">
+                    <p>Passwords</p>
+                </div>
             </div>
-            <div class="main">
-                <div class="passwd-section">
-                    <div class="navbar">
-                        <div id="cover">
-                            <div class="tb">
-                              <div class="td"><input type="text" placeholder="Search for a site"></div>
-                              <div class="td" id="s-cover">
-                                <button onclick="filter()">
-                                  <div id="s-circle"></div>
-                                  <span></span>
-                                </button>
-                              </div>
-                            </div>
-                        </div>
-                        <div class="add-password-block">
-                            <button onclick="showPasswordPopup()">Add a new password <b>+</b></button>
-                        </div>
-
-                        <div class="popup-container" id="popup" style="display:none;">
-                            <span class="popup-close-btn" onclick="hidePopup()">&times;</span>
-                            <h1>Add password here</h1>
-                            <div class="add-password-form-all">
-                                <div class="add-password-form">
-                                    <label for="target">Application name</label>
-                                    <input type="text" name="target" id="target" placeholder="application name" required>
-                                    <br>
-                                    <label for="username">Username</label>
-                                    <input type="text" name="username" id="username" placeholder="username" required>
-                                    <br>
-                                    <label for="password">Password</label>
-                                    <input type="password" name="password" id="password" placeholder="password" required>
-                                    <br>
-                                    <label for="Add_icon">Manually provide icon if not found automatically.</label>
-                                    <input type="checkbox" name="Add_icon" id="Add_icon">
-                                    <br>
-                                    <input type="submit" value="Add" id="add" onclick="pushPassword()">
-                                </div>
-                            </div>
-                        </div>
+            <div class="bottom-element">
+                <div class="settings-button">
+                    <p>Settings</p>
+                </div>
+            </div>
+        </div>
+        <div class="right-section">
+            <div id="top-element"></div>
+            <div class="title">
+                <p>Salut, {{ username }}</p>
+            </div>
+            <div class="buttons-section">
+                <div class="search-field">
+                    <input type="text" placeholder="Rechercher un site" class="input-search">
+                    <div class="logo-loupe"> <i class="fas fa-search" onclick="filter()"></i> </div>
+                </div>
+                <div class="add-account" onclick="showPasswordPopup()">
+                    <p>Ajouter un nouveau mot de passe</p>
+                    <div class="logo-add"> <i class="fas fa-plus"></i> </div>
+                </div>
+            </div>
+            <div class="popup-container" id="popup" style="display:none;">
+                <span class="popup-close-btn" onclick="hidePopup()">&times;</span>
+                <h1>Add password here</h1>
+                <div class="add-password-form-all">
+                    <div class="add-password-form">
+                        <label for="target">Application name</label>
+                        <input type="text" name="target" id="target" placeholder="application name" required>
+                        <br>
+                        <label for="username">Username</label>
+                        <input type="text" name="username" id="username" placeholder="username" required>
+                        <br>
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" placeholder="password" required>
+                        <br>
+                        <label for="Add_icon">Manually provide icon if not found automatically.</label>
+                        <input type="checkbox" name="Add_icon" id="Add_icon">
+                        <br>
+                        <input type="submit" value="Add" id="add" onclick="pushPassword()">
                     </div>
                 </div>
-                  <div class="passwd-list" id="passwd-list-top">
-                    {% for passwd in passwords %}
-                        <div class="passwd-item">
-                          <div class="passwd-icon">
-                              <img src="{{ passwd.icon }}.ico" width="70px" height="70px">
-                          </div>
-                        <div class="passwd-info-row">
-                          <div class="passwd-name">
-                            <h5>Application or website:</h5>
-                            <div class="passwd-block-header-name">
-                                <input disabled value="{{ passwd.target }}" id="site-{{ passwd.id }}"></input>
-                            </div>
-                              <div class="passwd-block-button-name">
-                                  <button class="reveal-button" onclick="openTarget('{{ passwd.target }}')"><img src="../resources/pop_out_external_link_open_icon_178265.ico" width="25px" height="25px"> </button>
-                              </div>
-                          </div>
-                          <div class="password-section">
-                              <div class="passwd-login">
-                                <h5>username / mail adress:</h5>
-                                <div class="passwd-block">
-                                    <input value="{{ passwd.username }}" disabled id="username-{{ passwd.id }}"></input>
-                                    <button onclick="copyToClipboard('username-{{ passwd.id }}')"><img src="../resources/copy_filled_icon_202354.ico" width="25px" height="25px"></button>
-                                </div>
-                              </div>
-                              <div class="passwd-password">
-                                <h5>password:</h5>
-                                <div class="passwd-block">
-                                    <input value="{{ passwd.password }}" disabled type="password" id="password-{{ passwd.id }}"></input>
-                                    <button class="reveal" onclick="reveal({{ passwd.id }})"><img src="../resources/hide_icon_148530.ico" width="25px" height="20px"></button>
-                                    <button onclick="copyToClipboard('password-{{ passwd.id }}')"><img src="../resources/copy_filled_icon_202354.ico" width="25px" height="25px"></button>
-                                </div>
-                              </div>
-                          </div>
-                        </div>
-                          <div class="passwd-edit-icon">
-                              <button onclick="enableModification({{ passwd.id }})" id="modif-{{ passwd.id }}"><img src="../resources/person_edit_filled_icon_200410.ico" width="25px" height="25px"></button>
-                          </div>
-                            <!-- TODO: clean this code, it was hardcoded for function test -->
-                                <button id="save-{{ passwd.id }}"><img src="../resources/ok.ico" width="25px" height="25px" style="display: flex"></button>
-                                <button id="cancel-{{ passwd.id }}"><img src="../resources/cancel.png" width="25px" height="25px" style="display: flex"></button>
-                        </div>
-                    {% endfor %}
-                  </div>
             </div>
+            <div class="accounts-section">
+                {% for passwd in passwords %}
+                    <div class="account">
+                        <div class="logo-left"> <i class="fab fa-twitter"></i> </div>
+                        <div class="center-elements">
+                            <div class="top-center">
+                                <p>Site Web</p>
+                                <input type="text" disabled value="{{ passwd.target }}" id="site-{{ passwd.id }}">
+                                <div class="logo-external-link"> <i class="fas fa-external-link-alt" onclick="openTarget('{{ passwd.target }}')"></i> </div>
+                            </div>
+                            <div class="bottom-center">
+                                <div class="username-section">
+                                    <p>Username/Mail Address</p>
+                                    <div class="field-username">
+                                        <div class="username-zone">
+                                            <input type="text" value="{{ passwd.username }}" disabled id="username-{{ passwd.id }}">
+                                        </div>
+                                        <div class="copy-logo"> <i class="fas fa-copy" onclick="copyToClipboard('username-{{ passwd.id }}')"></i> </div>
+                                    </div>
+                                </div>
+                                <div class="password-section">
+                                    <p>Password</p>
+                                    <div class="field-password">
+                                        <div class="password-zone">
+                                            <input value="{{ passwd.password }}" disabled type="password" id="password-{{ passwd.id }}">
+                                            <div class="logo-see-pw"> <i class="fas fa-eye-slash" onclick="reveal({{ passwd.id }})"></i> </div>
+                                        </div>
+                                        <div class="copy-logo"> <i class="fas fa-copy" onclick="copyToClipboard('password-{{ passwd.id }}')"></i> </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="logo-modify"> <i class="fas fa-user-edit" onclick="enableModification({{ passwd.id }})" id="modif-{{ passwd.id }}"></i> </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <a href="#top-element"><i class="fas fa-arrow-circle-up"></i></a>
         </div>
     </div>
-
+    
+        
 </body>
-
 </html>
 
+<!-- import Qt library  -->
+<script src="qrc:///qtwebchannel/qwebchannel.js"></script>
 
+<script>
 
+    // Get the button
+    let mybutton = document.getElementsByClassName("fas fa-arrow-circle-up");
 
-    <!-- import Qt library  -->
-    <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
 
-    <script>
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
 
-        // Get the button
-        let mybutton = document.getElementById("myBtn");
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
 
-        // When the user scrolls down 20px from the top of the document, show the button
-        window.onscroll = function() {scrollFunction()};
+    function copyToClipboard(id) {
+        text = document.getElementById(id).value;
+        bridge.copyToClipBoard(text)
+    }
 
-        function scrollFunction() {
-          if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-            mybutton.style.display = "block";
-          } else {
-            mybutton.style.display = "none";
-          }
+    function reveal(id) {
+        passwordType = document.getElementById("password-" + id).type;
+        if (passwordType == "text") {
+            document.getElementById("password-" + id).type = "password";
+        } else {
+            document.getElementById("password-" + id).type = "text";
         }
+    }
 
-        // When the user clicks on the button, scroll to the top of the document
-        function topFunction() {
-          document.body.scrollTop = 0;
-          document.documentElement.scrollTop = 0;
+    function enableModification(id) {
+        // Save current values
+        const site = document.getElementById("site-" + id).value;
+        const username = document.getElementById("username-" + id).value;
+        const password = document.getElementById("password-" + id).value;
+
+        // Set actions for cancel and apply buttons
+        document.getElementById("cancel-" + id).onclick = function() {cancelModification(id, site, username, password)};
+        document.getElementById("save-" + id).onclick = function() {applyModification(id)};
+
+        // Enable inputs
+        document.getElementById("site-" + id).disabled = false;
+
+        document.getElementById("username-" + id).disabled = false;
+
+        document.getElementById("password-" + id).disabled = false;
+
+        // Show buttons
+        document.getElementById("modif-" + id).style.display = "none";
+        document.getElementById("save-" + id).style.display = "flex";
+        document.getElementById("cancel-" + id).style.display = "flex";
+    }
+
+    function disableModification(id) {
+        // Disable inputs
+        document.getElementById("site-" + id).disabled = true;
+        document.getElementById("username-" + id).disabled = true;
+        document.getElementById("password-" + id).disabled = true;
+
+        // Hide buttons
+        document.getElementById("save-" + id).style.display = "none";
+        document.getElementById("cancel-" + id).style.display = "none";
+
+        // Show edit button
+        document.getElementById("modif-" + id).style.display = "flex";
+    }
+
+    function cancelModification(id, site, username, password) {
+        document.getElementById("site-" + id).value = site;
+        document.getElementById("username-" + id).value = username;
+        document.getElementById("password-" + id).value = password;
+
+        disableModification(id);
+    }
+
+    function applyModification(id) {
+        const site = document.getElementById("site-" + id).value;
+        const username = document.getElementById("username-" + id).value;
+        const password = document.getElementById("password-" + id).value;
+
+        bridge.updatePassword(site, username, password, id);
+
+        disableModification(id);
+
+    }
+
+
+    // Create the QWebChannel object and connect to the bridge
+    async function createBridge() {
+        await new QWebChannel(qt.webChannelTransport, function (channel) {
+        window.bridge = channel.objects.bridge;
+
+        printPY = bridge.printJS;
+    });
+    }
+
+    function addPassword() {
+        bridge.callAddPassword();
+    }
+
+    // Function to show the popup
+    function showPasswordPopup() {
+      var popup = document.getElementById("popup");
+      popup.style.display = "block";
+    }
+
+    // Function to hide the popup
+    function hidePopup() {
+      var popup = document.getElementById("popup");
+      popup.style.display = "none";
+    }
+
+    // Get the input field
+    var input = document.getElementById("password");
+
+    // Execute a function when the user presses a key on the keyboard
+    input.addEventListener("keypress", function(event) {
+        // If the user presses the "Enter" key on the keyboard
+        if (event.key === "Enter" && document.getElementById("username").value !== ""  && input.value !== "") {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            document.getElementById("add").click();
         }
+    });
 
-        function copyToClipboard(id) {
-            text = document.getElementById(id).value;
-            bridge.copyToClipBoard(text)
-        }
+    async function pushPassword() {
+        const target = document.getElementById("target").value;
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const icons = document.getElementById("Add_icon").checked;
 
-        function reveal(id) {
-            passwordType = document.getElementById("password-" + id).type;
-            if (passwordType == "text") {
-                document.getElementById("password-" + id).type = "password";
-            } else {
-                document.getElementById("password-" + id).type = "text";
-            }
-        }
+        // check that the 3 fields are not empty
+        if (target === "" || username === "" || password === "") {
+            alert("Please fill all the fields");
 
-        function enableModification(id) {
-            // Save current values
-            const site = document.getElementById("site-" + id).value;
-            const username = document.getElementById("username-" + id).value;
-            const password = document.getElementById("password-" + id).value;
-
-            // Set actions for cancel and apply buttons
-            document.getElementById("cancel-" + id).onclick = function() {cancelModification(id, site, username, password)};
-            document.getElementById("save-" + id).onclick = function() {applyModification(id)};
-
-            // Enable inputs
-            document.getElementById("site-" + id).disabled = false;
-
-            document.getElementById("username-" + id).disabled = false;
-
-            document.getElementById("password-" + id).disabled = false;
-
-            // Show buttons
-            document.getElementById("modif-" + id).style.display = "none";
-            document.getElementById("save-" + id).style.display = "flex";
-            document.getElementById("cancel-" + id).style.display = "flex";
-        }
-
-        function disableModification(id) {
-            // Disable inputs
-            document.getElementById("site-" + id).disabled = true;
-            document.getElementById("username-" + id).disabled = true;
-            document.getElementById("password-" + id).disabled = true;
-
-            // Hide buttons
-            document.getElementById("save-" + id).style.display = "none";
-            document.getElementById("cancel-" + id).style.display = "none";
-
-            // Show edit button
-            document.getElementById("modif-" + id).style.display = "flex";
-        }
-
-        function cancelModification(id, site, username, password) {
-            document.getElementById("site-" + id).value = site;
-            document.getElementById("username-" + id).value = username;
-            document.getElementById("password-" + id).value = password;
-
-            disableModification(id);
-        }
-
-        function applyModification(id) {
-            const site = document.getElementById("site-" + id).value;
-            const username = document.getElementById("username-" + id).value;
-            const password = document.getElementById("password-" + id).value;
-
-            bridge.updatePassword(site, username, password, id);
-
-            disableModification(id);
+        } else {
+            await bridge.callPushPassword(target, username, password, icons);
+            await bridge.refreshMenu();
 
         }
-
-
-        // Create the QWebChannel object and connect to the bridge
-        async function createBridge() {
-            await new QWebChannel(qt.webChannelTransport, function (channel) {
-            window.bridge = channel.objects.bridge;
-
-            printPY = bridge.printJS;
-        });
-        }
-
-        function addPassword() {
-            bridge.callAddPassword();
-        }
-
-        // Function to show the popup
-        function showPasswordPopup() {
-          var popup = document.getElementById("popup");
-          popup.style.display = "block";
-        }
-
-        // Function to hide the popup
-        function hidePopup() {
-          var popup = document.getElementById("popup");
-          popup.style.display = "none";
-        }
-
-        // Get the input field
-        var input = document.getElementById("password");
-
-        // Execute a function when the user presses a key on the keyboard
-        input.addEventListener("keypress", function(event) {
-            // If the user presses the "Enter" key on the keyboard
-            if (event.key === "Enter" && document.getElementById("username").value !== ""  && input.value !== "") {
-                // Cancel the default action, if needed
-                event.preventDefault();
-                // Trigger the button element with a click
-                document.getElementById("add").click();
-            }
-        });
-
-        async function pushPassword() {
-            const target = document.getElementById("target").value;
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-            const icons = document.getElementById("Add_icon").checked;
-
-            // check that the 3 fields are not empty
-            if (target === "" || username === "" || password === "") {
-                alert("Please fill all the fields");
-
-            } else {
-                await bridge.callPushPassword(target, username, password, icons);
-                await bridge.refreshMenu();
-
-            }
-        }
-    </script>
+    }
+</script>
 

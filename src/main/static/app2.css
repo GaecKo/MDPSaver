@@ -1,0 +1,437 @@
+/* Styles for main container */
+html {
+    font-family: Inter, serif;
+    background-color: #373434; /* to show the bad border */
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+::-webkit-scrollbar-corner{
+    background-color: transparent;
+}
+
+
+.header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body{
+    animation: fadeInAnimation ease 2s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    margin:0;
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+     }
+}
+
+.main-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr
+}
+
+.main-container .left-container{
+    background-color: #373434;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.main-container .left-container a{
+    padding: 10px 52px;
+    border: none;
+    border-radius: 15px;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.main-container .left-container a:hover{
+    padding: 10px 52px;
+    border: none;
+    background-color: #282626;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.right-container{
+    width: 100%;
+}
+
+/* Styles for header section */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 3px;
+  background-color: #222;
+  color: #fff;
+}
+
+.header-logo {
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+}
+
+/* Styles for main content */
+.main {
+  padding: 20px;
+  background-color: #222;
+  color: #fff;
+}
+
+/* Styles for password section */
+.passwd-section {
+  border: none;
+  padding: 10px;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.td {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+
+input, button {
+  color: #fff;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+#cover {
+  width: 300px;
+  padding: 20px;
+  background-color: #282626;
+  border-radius: 20px;
+  box-shadow: 0 5px 5px #444, 0 0 0 5px #ffffffeb;
+  transform: scale(0.6);
+}
+
+.td input[type="text"] {
+    width: 100%;
+    height: 15px;
+    font-size: 25px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.td input[type="text"]::placeholder {
+  color: #444444;
+}
+
+#s-cover {
+  width: 1px;
+  padding-left: 10px;
+}
+
+
+.td button {
+  position: relative;
+  display: block;
+  width: 84px;
+  height: 15px;
+  cursor: pointer;
+}
+
+#s-circle {
+  position: relative;
+  top: -8px;
+  left: 35px;
+  width: 15px;
+  height: 15px;
+  margin-top: 0;
+  border: 5px solid #fff;
+  background-color: transparent;
+  border-radius: 50%;
+  transition: 0.5s ease all;
+}
+
+button span {
+  position: absolute;
+  top: 0;
+  right: 6px;
+  display: block;
+  width: 45px;
+  height: 15px;
+  background-color: transparent;
+  border-radius: 10px;
+  transform: rotateZ(52deg);
+  transition: 0.5s ease all;
+}
+
+button span:before,
+button span:after {
+  content: "";
+  position: absolute;
+  bottom: 1px;
+  right: 2px;
+  width: 15px;
+  height: 5px;
+  background-color: #fff;
+  border-radius: 10px;
+  transform: rotateZ(0);
+  transition: 0.5s ease all;
+}
+
+#s-cover:hover #s-circle {
+  top: 0;
+  width: 30px;
+  height: 5px;
+  border-width: 0;
+  background-color: #fff;
+  border-radius: 20px;
+}
+
+#s-cover:hover span {
+  top: 67%;
+  left: 50px;
+  width: 15px;
+  margin-top: -12px;
+  transform: rotateZ(0);
+}
+
+#s-cover:hover button span:before {
+  bottom: 11px;
+  transform: rotateZ(52deg);
+}
+
+#s-cover:hover button span:after {
+  bottom: -4px;
+  transform: rotateZ(-52deg);
+}
+#s-cover:hover button span:before,
+#s-cover:hover button span:after {
+  right: -6px;
+  width: 20px;
+  background-color: #fff;
+}
+
+
+.add-password-block button{
+    border-radius: 4px;
+    background-color: #0B99FF;
+    border: none;
+    padding: 14px 40px;
+    font-size: 15px;
+    margin-left: 70px;
+}
+
+.add-password-block button:hover{
+    border-radius: 4px;
+    background-color: deepskyblue;
+    border: none;
+    padding: 14px 40px;
+    font-size: 15px;
+    margin-left: 70px;
+}
+
+.passwd-list {
+    overflow: scroll;
+    width: 700px;
+    height: 342px;
+}
+
+.passwd-item {
+    background-color: #DBDCD6;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.passwd-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 60px 15px 60px 10px;
+}
+
+
+.passwd-login{
+    margin-right: 20px;
+}
+
+
+.password-section{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.password-section h5{
+    color: #5E5E51;
+    margin-left: 10px;
+}
+
+.password-section h4{
+    color: #FFFFFF;
+}
+
+.password-section button{
+    background-color: transparent;
+    border: none;
+}
+.passwd-block-header-name input { /* TODO: rectify this part (kind of hardcoded) */
+    margin-left: 0px;
+    margin-top: 15px;
+    height: 20px;
+    border-radius: 20px;
+    background-color: #5E5E51;
+    width: 200px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    max-width: 200px;
+}
+
+.passwd-block input{
+    margin-left: 0px;
+    height: 20px;
+    border-radius: 20px;
+    background-color: #5E5E51;
+    width: 200px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    max-width: 200px;
+}
+
+.passwd-block{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.reveal{
+    margin-right: 10px;
+}
+
+.passwd-name{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.passwd-block-button-name{
+    margin-top: 20px;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+.passwd-name button{
+    border: none;
+    background-color: transparent;
+}
+
+.passwd-name h5{
+    color: #5E5E51;
+}
+
+.passwd-name h4{
+    padding: 5px 300px 5px 5px;
+    background-color: #5E5E51;
+    color: #FFFFFF;
+    border-radius: 5px;
+    float: right;
+}
+
+.passwd-edit-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 60px 15px 60px 10px;
+}
+
+.passwd-edit-icon button{
+    background-color: transparent;
+    border: none;
+}
+
+/* Styles for popup container */
+.popup-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #333;
+  border: 1px solid #777;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: none;
+}
+
+.popup-close-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.popup-container h1{
+    display: flex;
+    justify-content: center;
+}
+
+.add-password-form{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.add-password-form{
+    color: #5E5E51;
+    background-color:#DBDCD6;
+    padding: 10px 10px 10px 10px;
+    border-radius: 10px;
+}
+
+.add-password-form [type=text], [type=password]{
+    background-color: #5E5E51;
+    padding: 7px 15px 5px 10px;
+    margin-top: 2px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+
+.add-password-form [type=submit]{
+    border-radius: 4px;
+    background-color: #0B99FF;
+    border: none;
+    padding: 8px 20px;
+}

@@ -1,437 +1,417 @@
-/* Styles for main container */
-html {
-    font-family: Inter, serif;
-    background-color: #373434; /* to show the bad border */
+@font-face {
+    font-family: Inter;
+    src: url(./Inter/Inter-VariableFont_slnt\,wght.ttf);
 }
 
-::-webkit-scrollbar {
-  width: 10px;
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Inter;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #444;
-  border-radius: 10px;
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #FFF;
+    opacity: 1; /* Firefox */
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #777;
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+color: #FFF;
 }
 
-::-webkit-scrollbar-corner{
-    background-color: transparent;
+::-ms-input-placeholder { /* Microsoft Edge */
+color: #FFF;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.right-section::-webkit-scrollbar {
+    display: none;
+}
 
-.header{
+/* Hide scrollbar for IE, Edge and Firefox */
+.right-section {
+-ms-overflow-style: none;  /* IE and Edge */
+scrollbar-width: none;  /* Firefox */
+}
+
+.main-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: row;
+    background-color: #282626;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
-body{
-    animation: fadeInAnimation ease 2s;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
-    margin:0;
-}
 
-@keyframes fadeInAnimation {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-     }
-}
 
-.main-container{
-    display: grid;
-    grid-template-columns: 1fr 1fr
-}
+/* LEFT SECTION */ 
 
-.main-container .left-container{
+
+
+.left-section {
     background-color: #373434;
+    width: 33%;
+    height: 100vh;
+    margin-left: 0;
+}
+
+.accounts-button > p, .passwords-button > p, .settings-button > p {
+    color: #FFF;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+    transition: all 0.5s ease;
+}
+
+.accounts-button, .passwords-button, .settings-button {
+    transition: all 0.5s ease;  
+}
+
+.accounts-button:hover, .passwords-button:hover, .settings-button:hover{
+    background-color: #282626;
+    border-radius: 50px 0px 0px 50px;
+    padding-left: 20px;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+.top-elements {
+    height: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
 }
 
-.main-container .left-container a{
-    padding: 10px 52px;
-    border: none;
-    border-radius: 15px;
-    background-color: transparent;
-    color: white;
-    cursor: pointer;
-    text-decoration: none;
+.bottom-element {
+    height: 40%;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
 }
 
-.main-container .left-container a:hover{
-    padding: 10px 52px;
-    border: none;
+.accounts-button, .passwords-button, .settings-button {
+    width: 100%;
+    padding: 5px;
+}
+
+
+
+/* RIGHT SECTION */
+
+
+
+.right-section {
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-bottom: 30px;
     background-color: #282626;
-    color: white;
-    cursor: pointer;
-    text-decoration: none;
+    width: 67%;
+    height: 100%;
+    scroll-behavior: smooth;
+    overflow-y: scroll;
 }
 
-.right-container{
+.title {
+    height: 7%;
     width: 100%;
-}
-
-/* Styles for header section */
-.header {
-  display: flex;
-  align-items: center;
-  padding: 3px;
-  background-color: #222;
-  color: #fff;
-}
-
-.header-logo {
-  width: 40px;
-  height: 40px;
-  background-color: #fff;
-}
-
-/* Styles for main content */
-.main {
-  padding: 20px;
-  background-color: #222;
-  color: #fff;
-}
-
-/* Styles for password section */
-.passwd-section {
-  border: none;
-  padding: 10px;
-}
-
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.td {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-
-input, button {
-  color: #fff;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  background-color: transparent;
-  border: none;
-  outline: none;
-}
-
-#cover {
-  width: 300px;
-  padding: 20px;
-  background-color: #282626;
-  border-radius: 20px;
-  box-shadow: 0 5px 5px #444, 0 0 0 5px #ffffffeb;
-  transform: scale(0.6);
-}
-
-.td input[type="text"] {
-    width: 100%;
-    height: 15px;
+    text-align: center;
+    color: #FFF;
     font-size: 25px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
 }
 
-.td input[type="text"]::placeholder {
-  color: #444444;
+.title > p {
+    margin: 0;
+    padding: 0;
 }
 
-#s-cover {
-  width: 1px;
-  padding-left: 10px;
+.buttons-section {
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
 }
 
-
-.td button {
-  position: relative;
-  display: block;
-  width: 84px;
-  height: 15px;
-  cursor: pointer;
+.search-field, .add-account {
+    height: 70%;
+    width: 40%;
+    display: flex;
+    align-items: center;
 }
 
-#s-circle {
-  position: relative;
-  top: -8px;
-  left: 35px;
-  width: 15px;
-  height: 15px;
-  margin-top: 0;
-  border: 5px solid #fff;
-  background-color: transparent;
-  border-radius: 50%;
-  transition: 0.5s ease all;
+.search-field {
+    border-radius: 10px;
+    background: rgba(79, 77, 77, 0.61);
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-button span {
-  position: absolute;
-  top: 0;
-  right: 6px;
-  display: block;
-  width: 45px;
-  height: 15px;
-  background-color: transparent;
-  border-radius: 10px;
-  transform: rotateZ(52deg);
-  transition: 0.5s ease all;
+.input-search {
+    width: 80%;
+    height: 100%;
+    background: transparent;
+    border-style: none;
+    outline: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    color: #FFF;
 }
 
-button span:before,
-button span:after {
-  content: "";
-  position: absolute;
-  bottom: 1px;
-  right: 2px;
-  width: 15px;
-  height: 5px;
-  background-color: #fff;
-  border-radius: 10px;
-  transform: rotateZ(0);
-  transition: 0.5s ease all;
+.logo-loupe {
+    color: #FFF;
+    margin-right: 20px; 
 }
 
-#s-cover:hover #s-circle {
-  top: 0;
-  width: 30px;
-  height: 5px;
-  border-width: 0;
-  background-color: #fff;
-  border-radius: 20px;
-}
-
-#s-cover:hover span {
-  top: 67%;
-  left: 50px;
-  width: 15px;
-  margin-top: -12px;
-  transform: rotateZ(0);
-}
-
-#s-cover:hover button span:before {
-  bottom: 11px;
-  transform: rotateZ(52deg);
-}
-
-#s-cover:hover button span:after {
-  bottom: -4px;
-  transform: rotateZ(-52deg);
-}
-#s-cover:hover button span:before,
-#s-cover:hover button span:after {
-  right: -6px;
-  width: 20px;
-  background-color: #fff;
-}
-
-
-.add-password-block button{
-    border-radius: 4px;
+.add-account {
     background-color: #0B99FF;
-    border: none;
-    padding: 14px 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.add-account > p {
+    margin: 0;
+    padding: 0;
+    color: #FFF;
     font-size: 15px;
-    margin-left: 70px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
 }
 
-.add-password-block button:hover{
-    border-radius: 4px;
-    background-color: deepskyblue;
-    border: none;
-    padding: 14px 40px;
-    font-size: 15px;
-    margin-left: 70px;
+.logo-add {
+    color: #FFF;
 }
 
-.passwd-list {
-    overflow: scroll;
-    width: 700px;
-    height: 342px;
-}
 
-.passwd-item {
-    background-color: #DBDCD6;
-    margin-bottom: 10px;
-    border-radius: 5px;
+
+/* ACCOUNT SECTION */
+
+
+
+.accounts-section {
+    padding: 10px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
 }
 
-.passwd-icon {
+.account {
+    height: 120px;
+    width: 100%;    
+    border-radius: 20px;
+    background: #DBDCD6;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.logo-left {
+    background-color: transparent;
+    height: 100%;
+    width: 10%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 60px 15px 60px 10px;
-}
-
-
-.passwd-login{
-    margin-right: 20px;
-}
-
-
-.password-section{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-
-.password-section h5{
+    font-size: 50px;
     color: #5E5E51;
-    margin-left: 10px;
 }
 
-.password-section h4{
-    color: #FFFFFF;
-}
-
-.password-section button{
-    background-color: transparent;
-    border: none;
-}
-.passwd-block-header-name input { /* TODO: rectify this part (kind of hardcoded) */
-    margin-left: 0px;
-    margin-top: 15px;
-    height: 20px;
-    border-radius: 20px;
-    background-color: #5E5E51;
-    width: 200px;
-    padding-left: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    max-width: 200px;
-}
-
-.passwd-block input{
-    margin-left: 0px;
-    height: 20px;
-    border-radius: 20px;
-    background-color: #5E5E51;
-    width: 200px;
-    padding-left: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    max-width: 200px;
-}
-
-.passwd-block{
+.center-elements {
+    height: 100%;
+    width: 80%;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
 }
 
-.reveal{
-    margin-right: 10px;
+.top-center, .bottom-center {
+    height: 50%;
+    width: 100%;
 }
 
-.passwd-name{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+.top-center {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
-.passwd-block-button-name{
-    margin-top: 20px;
+.bottom-center {
+    display: flex;
+    align-items: center;
 }
 
-button:hover{
+.username-section, .password-section {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}  
+
+.top-center > p {
+    margin-left: 0;
+}
+
+.top-center > p, .username-section > p, .password-section > p {
+    color: #5E5E51;
+    font-family: Inter;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.username-section > p, .password-section > p {
+    margin-left: 30px;
+}
+
+.top-center > input {
+    background-color: #5E5E51;
+    width: 70%;
+    outline-style: none;
+    border-style: none;
+    border-radius: 10px;
+    font-family: Inter;
+    font-size: 14px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-weight: 600;
+    color: #FFF;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.logo-external-link {
+    color: #4F4F43;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.logo-external-link:hover, .logo-modify > i:hover, .add-account:hover, .logo-loupe:hover, .copy-logo:hover, .logo-see-pw:hover {
     cursor: pointer;
 }
 
-.passwd-name button{
-    border: none;
-    background-color: transparent;
+.field-password, .field-username {
+    height: 100%;
+    width: 90%;
+    display: flex;
+    justify-content: space-evenly;
+    align-self: center;
+    align-items: center;
 }
 
-.passwd-name h5{
-    color: #5E5E51;
+.password-zone {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.passwd-name h4{
-    padding: 5px 300px 5px 5px;
-    background-color: #5E5E51;
-    color: #FFFFFF;
-    border-radius: 5px;
-    float: right;
+.password-zone > input, .username-zone > input {
+    width: 90%;
+    background-color: #777767;
+    color: #FFF;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    outline-style: none;
+    border-style: none;
 }
 
-.passwd-edit-icon{
+.field-username > .username-zone, .field-password > .password-zone {
+    background-color: #777767;
+    border-radius: 50px;
+    color: #FFF;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    outline-style: none;
+    border-style: none;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.copy-logo {
+    color: #777767;
+    margin-left: 5px;
+    font-size: 20px;
+}
+
+.logo-modify {
+    height: 100%;
+    width: 10%;
+    font-size: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 60px 15px 60px 10px;
+    color: #777767;
 }
 
-.passwd-edit-icon button{
-    background-color: transparent;
-    border: none;
+.fas.fa-arrow-circle-up {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: #FFF;
+    font-size: 50px;
+    text-shadow: 0px 0px 20px #000000; 
+    display: none;
 }
+
+#top-element {
+    height: 30px;
+    width: 0;
+}
+
+
+/* POP-UP CONTAINER */
 
 /* Styles for popup container */
 .popup-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #333;
-  border: 1px solid #777;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  z-index: 9999;
-  display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #333;
+    border: 1px solid #777;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: none;
 }
 
 .popup-close-btn {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  cursor: pointer;
-  color: #fff;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    color: #fff;
 }
 
 .popup-container h1{
     display: flex;
     justify-content: center;
-}
-
-.add-password-form{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.add-password-form{
-    color: #5E5E51;
-    background-color:#DBDCD6;
-    padding: 10px 10px 10px 10px;
-    border-radius: 10px;
-}
-
-.add-password-form [type=text], [type=password]{
-    background-color: #5E5E51;
-    padding: 7px 15px 5px 10px;
-    margin-top: 2px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    color: white;
-}
-
-.add-password-form [type=submit]{
-    border-radius: 4px;
-    background-color: #0B99FF;
-    border: none;
-    padding: 8px 20px;
 }

@@ -1,17 +1,23 @@
-const container = document.querySelector('.circular-container');
+const container = document.querySelector('.circle-input');
 const input = document.querySelector('.circular-input');
+const RotatingCircle = document.getElementById('rotating-circle');
+const output = document.querySelector('#circle-output');
+
+
 const centerX = container.offsetWidth / 2;
 const centerY = container.offsetHeight / 2;
 const radius = container.offsetWidth / 2 - input.offsetWidth / 2;
 let isDragging = false;
 
-const output = document.querySelector('.circular-output');
-outputValue = 0;
-finalOutput = 0;
+
+outputValue = 1;
+finalOutput = 1;
 
 // Set the initial position of the input circle to the top of the container
 input.style.left = centerX - input.offsetWidth / 2 + 'px';
-input.style.top = centerY - radius -10 + 'px'; // Adjusted initial position
+input.style.top = centerY - radius  + 'px'; // Adjusted initial position
+
+RotatingCircle.setAttribute('stroke-dashoffset', 502);
 
 input.addEventListener('mousedown', (event) => {
   isDragging = true;
@@ -20,7 +26,6 @@ input.addEventListener('mousedown', (event) => {
 
 document.addEventListener('mousemove', (event) => {
   if (!isDragging) return;
-
   const deltaX = event.clientX - centerX;
   const deltaY = centerY - event.clientY;
 
@@ -51,9 +56,18 @@ document.addEventListener('mousemove', (event) => {
 
   // Adjust the output value for the full circle loop
   output.textContent = finalOutput;
+
+  
+  RotatingCircle.setAttribute('stroke-dashoffset', 502 - (finalOutput * 5.02));
+
+  
 });
+
+
 
 document.addEventListener('mouseup', () => {
   isDragging = false;
   input.style.cursor = 'grab';
 });
+
+

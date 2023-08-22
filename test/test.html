@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circle Animation Observer</title>
+</head>
+<body>
+    <svg width="200px" height="200px">
+        <circle cx="100" cy="100" r="80" stroke-linecap="round" id="circular-input"/>
+    </svg>
+
+    <script>
+        const circle = document.getElementById('circular-input');
+        const observerOptions = {
+            attributes: true,  // Watch for attribute changes
+            attributeFilter: ['stroke-dashoffset'],  // Only watch stroke-dashoffset
+        };
+
+        // Create a MutationObserver
+        const observer = new MutationObserver((mutationsList, observer) => {
+            for (const mutation of mutationsList) {
+                if (mutation.type === 'attributes') {
+                    if (mutation.attributeName === 'stroke-dashoffset') {
+                        // Perform your actions here when stroke-dashoffset changes
+                        console.log('stroke-dashoffset has changed:', circle.getAttribute('stroke-dashoffset'));
+                        // Add your custom actions here
+                    }
+                }
+            }
+        });
+
+        // Start observing the circle element
+        observer.observe(circle, observerOptions);
+
+        // Example: Change stroke-dashoffset to trigger the observer
+        setTimeout(() => {
+            circle.setAttribute('stroke-dashoffset', '50');
+        }, 2000);
+    </script>
+</body>
+</html>

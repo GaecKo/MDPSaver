@@ -41,7 +41,7 @@ document.addEventListener('mousemove', (event) => {
     return;
   }
 
-  if (finalOutput == 100 && deltaX >= -5) {
+  if (finalOutput > 99 && deltaX >= -5) {
     return;
     }
 
@@ -66,8 +66,11 @@ document.addEventListener('mousemove', (event) => {
   output.textContent = finalOutput;
 
   
-  RotatingCircle.setAttribute('stroke-dashoffset', 505 - (finalOutput * 5.02));  
+  RotatingCircle.setAttribute('stroke-dashoffset', 505 - (finalOutput * 5.02));
 
+  
+  RotatingCircle.style.stroke = getRGB(finalOutput);
+  
 });
 
 
@@ -78,4 +81,44 @@ document.addEventListener('mouseup', () => {
 });
 
 
+function getRGB(ratio) {
+  const fixedValues = [
+    { ratio: 0, r: 255, g: 0, b: 0 },
+    { ratio: 10, r: 255, g: 0, b: 0 },
+    { ratio: 20, r: 255, g: 165, b: 0 },
+    { ratio: 50, r: 0, g: 200, b: 0 },
+    { ratio: 100, r: 0, g: 100, b: 0 }
+  ];
+
+  // Find the two fixed values between which the given ratio falls
+  let lowerIndex = 0;
+  let upperIndex = fixedValues.length - 1;
+
+  for (let i = 0; i < fixedValues.length - 1; i++) {
+    if (ratio >= fixedValues[i].ratio && ratio <= fixedValues[i + 1].ratio) {
+      lowerIndex = i;
+      upperIndex = i + 1;
+      break;
+    }
+  }
+
+  // Interpolate RGB values based on the ratio
+  const lowerValue = fixedValues[lowerIndex];
+  const upperValue = fixedValues[upperIndex];
+
+  const ratioDiff = upperValue.ratio - lowerValue.ratio;
+  const ratioOffset = ratio - lowerValue.ratio;
+
+  const r = Math.round(
+    lowerValue.r + (upperValue.r - lowerValue.r) * (ratioOffset / ratioDiff)
+  );
+  const g = Math.round(
+    lowerValue.g + (upperValue.g - lowerValue.g) * (ratioOffset / ratioDiff)
+  );
+  const b = Math.round(
+    lowerValue.b + (upperValue.b - lowerValue.b) * (ratioOffset / ratioDiff)
+  );
+
+  return `rgb(${r}, ${g}, ${b})`;
+}
 

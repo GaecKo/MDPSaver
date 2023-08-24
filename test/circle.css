@@ -1,90 +1,515 @@
+@font-face {
+    font-family: Inter;
+    src: url(./Inter/Inter-VariableFont_slnt\,wght.ttf);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+    font-family: Inter, serif;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #FFF;
+    opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+color: #FFF;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+color: #FFF;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.right-password-section::-webkit-scrollbar, .right-generate-section::-webkit-scrollbar, .right-accounts-section::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.right-password-section, .right-generate-section, .right-accounts-section {
+-ms-overflow-style: none;   /* IE and Edge */
+scrollbar-width: none;  /* Firefox */
+}
+
+.main-container {
+    display: flex;
+    flex-direction: row;
+    background-color: #282626;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+
+
+/* LEFT SECTION */ 
+
+.left-section {
+    background-color: #373434;
+    width: 33%;
+    height: 100vh;
+    margin-left: 0;
+}
+
+.accounts-button > p, .passwords-button > p, .settings-button > p, .generate-button > p {
+    color: #FFF;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+    transition: all 0.5s ease;
+}
+
+.accounts-button, .passwords-button, .settings-button, .generate-button {
+    transition: all 0.5s ease;
+}
+
+.accounts-button:hover, .passwords-button:hover, .settings-button:hover, .generate-button:hover {
+    background-color: #282626;
+    border-radius: 50px 0px 0px 50px;
+    padding-left: 20px;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+.top-elements {
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.bottom-element {
+    height: 40%;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+}
+
+.accounts-button, .passwords-button, .settings-button, .generate-button {
+    width: 100%;
+    padding: 5px;
+}
+
+
+
+/* RIGHT SECTION */
+
+.right-password-section, .right-generate-section, .right-accounts-section{
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    background-color: #282626;
+    width: 67%;
+    height: 100%;
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+}
+
+/* Password Section */
+
+.title {
+    height: 7%;
+    width: 100%;
+    text-align: center;
+    color: #FFF;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.title > p {
+    margin: 0;
+    padding: 0;
+}
+
+.buttons-section {
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.search-field, .add-account {
+    height: 70%;
+    width: 40%;
+    display: flex;
+    align-items: center;
+}
+
+.search-field {
+    border-radius: 10px;
+    background: rgba(79, 77, 77, 0.61);
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.input-search {
+    width: 80%;
+    height: 100%;
+    background: transparent;
+    border-style: none;
+    outline: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    color: #FFF;
+}
+
+.logo-loupe {
+    color: #FFF;
+    margin-right: 20px; 
+}
+
+.add-account {
+    background-color: #0B99FF;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.add-account > p {
+    margin: 0;
+    padding: 0;
+    color: #FFF;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.logo-add {
+    color: #FFF;
+}
+
+
+/* ----------  */
+/* GENERATE SECTION */
+
+.switch-part-header {
+    display: flex;
+    width: 100vw;
+}
+
+/* ----------  */
+/* ACCOUNT SECTION */
+
+
+
+.accounts-section {
+    padding: 10px;
+    display: grid;
+    justify-items: center;
+}
+
+.account {
+    height: 120px;
+    width: 100%;    
+    border-radius: 20px;
+    background: #DBDCD6;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.logo-left {
+    background-color: transparent;
+    height: 100%;
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    color: #5E5E51;
+}
+
+.center-elements {
+    height: 100%;
+    width: 80%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.top-center, .bottom-center {
+    height: 50%;
+    width: 100%;
+}
+
+.top-center {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.bottom-center {
+    display: flex;
+    align-items: center;
+}
+
+.username-section, .password-section {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}  
+
+.top-center > p {
+    margin-left: 0;
+}
+
+.top-center > p, .username-section > p, .password-section > p {
+    color: #5E5E51;
+    font-family: Inter;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.username-section > p, .password-section > p {
+    margin-left: 30px;
+}
+
+.top-center > input {
+    background-color: #5E5E51;
+    width: 70%;
+    outline-style: none;
+    border-style: none;
+    border-radius: 10px;
+    font-family: Inter;
+    font-size: 14px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-weight: 600;
+    color: #FFF;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.logo-external-link {
+    color: #4F4F43;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.logo-external-link:hover, .logo-modify > i:hover, .add-account:hover, .logo-loupe:hover, .copy-logo:hover, .logo-see-pw:hover {
+    cursor: pointer;
+}
+
+.field-password, .field-username {
+    height: 100%;
+    width: 90%;
+    display: flex;
+    justify-content: space-evenly;
+    align-self: center;
+    align-items: center;
+}
+
+.password-zone {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.password-zone > input, .username-zone > input {
+    width: 90%;
+    background-color: #777767;
+    color: #FFF;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    outline-style: none;
+    border-style: none;
+}
+
+.field-username > .username-zone, .field-password > .password-zone {
+    background-color: #777767;
+    border-radius: 50px;
+    color: #FFF;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    outline-style: none;
+    border-style: none;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.copy-logo {
+    color: #777767;
+    margin-left: 5px;
+    font-size: 20px;
+}
+
+.logo-modify {
+    height: 100%;
+    width: 10%;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #777767;
+}
+
+.fas.fa-arrow-circle-up {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: #FFF;
+    font-size: 50px;
+    text-shadow: 0px 0px 20px #000000; 
+    display: none;
+}
+
+#top-element {
+    height: 30px;
+    width: 0;
+}
+
+
+/* POP-UP CONTAINER */
+
+/* Styles for popup container */
+.popup-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #333;
+    border: 1px solid #777;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: none;
+}
+
+.popup-close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.popup-container h1{
+    display: flex;
+    justify-content: center;
+}
+
 /* CIRCLE INPUT CSS - DO NOT TOUCH*/
 
 .circle-input {
-  font-family: 'Popins', sans-serif;
-  width: 200px;
-  height: 200px;
-  position: relative;
+    font-family: 'Popins', sans-serif;
+    width: 200px;
+    height: 200px;
+    position: relative;
+    top: 20px;
 }
 
 .extern{
-  box-sizing: border-box;
-  height: 200px;
-  width: 200px;
-  border-radius: 50%;
-  background-color: #D9D9D9;
-  box-shadow: 0px 0px 4px 10px rgba(0, 0, 0, 0.25);
-  padding: 10px;
-  position: relative;
+    box-sizing: border-box;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    background-color: #D9D9D9;
+    box-shadow: 0px 0px 4px 10px rgba(0, 0, 0, 0.25);
+    padding: 10px;
+    position: relative;
 }
 
 .outer {
-  box-sizing: border-box;
-  height: 180px;
-  width: 180px;
+    box-sizing: border-box;
+    height: 180px;
+    width: 180px;
 
-  border-radius: 50%;
-  padding: 19px;
-  box-shadow: 6px 6px 10px -1px rgba(0, 0, 0, 0.15),
+    border-radius: 50%;
+    padding: 19px;
+    box-shadow: 6px 6px 10px -1px rgba(0, 0, 0, 0.15),
              -6px -6px 10px -1px rgba(255, 255, 255, 0.7);
 }
 
 .inner{
-  height: 140px;
-  width: 140px;
+    height: 140px;
+    width: 140px;
 
-  border-radius: 50%;
-  box-shadow: inset 4px 4px 6px -1px rgba(0, 0, 0, 0.2),
+    border-radius: 50%;
+    box-shadow: inset 4px 4px 6px -1px rgba(0, 0, 0, 0.2),
               inset -4px -4px 6px -1px rgba(255,255,255,0.7),
               -0.5px -0.5px 0px rgba(255, 255, 255, 1),
               0.5px 0.5px 0px rgba(0,0,0,0.15),
               0px 12px 10px -10px rgba(0, 0, 0, 0.05);
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
 }
 
 #circle-text {
-  font-size: x-small;
-  font-weight: 800;
-  user-select: none;
-  text-shadow: 3px 3px 2px rgba(0, 0, 0, 0.2);
+    font-size: x-small;
+    font-weight: 800;
+    user-select: none;
+    text-shadow: 3px 3px 2px rgba(0, 0, 0, 0.2);
 }
 
 #circle-output{
-  font-size:xxx-large;
-  font-weight: bolder;
-  color: black;
-  align-self: center;
-  user-select: none;
-  text-shadow: 3px 3px 2px rgba(0, 0, 0, 0.5);
+    font-size:xxx-large;
+    font-weight: bolder;
+    color: black;
+    align-self: center;
+    user-select: none;
+    text-shadow: 3px 3px 2px rgba(0, 0, 0, 0.5);
 }
 
 circle {
-  fill: none;
-  stroke-width: 20px;
-  stroke-dasharray: 502;
-  stroke: red;
+    fill: none;
+    stroke-width: 20px;
+    stroke-dasharray: 502;
+    stroke: red;
 }
 
 svg {
-  position: absolute; 
-  transform: rotate(-90deg); 
-  top: 0;
-  left:0; 
+    position: absolute;
+    transform: rotate(-90deg);
+    top: 0;
+    left:0;
 }
-  
+
 .circular-input {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  background-color: #646464;
-  border: 2px solid white;
-  border-radius: 50%;
-  cursor: grab;
-  z-index: 2;
-  box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background-color: #646464;
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: grab;
+    z-index: 2;
+    box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* ----------- */

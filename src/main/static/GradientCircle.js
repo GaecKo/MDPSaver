@@ -35,7 +35,7 @@ const containerHeight = container.offsetHeight;
 document.addEventListener('mousemove', (event) => {
   if (!isDragging) return;
   // Calculate the container's position on the page
-  
+
   // Calculate the mouse position relative to the container's center
   const mouseX = event.clientX - containerX;
   const mouseY = containerY - event.clientY;
@@ -68,18 +68,18 @@ document.addEventListener('mousemove', (event) => {
 
   // Calculate the output value based on the input circle's position
   outputValue = Math.round((angle / (2 * Math.PI)) * 100) -25;
-  
+
   finalOutput = 100 - (outputValue < 0 ? 100 + outputValue : outputValue);
 
   // Adjust the output value for the full circle loop
   output.textContent = finalOutput;
 
-  
+
   RotatingCircle.setAttribute('stroke-dashoffset', 505 - (finalOutput * 5.02));
 
-  
+
   RotatingCircle.style.stroke = getRGB(finalOutput);
-  
+
 });
 
 
@@ -96,7 +96,7 @@ function getRGB(ratio) {
     { ratio: 0, r: 255, g: 0, b: 0 },
     { ratio: 10, r: 255, g: 0, b: 0 },
     { ratio: 20, r: 255, g: 165, b: 0 },
-    { ratio: 50, r: 0, g: 200, b: 0 },
+    { ratio: 30, r: 0, g: 200, b: 0 },
     { ratio: 100, r: 0, g: 100, b: 0 }
   ];
 

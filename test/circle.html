@@ -1,29 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <link rel="stylesheet" href="circle.css">
-</head>
+<style>
+    #circle-output {
+        background-color: #D9D9D9;
+        border: none;
+        width: 100px;
+        height: 40px;
+        text-align: center;
+        font-size:xxx-large;
+        font-weight: bolder;
+        color: black;
+        align-self: center;
+        text-shadow: 3px 3px 2px rgba(0, 0, 0, 0.5);
+    }
 
+    #circle-output:hover {
+        cursor: pointer;
+    }
+</style>
 
-<div class="circle-input">
-  <div class="extern">
-    <div class="circular-input"></div>
-    <div class="outer">
-      <div class="inner">
-        <div id="circle-text">CHARACTERS</div>
-        <div id="circle-output">
-          1
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <svg width="200px" height="200px">
-    <circle cx="100" cy="100" r="80" stroke-linecap="round" id="rotating-circle"/>
-  </svg>
-
-</div>
-  
-</html>
-
-<script src="GradientCircle.js"></script>
+<input id="circle-output" value="1" min="1" max="999" type="numer"></input>

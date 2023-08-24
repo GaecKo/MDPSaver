@@ -48,6 +48,8 @@ class MDPSaver(QMainWindow):
             self.app_css = os.path.join(current_dir, "../static/app.css")
             self.recovery_css = os.path.join(current_dir, "../static/recovery.css")
 
+            self.circle_js = os.path.join(current_dir, "../static/GradientCircle.js")
+
         # jinja templates
         self.startup_jinja = os.path.join(current_dir, "../views/startup.jinja2")
         self.login_jinja = os.path.join(current_dir, "../views/login.jinja2")
@@ -104,7 +106,7 @@ class MDPSaver(QMainWindow):
         self.startup_watcher = QFileSystemWatcher([self.startup_jinja, self.startup_css], self)
         self.login_watcher = QFileSystemWatcher([self.login_jinja, self.login_css], self)
         self.recovery_watcher = QFileSystemWatcher([self.recovery_jinja, self.recovery_css], self)
-        self.app_watcher = QFileSystemWatcher([self.app_jinja, self.app_css], self)
+        self.app_watcher = QFileSystemWatcher([self.app_jinja, self.app_css, self.circle_js], self)
 
         self.startup_watcher.fileChanged.connect(self.__load_startup__)
         self.login_watcher.fileChanged.connect(self.__load_login__)

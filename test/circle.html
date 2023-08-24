@@ -1,20 +1,424 @@
-<style>
-    #circle-output {
-        background-color: #D9D9D9;
-        border: none;
-        width: 100px;
-        height: 40px;
-        text-align: center;
-        font-size:xxx-large;
-        font-weight: bolder;
-        color: black;
-        align-self: center;
-        text-shadow: 3px 3px 2px rgba(0, 0, 0, 0.5);
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDSaver - GaecKo</title>
+    <link rel="stylesheet" href="circle.css">
+    <script src="https://kit.fontawesome.com/740ac721d2.js" crossorigin="anonymous"></script>
+</head>
+
+<body onload="createBridge(); startScript()">
+    <div class="main-container">
+        <div class="left-section">
+            <div class="top-elements">
+                <div class="passwords-button">
+                    <p onclick="showRightSection('password')">Passwords</p>
+                </div>
+                <div class="generate-button">
+                    <p onclick="showRightSection('generate')">Generate</p>
+                </div>
+                <div class="accounts-button">
+                    <p onclick="showRightSection('account')">Accounts</p>
+                </div>
+
+            </div>
+            <div class="bottom-element">
+                <div class="settings-button">
+                    <p>Settings</p>
+                </div>
+            </div>
+        </div>
+        <div class="right-password-section" style="display: none">
+            <div id="top-element"></div>
+            <div class="title">
+                <p>Salut, GaecKo</p>
+            </div>
+            <div class="buttons-section">
+                <div class="search-field">
+                    <input type="text" placeholder="Rechercher un site" class="input-search">
+                    <div class="logo-loupe"> <i class="fas fa-search" onclick="filter()"></i> </div>
+                </div>
+                <div class="add-account" onclick="showPasswordPopup()">
+                    <p>Ajouter un nouveau mot de passe</p>
+                    <div class="logo-add"> <i class="fas fa-plus"></i> </div>
+                </div>
+            </div>
+            <div class="popup-container" id="popup" style="display:none;">
+                <span class="popup-close-btn" onclick="hidePopup()">&times;</span>
+                <h1>Add password here</h1>
+                <div class="add-password-form-all">
+                    <div class="add-password-form">
+                        <label for="target">Application name</label>
+                        <input type="text" name="target" id="target" placeholder="application name" required>
+                        <br>
+                        <label for="username">Username</label>
+                        <input type="text" name="username" id="username" placeholder="username" required>
+                        <br>
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" placeholder="password" required>
+                        <br>
+                        <label for="Add_icon">Manually provide icon if not found automatically.</label>
+                        <input type="checkbox" name="Add_icon" id="Add_icon">
+                        <br>
+                        <input type="submit" value="Add" id="add" onclick="pushPassword()">
+                    </div>
+                </div>
+            </div>
+            <div class="accounts-section">
+
+                <div class="account">
+                    <div class="logo-left"> <i class="fab fa-twitter"></i> </div>
+                    <div class="center-elements">
+                        <div class="top-center">
+                            <p>Site Web</p>
+                            <input type="text" disabled value="hellogewgew" id="site-1">
+                            <div class="logo-external-link"> <i class="fas fa-external-link-alt"
+                                    onclick="openTarget('hellogewgew')"></i> </div>
+                        </div>
+                        <div class="bottom-center">
+                            <div class="username-section">
+                                <p>Username/Mail Address</p>
+                                <div class="field-username">
+                                    <div class="username-zone">
+                                        <input type="text" value="hellogwegew" disabled
+                                            id="username-1">
+                                    </div>
+                                    <div class="copy-logo"> <i class="fas fa-copy"
+                                            onclick="copyToClipboard('username-1')"></i> </div>
+                                </div>
+                            </div>
+                            <div class="password-section">
+                                <p>Password</p>
+                                <div class="field-password">
+                                    <div class="password-zone">
+                                        <input value="hellofjgewipgew" disabled type="password"
+                                            id="password-1">
+                                        <div class="logo-see-pw"> <i class="fas fa-eye-slash"
+                                                onclick="reveal(1)"></i> </div>
+                                    </div>
+                                    <div class="copy-logo"> <i class="fas fa-copy"
+                                            onclick="copyToClipboard('password-1')"></i> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="logo-modify"> <i class="fas fa-user-edit" onclick="enableModification(1)"
+                            id="modif-1"></i> </div>
+                </div>
+
+                <div class="account">
+                    <div class="logo-left"> <i class="fab fa-twitter"></i> </div>
+                    <div class="center-elements">
+                        <div class="top-center">
+                            <p>Site Web</p>
+                            <input type="text" disabled value="nice" id="site-2">
+                            <div class="logo-external-link"> <i class="fas fa-external-link-alt"
+                                    onclick="openTarget('nice')"></i> </div>
+                        </div>
+                        <div class="bottom-center">
+                            <div class="username-section">
+                                <p>Username/Mail Address</p>
+                                <div class="field-username">
+                                    <div class="username-zone">
+                                        <input type="text" value="nice" disabled
+                                            id="username-2">
+                                    </div>
+                                    <div class="copy-logo"> <i class="fas fa-copy"
+                                            onclick="copyToClipboard('username-2')"></i> </div>
+                                </div>
+                            </div>
+                            <div class="password-section">
+                                <p>Password</p>
+                                <div class="field-password">
+                                    <div class="password-zone">
+                                        <input value="nice" disabled type="password"
+                                            id="password-2">
+                                        <div class="logo-see-pw"> <i class="fas fa-eye-slash"
+                                                onclick="reveal(2)"></i> </div>
+                                    </div>
+                                    <div class="copy-logo"> <i class="fas fa-copy"
+                                            onclick="copyToClipboard('password-2')"></i> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="logo-modify"> <i class="fas fa-user-edit" onclick="enableModification(2)"
+                            id="modif-2"></i> </div>
+                </div>
+
+                <div class="account">
+                    <div class="logo-left"> <i class="fab fa-twitter"></i> </div>
+                    <div class="center-elements">
+                        <div class="top-center">
+                            <p>Site Web</p>
+                            <input type="text" disabled value="gaec" id="site-5">
+                            <div class="logo-external-link"> <i class="fas fa-external-link-alt"
+                                    onclick="openTarget('gaec')"></i> </div>
+                        </div>
+                        <div class="bottom-center">
+                            <div class="username-section">
+                                <p>Username/Mail Address</p>
+                                <div class="field-username">
+                                    <div class="username-zone">
+                                        <input type="text" value="cceece" disabled
+                                            id="username-5">
+                                    </div>
+                                    <div class="copy-logo"> <i class="fas fa-copy"
+                                            onclick="copyToClipboard('username-5')"></i> </div>
+                                </div>
+                            </div>
+                            <div class="password-section">
+                                <p>Password</p>
+                                <div class="field-password">
+                                    <div class="password-zone">
+                                        <input value="cececec" disabled type="password"
+                                            id="password-5">
+                                        <div class="logo-see-pw"> <i class="fas fa-eye-slash"
+                                                onclick="reveal(5)"></i> </div>
+                                    </div>
+                                    <div class="copy-logo"> <i class="fas fa-copy"
+                                            onclick="copyToClipboard('password-5')"></i> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="logo-modify"> <i class="fas fa-user-edit" onclick="enableModification(5)"
+                            id="modif-5"></i> </div>
+                </div>
+
+            </div>
+            <a href="#top-element"><i class="fas fa-arrow-circle-up"></i></a>
+        </div>
+        <div class="right-generate-section" >
+            <div id="top-element"></div>
+            <div class="title">
+                <p>Generate Random Password</p>
+            </div>
+
+            <!-- SWITCH HEADER -->
+            <div class="switch-part-header">
+                <button class="simple-gen-button">SIMPLE</button>
+                <button class="advanced-gen-button">ADVANCED</button>
+            </div>
+            <!-- SIMPLE GEN PART -->
+            <div class="simple-generate-part">
+
+                <!-- CIRCLE INPUT -->
+                <div class="main-simple-content">
+                    <div class="circle-input">
+                    <div class="extern">
+                        <div class="circular-input"></div>
+                        <div class="outer">
+                            <div class="inner">
+                                <div id="circle-text">CHARACTERS</div>
+                                <div id="circle-output">1</div>
+                            </div>
+                        </div>
+                    </div>
+                    <svg width="200px" height="200px">
+                        <circle cx="100" cy="100" r="80" stroke-linecap="round" id="rotating-circle"></circle>
+                    </svg>
+                </div>
+                <div class="checkbox-part" >
+                    <div class="checkbox-line">
+                        <label class="checkbox-container">INCLUDE NUMBERS
+                              <input type="checkbox" checked="checked">
+                              <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="checkbox-line">
+                        <label class="checkbox-container">INCLUDE SYMBOLS
+                              <input type="checkbox">
+                              <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                </div>
+
+            </div>
+            <!-- ADVANCED GEN PART -->
+            <div class="advanced-generate-part"></div>
+        </div>
+        <div class="right-accounts-section" style="display: none"></div>
+    </div>
+</body>
+
+</html>
+
+<!-- import Qt library  -->
+<script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+
+<!-- import gradient circle JS functions -->
+<script src="GradientCircle.js"></script>
+
+<!-- import single color circle JS functions -->
+<!-- <script src="../static/circle.js"></script> -->
+
+<script>
+
+    // Get the button
+    let mybutton = document.getElementsByClassName("fas fa-arrow-circle-up");
+
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function () { scrollFunction() };
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
     }
 
-    #circle-output:hover {
-        cursor: pointer;
+    function showRightSection(section) {
+        if (section === "generate") {
+            document.getElementsByClassName("right-generate-section")[0].style.display = "block";
+            document.getElementsByClassName("right-accounts-section")[0].style.display = "none";
+            document.getElementsByClassName("right-password-section")[0].style.display = "none";
+            startScript();
+        } else if (section === "account") {
+            document.getElementsByClassName("right-generate-section")[0].style.display = "none";
+            document.getElementsByClassName("right-accounts-section")[0].style.display = "block";
+            document.getElementsByClassName("right-password-section")[0].style.display = "none";
+        } else {
+            document.getElementsByClassName("right-generate-section")[0].style.display = "none";
+            document.getElementsByClassName("right-accounts-section")[0].style.display = "none";
+            document.getElementsByClassName("right-password-section")[0].style.display = "block";
+        }
     }
-</style>
 
-<input id="circle-output" value="1" min="1" max="999" type="numer"></input>
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+
+    function copyToClipboard(id) {
+        text = document.getElementById(id).value;
+        bridge.copyToClipBoard(text)
+    }
+
+    function reveal(id) {
+        passwordType = document.getElementById("password-" + id).type;
+        if (passwordType == "text") {
+            document.getElementById("password-" + id).type = "password";
+        } else {
+            document.getElementById("password-" + id).type = "text";
+        }
+    }
+
+    function enableModification(id) {
+        // Save current values
+        const site = document.getElementById("site-" + id).value;
+        const username = document.getElementById("username-" + id).value;
+        const password = document.getElementById("password-" + id).value;
+
+        // Set actions for cancel and apply buttons
+        document.getElementById("cancel-" + id).onclick = function () { cancelModification(id, site, username, password) };
+        document.getElementById("save-" + id).onclick = function () { applyModification(id) };
+
+        // Enable inputs
+        document.getElementById("site-" + id).disabled = false;
+
+        document.getElementById("username-" + id).disabled = false;
+
+        document.getElementById("password-" + id).disabled = false;
+
+        // Show buttons
+        document.getElementById("modif-" + id).style.display = "none";
+        document.getElementById("save-" + id).style.display = "flex";
+        document.getElementById("cancel-" + id).style.display = "flex";
+    }
+
+    function disableModification(id) {
+        // Disable inputs
+        document.getElementById("site-" + id).disabled = true;
+        document.getElementById("username-" + id).disabled = true;
+        document.getElementById("password-" + id).disabled = true;
+
+        // Hide buttons
+        document.getElementById("save-" + id).style.display = "none";
+        document.getElementById("cancel-" + id).style.display = "none";
+
+        // Show edit button
+        document.getElementById("modif-" + id).style.display = "flex";
+    }
+
+    function cancelModification(id, site, username, password) {
+        document.getElementById("site-" + id).value = site;
+        document.getElementById("username-" + id).value = username;
+        document.getElementById("password-" + id).value = password;
+
+        disableModification(id);
+    }
+
+    function applyModification(id) {
+        const site = document.getElementById("site-" + id).value;
+        const username = document.getElementById("username-" + id).value;
+        const password = document.getElementById("password-" + id).value;
+
+        bridge.updatePassword(site, username, password, id);
+
+        disableModification(id);
+
+    }
+
+
+    // Create the QWebChannel object and connect to the bridge
+    async function createBridge() {
+        await new QWebChannel(qt.webChannelTransport, function (channel) {
+            window.bridge = channel.objects.bridge;
+
+            printPY = bridge.printJS;
+        });
+    }
+
+    function addPassword() {
+        bridge.callAddPassword();
+    }
+
+    // Function to show the popup
+    function showPasswordPopup() {
+        var popup = document.getElementById("popup");
+        popup.style.display = "block";
+    }
+
+    // Function to hide the popup
+    function hidePopup() {
+        var popup = document.getElementById("popup");
+        popup.style.display = "none";
+    }
+
+    // Get the input field
+    const passwd_input = document.getElementById("password");
+
+    // Execute a function when the user presses a key on the keyboard
+    passwd_input.addEventListener("keypress", function (event) {
+        // If the user presses the "Enter" key on the keyboard
+        if (event.key === "Enter" && document.getElementById("username").value !== "" && passwd_input.value !== "") {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            document.getElementById("add").click();
+        }
+    });
+
+    async function pushPassword() {
+        const target = document.getElementById("target").value;
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const icons = document.getElementById("Add_icon").checked;
+
+        // check that the 3 fields are not empty
+        if (target === "" || username === "" || password === "") {
+            alert("Please fill all the fields");
+
+        } else {
+            await bridge.callPushPassword(target, username, password, icons);
+            await bridge.refreshMenu();
+
+        }
+    }
+</script>

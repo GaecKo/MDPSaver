@@ -11,6 +11,7 @@ const radius = container.offsetWidth / 2 - input.offsetWidth / 2 -8;
 let isDragging = false;
 const bodyElement = document.querySelector('body');
 
+
 outputValue = 1;
 finalOutput = 1;
 
@@ -32,7 +33,7 @@ const containerY = containerRect.top + container.offsetHeight / 2;
 const containerWidth = container.offsetWidth;
 const containerHeight = container.offsetHeight;
 
-document.addEventListener('mousemove', (event) => {
+document.addEventListener('mousemove', async (event) => {
   if (!isDragging) return;
   // Calculate the container's position on the page
 

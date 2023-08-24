@@ -201,9 +201,139 @@ scrollbar-width: none;  /* Firefox */
 /* ----------  */
 /* GENERATE SECTION */
 
+.right-generate-section {
+    margin-right: 0;
+    margin-left: 0;
+}
+
 .switch-part-header {
     display: flex;
-    width: 100vw;
+    justify-content: space-evenly;
+}
+
+.simple-gen-button {
+    background-color: #282626;
+    align-self: center;
+    justify-content: center;
+    color: #0B99FF;
+    font-weight: 800;
+    width: 50%;
+    border: none;
+
+    transition: all 0.5s ease;
+}
+
+.advanced-gen-button {
+    position: relative;
+    width: 50%;
+    background-color: rgb(40, 38, 38);
+    border: none;
+    font-weight: 800;
+    border-bottom: 2px solid black;
+    border-left: 2px solid black;
+    box-shadow: inset 0px -10px 10px -10px rgba(0, 0, 0, 1);
+}
+
+
+.simple-gen-button:hover, .advanced-gen-button:hover {
+    cursor: pointer;
+}
+
+.main-simple-content {
+    padding-top: 5%;
+    display: flex;
+    justify-content: center;
+    gap:30px;
+    margin-right: 30px;
+    margin-left: 30px;
+}
+
+.checkbox-part {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8%;
+    color: white;
+    text-transform: capitalize;
+}
+
+.checkbox-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 35px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    user-select: none;
+    height: 25px;
+    }
+
+.checkbox-line {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    width: 100%;
+
+}
+
+/* Hide the browser's default checkbox */
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    align-self: center;
+    justify-self: center;
+    border-radius: 25%;
+    background-color: #D9D9D9;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox-container:hover input ~ .checkmark {
+    background-color: grey;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkbox-container input:checked ~ .checkmark {
+    background-color:#0B99FF;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox-container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
 }
 
 /* ----------  */
@@ -219,7 +349,7 @@ scrollbar-width: none;  /* Firefox */
 
 .account {
     height: 120px;
-    width: 100%;    
+    width: 100%;
     border-radius: 20px;
     background: #DBDCD6;
     display: flex;
@@ -270,7 +400,7 @@ scrollbar-width: none;  /* Firefox */
     display: flex;
     flex-direction: column;
     justify-content: center;
-}  
+}
 
 .top-center > p {
     margin-left: 0;
@@ -383,7 +513,7 @@ scrollbar-width: none;  /* Firefox */
     right: 20px;
     color: #FFF;
     font-size: 50px;
-    text-shadow: 0px 0px 20px #000000; 
+    text-shadow: 0px 0px 20px #000000;
     display: none;
 }
 
@@ -429,6 +559,7 @@ scrollbar-width: none;  /* Firefox */
     width: 200px;
     height: 200px;
     position: relative;
+    margin: 1em;
     top: 20px;
 }
 
@@ -485,6 +616,7 @@ scrollbar-width: none;  /* Firefox */
     user-select: none;
     text-shadow: 3px 3px 2px rgba(0, 0, 0, 0.5);
 }
+
 
 circle {
     fill: none;

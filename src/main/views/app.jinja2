@@ -141,25 +141,37 @@
                         <circle cx="100" cy="100" r="80" stroke-linecap="round" id="rotating-circle"></circle>
                     </svg>
                 </div>
-                    <div class="checkbox-part" >
-                        <div class="checkbox-line">
-                            <label class="checkbox-container">INCLUDE NUMBERS
-                                  <input type="checkbox" checked="checked">
-                                  <span class="checkmark"></span>
-                            </label>
-                        </div>
-                        <div class="checkbox-line">
-                            <label class="checkbox-container">INCLUDE SYMBOLS
-                                  <input type="checkbox">
-                                  <span class="checkmark"></span>
-                            </label>
-                        </div>
+                <div class="checkbox-part" >
+                    <div class="checkbox-line">
+                        <label class="checkbox-container">INCLUDE NUMBERS
+                              <input type="checkbox" checked="checked">
+                              <span class="checkmark"></span>
+                        </label>
                     </div>
+                    <div class="checkbox-line">
+                        <label class="checkbox-container">INCLUDE SYMBOLS
+                              <input type="checkbox">
+                              <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+
                 </div>
 
             </div>
             <!-- ADVANCED GEN PART -->
-            <div class="advanced-generate-part"></div>
+            <div class="advanced-generate-part" style="display: none"></div>
+            <div class="bottom-gen-content">
+                <button id="generate-btn">Go!</button>
+                <div class="generated-content">
+                    <div class="box-generated-content">
+                        <input id="generated-passwd" disabled value="nfilwefwe"></input>
+                        <img id="copy-gen-passwd" src="../resources/copy_filled_icon_202354.ico" width="30px" height=30px">
+                    </div>
+                    <button id="save-gen-btn">Save</button>
+                </div>
+
+            </div>
         </div>
         <div class="right-accounts-section" style="display: none"></div>
     </div>

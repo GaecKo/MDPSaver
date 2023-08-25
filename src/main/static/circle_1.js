@@ -7,19 +7,21 @@ const output = document.querySelector('#circle-output-1');
 
 const centerX = container.offsetWidth / 2;
 const centerY = container.offsetHeight / 2;
-const radius = container.offsetWidth / 2 - input.offsetWidth / 2 -8;
+const radius = container.offsetWidth / 2 - input.offsetWidth / 2 -5;
 let isDragging = false;
 const bodyElement = document.querySelector('body');
-
 
 outputValue = 1;
 finalOutput = 1;
 
 // Set the initial position of the input circle to the top of the container
 input.style.left = centerX - input.offsetWidth / 2 + 'px';
-input.style.top = centerY - radius -13  + 'px'; // Adjusted initial position
+input.style.top = centerY - radius -11  + 'px'; // Adjusted initial position
 
-RotatingCircle.setAttribute('stroke-dashoffset', 502);
+// Set initial empty circle
+RotatingCircle.setAttribute('stroke-dashoffset', 375);
+
+RotatingCircle.style.stroke = "#2CD311";
 
 input.addEventListener('mousedown', (event) => {
   isDragging = true;
@@ -32,6 +34,34 @@ const containerX = containerRect.left + container.offsetWidth / 2;
 const containerY = containerRect.top + container.offsetHeight / 2;
 const containerWidth = container.offsetWidth;
 const containerHeight = container.offsetHeight;
+
+setInput();
+
+function setInput() {
+  let angle = 0.3
+
+  // Calculate the circle's position based on the angle and radius
+  const x = containerX + radius * Math.cos(angle);
+  const y = containerY - radius * Math.sin(angle);
+
+  // Adjust x and y for the input's position within the container
+  const inputX = x - containerWidth / 2; // Subtract container's width
+  const inputY = y - containerHeight / 2;
+
+  input.style.left = inputX - input.offsetWidth / 2 - (containerRect.x - (containerWidth / 2))  + 'px';
+  input.style.top = inputY - input.offsetHeight / 2 - (containerRect.y - (containerHeight / 2)) + 'px';
+
+  // Calculate the output value based on the input circle's position
+  outputValue = Math.round((angle / (2 * Math.PI)) * 100) -25;
+
+  finalOutput = 100 - (outputValue < 0 ? 100 + outputValue : outputValue);
+
+  // Adjust the output value for the full circle loop
+  output.textContent = finalOutput;
+
+
+  RotatingCircle.setAttribute('stroke-dashoffset', 375 - (finalOutput * 3.75));
+}
 
 document.addEventListener('mousemove', async (event) => {
   if (!isDragging) return;
@@ -76,11 +106,7 @@ document.addEventListener('mousemove', async (event) => {
   output.textContent = finalOutput;
 
 
-  //RotatingCircle.setAttribute('stroke-dashoffset', 505 - (finalOutput * 5.02));
-  console.log(RotatingCircle.getAttribute('stroke-dashoffset'));
-
-
-  RotatingCircle.style.stroke = getRGB(finalOutput);
+  RotatingCircle.setAttribute('stroke-dashoffset', 375 - (finalOutput * 3.75));
 
 });
 

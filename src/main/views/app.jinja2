@@ -11,6 +11,7 @@
 
 <body onload="createBridge();">
     <div class="main-container">
+        <!-- ### Left Panel ### -->
         <div class="left-section">
             <div class="top-elements">
                 <div class="passwords-button">
@@ -30,7 +31,10 @@
                 </div>
             </div>
         </div>
-        <div class="right-password-section" style="display: none">
+
+        <!-- ### Right Panel ### -->
+        <!-- -- Passwords Section -- -->
+        <div class="right-password-section">
             <div id="top-element"></div>
             <div class="title">
                 <p>Salut, {{ username }}</p>
@@ -111,17 +115,19 @@
             </div>
             <a href="#top-element"><i class="fas fa-arrow-circle-up"></i></a>
         </div>
-        <div class="right-generate-section" >
-            <div id="top-element"></div>
-            <div class="title">
-                <p>Generate Random Password</p>
-            </div>
+
+        <!-- -- Generate Section -- -->
+        <div class="right-generate-section" style="display: none">
 
             <!-- SWITCH HEADER -->
             <div class="switch-part-header">
                 <button class="simple-gen-button" onclick="switchGenType('1')">SIMPLE</button>
                 <button class="advanced-gen-button" onclick="switchGenType('2')">ADVANCED</button>
             </div>
+            <div class="generate-title">
+                <p id="generate-title-text">Simple Generator</p>
+            </div>
+
             <!-- SIMPLE GEN PART -->
             <div class="simple-generate-part">
 
@@ -141,7 +147,7 @@
                         <circle cx="100" cy="100" r="80" stroke-linecap="round" id="rotating-circle"></circle>
                     </svg>
                 </div>
-                <div class="checkbox-part" >
+                <div class="checkbox-part">
                     <div class="checkbox-line">
                         <label class="checkbox-container">INCLUDE NUMBERS
                               <input type="checkbox" checked="checked">
@@ -151,6 +157,12 @@
                     <div class="checkbox-line">
                         <label class="checkbox-container">INCLUDE SYMBOLS
                               <input type="checkbox">
+                              <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="checkbox-line">
+                        <label class="checkbox-container">INCLUDE UPPERCASE
+                              <input type="checkbox" checked="checked">
                               <span class="checkmark"></span>
                         </label>
                     </div>
@@ -210,24 +222,32 @@
                             <circle cx="75" cy="75" r="60" stroke-linecap="round" id="rotating-circle-3"></circle>
                         </svg>
                     </div>
-
-
                 </div>
+                <div class="below-advanced-content">
+                    <div class="checkbox-part">
+                        <div class="checkbox-line">
+                            <label class="checkbox-container">INCLUDE UPPERCASE
+                                  <input type="checkbox" checked="checked">
+                                  <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
              <!-- BOTTOM GEN PART -->
             <div class="bottom-gen-content">
-                <button id="generate-btn">Go!</button>
+                <button id="generate-btn" onclick="generatePassword()">Go!</button>
                 <br>
                 <div class="generated-part">
                     <div class="box-generated-content">
                         <div class="input-container">
                             <div id="generated-passwd"></div>
                         </div>
-
-                        <img id="copy-gen-passwd" src="../resources/copy_filled_icon_202354.ico" width="30px" height=30px">
+                        <img onclick="copyToClipboard('generated-passwd')" id="copy-gen-passwd" src="../resources/copy_filled_icon_202354.ico" width="30px" height=30px">
                     </div>
-                    <button id="save-gen-btn">Save</button>
+                    <button id="save-gen-btn" disabled>Save</button>
                 </div>
 
             </div>
@@ -253,6 +273,8 @@
 
     let simple_circle_gen = false;
     let advanced_circle_gen = false;
+
+    let current_gen = "simple";
 
     // Get the button
     let mybutton = document.getElementsByClassName("fas fa-arrow-circle-up");
@@ -300,9 +322,29 @@
         bridge.copyToClipBoard(text)
     }
 
+    // TODO
+    function generatePassword() {
+        if (current_gen === "simple") {
+            document.getElementById("generated-passwd").innerHTML = "TODO FLEMME DE FAIRE";
+            document.querySelector(".generated-part").style.filter = "none";
+            let uppercase = document.getElementById("uppercase").checked;
+            generateSimplePassword();
+
+        } else {
+
+            let length = document.getElementById("circle-output-1").innerHTML;
+            let numbers = document.getElementById("circle-output-2").innerHTML;
+            let symbols = document.getElementById("circle-output-3").innerHTML;
+            let uppercase = document.getElementById("uppercase").checked;
+            bridge.generatePassword(length, numbers, symbols, uppercase)
+
+        }
+
+    }
+
     function reveal(id) {
         passwordType = document.getElementById("password-" + id).type;
-        if (passwordType == "text") {
+        if (passwordType === "text") {
             document.getElementById("password-" + id).type = "password";
         } else {
             document.getElementById("password-" + id).type = "text";
@@ -364,7 +406,6 @@
         disableModification(id);
 
     }
-
 
     // Create the QWebChannel object and connect to the bridge
     async function createBridge() {
@@ -454,6 +495,11 @@
             advanced_btn.style.borderLeft = "none";
             advanced_btn.style.boxShadow = "none";
 
+            // Modify Title
+            document.getElementById("generate-title-text").innerText = "Advanced Generator";
+
+            current_gen = "advanced";
+
         } else { // from advanced par to simple part
             // Show / Hide corresponding part
             advanced_part.style.display = "none";
@@ -469,6 +515,11 @@
             simple_btn.style.borderBottom = "none";
             simple_btn.style.borderRight = "none";
             simple_btn.style.boxShadow = "none";
+
+            // Modify Title
+            document.getElementById("generate-title-text").innerText = "Simple Generator";
+
+            current_gen = "simple";
         }
     }
 

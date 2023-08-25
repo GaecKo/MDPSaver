@@ -33,6 +33,34 @@ const containerY = containerRect.top + container.offsetHeight / 2;
 const containerWidth = container.offsetWidth;
 const containerHeight = container.offsetHeight;
 
+setInput();
+
+function setInput() {
+  const angle = 0.3
+  // Calculate the circle's position based on the angle and radius
+  const x = containerX + radius * Math.cos(angle);
+  const y = containerY - radius * Math.sin(angle);
+
+  // Adjust x and y for the input's position within the container
+  const inputX = x - containerWidth / 2; // Subtract container's width
+  const inputY = y - containerHeight / 2;
+
+  input.style.left = inputX - input.offsetWidth / 2 - (containerRect.x - (containerWidth / 2))  + 'px';
+  input.style.top = inputY - input.offsetHeight / 2 - (containerRect.y - (containerHeight / 2)) + 'px';
+
+  // Calculate the output value based on the input circle's position
+  outputValue = Math.round((angle / (2 * Math.PI)) * 100) -25;
+
+  finalOutput = 100 - (outputValue < 0 ? 100 + outputValue : outputValue);
+
+  // Adjust the output value for the full circle loop
+  output.textContent = finalOutput;
+
+
+  RotatingCircle.setAttribute('stroke-dashoffset', 505 - (finalOutput * 5.02));
+  RotatingCircle.style.stroke = getRGB(finalOutput);
+}
+
 document.addEventListener('mousemove', async (event) => {
   if (!isDragging) return;
   // Calculate the container's position on the page

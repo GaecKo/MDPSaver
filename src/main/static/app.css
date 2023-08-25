@@ -215,22 +215,20 @@ scrollbar-width: none;  /* Firefox */
 
 .simple-gen-button {
     background-color: #282626;
-    align-self: center;
-    justify-content: center;
-    color: #0B99FF;
-    font-weight: 800;
     width: 50%;
     border: none;
+    font-weight: 800;
 
-    transition: all 0.5s ease;
+    color: #0B99FF;
+
 }
 
 .advanced-gen-button {
-    position: relative;
+    background-color: #282626;
     width: 50%;
-    background-color: rgb(40, 38, 38);
     border: none;
     font-weight: 800;
+
     border-bottom: 2px solid black;
     border-left: 2px solid black;
     box-shadow: inset 0px -10px 10px -10px rgba(0, 0, 0, 1);
@@ -241,7 +239,7 @@ scrollbar-width: none;  /* Firefox */
     cursor: pointer;
 }
 
-.main-simple-content {
+.main-simple-content, .main-advanced-content {
     margin-top: 10px;
     margin-bottom: 5%;
     display: flex;
@@ -660,7 +658,7 @@ scrollbar-width: none;  /* Firefox */
 
 /* CIRCLE INPUT CSS - DO NOT TOUCH*/
 
-.circle-input {
+.circle-input, .circle-input-1, .circle-input-2, .circle-input-3 {
     font-family: 'Popins', sans-serif;
     width: 200px;
     height: 200px;
@@ -669,7 +667,13 @@ scrollbar-width: none;  /* Firefox */
     top: 20px;
 }
 
-.extern{
+.circle-input-1, .circle-input-2, .circle-input-3 {
+    width: 150px;
+    height: 150px;
+}
+
+
+.extern, .extern-1, .extern-2, .extern-3 {
     box-sizing: border-box;
     height: 200px;
     width: 200px;
@@ -680,7 +684,12 @@ scrollbar-width: none;  /* Firefox */
     position: relative;
 }
 
-.outer {
+.extern-1, .extern-2, .extern-3 {
+    width: 150px;
+    height: 150px;
+}
+
+.outer, .outer-1, .outer-2, .outer-3 {
     box-sizing: border-box;
     height: 180px;
     width: 180px;
@@ -691,7 +700,13 @@ scrollbar-width: none;  /* Firefox */
              -6px -6px 10px -1px rgba(255, 255, 255, 0.7);
 }
 
-.inner{
+.outer-1, .outer-2, .outer-3 {
+    width: 130px;
+    height: 130px;
+    padding: 12px;
+}
+
+.inner, .inner-1, .inner-2, .inner-3{
     height: 140px;
     width: 140px;
     border-radius: 50%;
@@ -706,14 +721,19 @@ scrollbar-width: none;  /* Firefox */
     flex-direction: column;
 }
 
-#circle-text {
+.inner-1, .inner-2, .inner-3 {
+    width: 105px;
+    height: 105px;
+}
+
+#circle-text, #circle-text-1, #circle-text-2, #circle-text-3 {
     font-size: x-small;
     font-weight: 800;
     user-select: none;
     text-shadow: 3px 3px 2px rgba(0, 0, 0, 0.2);
 }
 
-#circle-output{
+#circle-output, #circle-output-1, #circle-output-2, #circle-output-3 {
     font-size:xxx-large;
     font-weight: bolder;
     color: black;
@@ -730,6 +750,14 @@ circle {
     stroke: red;
 }
 
+#rotating-circle-1, #rotating-circle-2, #rotating-circle-3 {
+    fill: none;
+    stroke-width: 15px;
+    stroke-dasharray: 400;
+    stroke-dashoffset: 500px;
+    stroke: red;
+}
+
 svg {
     position: absolute;
     transform: rotate(-90deg);
@@ -737,7 +765,7 @@ svg {
     left:0;
 }
 
-.circular-input {
+.circular-input, .circular-input-1, .circular-input-2, .circular-input-3 {
     position: absolute;
     width: 22px;
     height: 22px;
@@ -747,6 +775,11 @@ svg {
     cursor: grab;
     z-index: 2;
     box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 0.5);
+}
+
+.circular-input-1, .circular-input-2, .circular-input-3 {
+    width: 18px;
+    height: 18px;
 }
 
 /* ----------- */

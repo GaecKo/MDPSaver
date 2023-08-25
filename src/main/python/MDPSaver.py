@@ -48,7 +48,7 @@ class MDPSaver(QMainWindow):
             self.app_css = os.path.join(current_dir, "../static/app.css")
             self.recovery_css = os.path.join(current_dir, "../static/recovery.css")
 
-            self.circle_js = os.path.join(current_dir, "../static/GradientCircle.js")
+            self.circle_js = os.path.join(current_dir, "../static/circle_simple.js")
 
         # jinja templates
         self.startup_jinja = os.path.join(current_dir, "../views/startup.jinja2")

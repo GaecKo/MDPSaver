@@ -9,7 +9,7 @@
     <script src="https://kit.fontawesome.com/740ac721d2.js" crossorigin="anonymous"></script>
 </head>
 
-<body onload="createBridge(); startScript()">
+<body onload="createBridge();">
     <div class="main-container">
         <div class="left-section">
             <div class="top-elements">
@@ -119,8 +119,8 @@
 
             <!-- SWITCH HEADER -->
             <div class="switch-part-header">
-                <button class="simple-gen-button">SIMPLE</button>
-                <button class="advanced-gen-button">ADVANCED</button>
+                <button class="simple-gen-button" onclick="switchGenType('1')">SIMPLE</button>
+                <button class="advanced-gen-button" onclick="switchGenType('2')">ADVANCED</button>
             </div>
             <!-- SIMPLE GEN PART -->
             <div class="simple-generate-part">
@@ -159,8 +159,63 @@
                 </div>
 
             </div>
+
             <!-- ADVANCED GEN PART -->
-            <div class="advanced-generate-part" style="display: none"></div>
+            <div class="advanced-generate-part" style="display: none">
+                <div class="main-advanced-content">
+                    <!-- FIRST CIRCLE -->
+                    <div class="circle-input-1">
+                        <div class="extern-1">
+                            <div class="circular-input-1"></div>
+                            <div class="outer-1">
+                                <div class="inner-1">
+                                    <div id="circle-text-1">LETTERS</div>
+                                    <div id="circle-output-1">1</div>
+                                </div>
+                            </div>
+                        </div>
+                        <svg width="150px" height="150px">
+                            <circle cx="75" cy="75" r="60" stroke-linecap="round" id="rotating-circle-1"></circle>
+                        </svg>
+                    </div>
+
+                    <!-- SECOND CIRCLE -->
+                    <div class="circle-input-2">
+                        <div class="extern-2">
+                            <div class="circular-input-2"></div>
+                            <div class="outer-2">
+                                <div class="inner-2">
+                                    <div id="circle-text-2">NUMBERS</div>
+                                    <div id="circle-output-2">1</div>
+                                </div>
+                            </div>
+                        </div>
+                        <svg width="150px" height="150px">
+                            <circle cx="75" cy="75" r="60" stroke-linecap="round" id="rotating-circle-2"></circle>
+                        </svg>
+                    </div>
+
+                    <!-- THIRD CIRCLE -->
+                    <div class="circle-input-3">
+                        <div class="extern-3">
+                            <div class="circular-input-3"></div>
+                            <div class="outer-3">
+                                <div class="inner-3">
+                                    <div id="circle-text-3">SYMBOLS</div>
+                                    <div id="circle-output-3">1</div>
+                                </div>
+                            </div>
+                        </div>
+                        <svg width="150px" height="150px">
+                            <circle cx="75" cy="75" r="60" stroke-linecap="round" id="rotating-circle-3"></circle>
+                        </svg>
+                    </div>
+
+
+                </div>
+            </div>
+
+             <!-- BOTTOM GEN PART -->
             <div class="bottom-gen-content">
                 <button id="generate-btn">Go!</button>
                 <br>
@@ -176,7 +231,7 @@
                 </div>
 
             </div>
-        </div>
+
         <div class="right-accounts-section" style="display: none"></div>
     </div>
 </body>
@@ -187,12 +242,17 @@
 <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
 
 <!-- import gradient circle JS functions -->
-<script src="../static/GradientCircle.js"></script>
+<script src="../static/circle_simple.js"></script>
+<!-- import circle-1-2-3 JS functions -->
+<script src="../static/circle_1.js"></script>
+<script src="../static/circle_2.js"></script>
+<script src="../static/circle_3.js"></script>
 
-<!-- import single color circle JS functions -->
-<!-- <script src="../static/circle.js"></script> -->
 
 <script>
+
+    let simple_circle_gen = false;
+    let advanced_circle_gen = false;
 
     // Get the button
     let mybutton = document.getElementsByClassName("fas fa-arrow-circle-up");
@@ -213,7 +273,11 @@
             document.getElementsByClassName("right-generate-section")[0].style.display = "block";
             document.getElementsByClassName("right-accounts-section")[0].style.display = "none";
             document.getElementsByClassName("right-password-section")[0].style.display = "none";
-            startScript();
+            if (simple_circle_gen === false) {
+                startCircleScript();
+                simple_circle_gen = true;
+            }
+
         } else if (section === "account") {
             document.getElementsByClassName("right-generate-section")[0].style.display = "none";
             document.getElementsByClassName("right-accounts-section")[0].style.display = "block";
@@ -357,4 +421,57 @@
 
         }
     }
+
+    function switchGenType(cur_type) {
+        const simple_part = document.querySelector(".simple-generate-part")
+        const advanced_part = document.querySelector(".advanced-generate-part")
+
+        const simple_btn = document.querySelector(".simple-gen-button")
+        const advanced_btn = document.querySelector(".advanced-gen-button")
+
+        if (cur_type === "2") { // from simple part to advanced
+            // Show / Hide corresponding part
+            simple_part.style.display = "none";
+            advanced_part.style.display = "block";
+
+            // Load Circles
+            if (advanced_circle_gen === false) {
+                advanced_circle_gen = true;
+                startCircle1Script();
+                startCircle2Script();
+                startCircle3Script();
+            }
+
+            // Modify button
+            simple_btn.style.color = "black";
+            simple_btn.style.borderBottom = "2px solid black";
+            simple_btn.style.borderRight = "2px solid black";
+            simple_btn.style.boxShadow = "inset 0px -10px 10px -10px rgba(0, 0, 0, 1)"
+
+
+            advanced_btn.style.color = "#0B99FF";
+            advanced_btn.style.borderBottom = "none";
+            advanced_btn.style.borderLeft = "none";
+            advanced_btn.style.boxShadow = "none";
+
+        } else { // from advanced par to simple part
+            // Show / Hide corresponding part
+            advanced_part.style.display = "none";
+            simple_part.style.display = "block";
+
+            // Modify button
+            advanced_btn.style.color = "black";
+            advanced_btn.style.borderBottom = "2px solid black";
+            advanced_btn.style.borderLeft = "2px solid black";
+            advanced_btn.style.boxShadow = "inset 0px -10px 10px -10px rgba(0, 0, 0, 1)"
+
+            simple_btn.style.color = "#0B99FF";
+            simple_btn.style.borderBottom = "none";
+            simple_btn.style.borderRight = "none";
+            simple_btn.style.boxShadow = "none";
+        }
+    }
+
+
+
 </script>

@@ -1,9 +1,9 @@
-function startScript() {
+function startCircle1Script() {
 
-const container = document.querySelector('.extern');
-const input = document.querySelector('.circular-input');
-const RotatingCircle = document.getElementById('rotating-circle');
-const output = document.querySelector('#circle-output');
+const container = document.querySelector('.extern-1');
+const input = document.querySelector('.circular-input-1');
+const RotatingCircle = document.getElementById('rotating-circle-1');
+const output = document.querySelector('#circle-output-1');
 
 const centerX = container.offsetWidth / 2;
 const centerY = container.offsetHeight / 2;
@@ -76,7 +76,8 @@ document.addEventListener('mousemove', async (event) => {
   output.textContent = finalOutput;
 
 
-  RotatingCircle.setAttribute('stroke-dashoffset', 505 - (finalOutput * 5.02));
+  //RotatingCircle.setAttribute('stroke-dashoffset', 505 - (finalOutput * 5.02));
+  console.log(RotatingCircle.getAttribute('stroke-dashoffset'));
 
 
   RotatingCircle.style.stroke = getRGB(finalOutput);

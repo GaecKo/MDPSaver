@@ -177,6 +177,7 @@
                 <div class="main-advanced-content">
                     <!-- TODO: let circle have value 0 -->
                     <!-- TODO: max / min of circle fixed -->
+                    <!-- TODO: save password possibility -->
                     <!-- FIRST CIRCLE -->
                     <div class="circle-input-1">
                         <div class="extern-1">
@@ -331,36 +332,50 @@
     }
 
     // TODO
-    function generatePassword() {
+    async function generatePassword() {
         if (current_gen === "simple") {
-
-            let nb_type = 1;
-
             // retrieve values from circles / checkboxes
             let uppercase = document.getElementById("check-uppercase").checked;
             let numbers = document.getElementById("check-number").checked;
             let symbols = document.getElementById("check-symbol").checked;
-            let length = document.getElementById("circle-output").innerHTML;
+            let length = parseInt(document.getElementById("circle-output").innerHTML);
 
             // activate the generated part
-            document.getElementById("generated-passwd").innerHTML = "Generating...";
+            document.getElementById("generated-passwd").innerHTML = "";
             document.querySelector(".generated-part").style.filter = "none"
+            document.getElementById("save-gen-btn").disabled = true;
+            document.getElementById("generate-btn").disabled = true;
+
+            for (let i = 0; i < 25; i++) {
+                document.getElementById("generated-passwd").innerText = await bridge.generateSimplePassword(uppercase, numbers, symbols, length);
+                await new Promise(r => setTimeout(r, 100));
+
+            }
+
             document.getElementById("save-gen-btn").disabled = false;
-
-            // calculate the number of each elements
-
-
-
-
+            document.getElementById("generate-btn").disabled = false;
 
         } else {
-
-            let length = document.getElementById("circle-output-1").innerHTML;
+            // retrieve values from circles / checkboxes
+            let letters = document.getElementById("circle-output-1").innerHTML;
             let numbers = document.getElementById("circle-output-2").innerHTML;
             let symbols = document.getElementById("circle-output-3").innerHTML;
-            let uppercase = document.getElementById("uppercase").checked;
-            bridge.generatePassword(length, numbers, symbols, uppercase)
+            let uppercase = document.getElementById("check-advanced-uppercase").checked;
 
+            // activate the generated part
+            document.getElementById("generated-passwd").innerHTML = "";
+            document.querySelector(".generated-part").style.filter = "none"
+            document.getElementById("save-gen-btn").disabled = true;
+
+            for (let i = 0; i < 25; i++) {
+                printPY(await bridge.generateAdvancedPassword(letters, numbers, symbols, uppercase))
+                document.getElementById("generated-passwd").innerText = await bridge.generateAdvancedPassword(letters, numbers, symbols, uppercase);
+                await new Promise(r => setTimeout(r, 100));
+
+            }
+
+            document.getElementById("save-gen-btn").disabled = false;
+            document.getElementById("generate-btn").disabled = false;
         }
 
     }

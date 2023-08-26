@@ -379,7 +379,7 @@ scrollbar-width: none;  /* Firefox */
     box-shadow: 0px 0px 2px 3px rgb(0, 0, 0, 0.2);
 }
 
-#generate-btn:hover, #save-gen-btn:not([disabled]):hover {
+#generate-btn:not([disabled]):hover, #save-gen-btn:not([disabled]):hover {
     cursor: pointer;
     background-color: #0666A9FF;
     border: 2px solid #D9D9D9;
@@ -391,7 +391,8 @@ scrollbar-width: none;  /* Firefox */
     justify-content: center;
     align-content: center;
     gap: 15px;
-    filter: blur(10px);
+    filter: blur(8px);
+    transition: filter 3s ease;
 }
 
 .box-generated-content {

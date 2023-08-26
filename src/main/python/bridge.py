@@ -59,13 +59,13 @@ class Bridge(QObject, Controller, Recover):
         print("Updating password: ID: " + str(id) + " Site: " + site + " Identifier: " + identifier + " Password: " + password)
         self.update_password(site, identifier, password, id)
 
-    @Slot(bool, bool, bool, int)
-    def generateSimplePassword(self, upper: bool, lower: bool, number: bool, length: int):
-        self.generate_simple_password(upper, lower, number, length)
+    @Slot(bool, bool, bool, int, result=str)
+    def generateSimplePassword(self, upper: bool, numbers: bool, symbols: bool, length: int):
+        return self.generate_simple_password(upper, numbers, symbols, length)
 
-    @Slot(int, int, int, bool)
-    def generateAdvancedPassword(self, nb_letters: int, nb_numbers: int, nb_symbols: int, uppercase: int):
-        self.generate_advanced_password(nb_letters, nb_numbers, nb_symbols, uppercase)
+    @Slot(int, int, int, bool, result=str)
+    def generateAdvancedPassword(self, nb_letters: int, nb_numbers: int, nb_symbols: int, uppercase: bool):
+        return self.generate_advanced_password(nb_letters, nb_numbers, nb_symbols, uppercase)
 
     ###### Recovery Methods ######
     @Slot(str, result=bool)

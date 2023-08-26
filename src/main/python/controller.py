@@ -1,6 +1,6 @@
 from MDPDatabase.MDPDatabase import MDPDatabase
 from MDPDatabase.security import *
-import os, time, random
+import os, time, random, string
 from pathlib import Path
 
 from bs4 import BeautifulSoup
@@ -135,6 +135,57 @@ class Controller:
                     return requests.get(favicon).content
             except:
                 return None
+
+    def generate_random_password(self, nb_letters: int, nb_numbers: int, nb_symbols: int, uppercase: bool) -> str:
+        if uppercase:
+            letters = string.ascii_letters
+        else:
+            letters = string.ascii_lowercase
+
+        symbols = '!@#$%^&*()_+[]{}|;:,.<>?'
+        numbers = string.digits
+
+        result = []
+
+        for _ in range(nb_letters):
+            result.append(random.choice(letters))
+
+        for _ in range(nb_symbols):
+            result.append(random.choice(symbols))
+
+        for _ in range(nb_numbers):
+            result.append(random.choice(numbers))
+
+        random.shuffle(result)
+        return ''.join(result)
+
+    def generate_simple_password(self, upper: bool, numbers: bool, symbols: bool, length: int) -> str:
+        # Find number of each elements (symbol, letter, number)
+        nb_elements = 1
+        if numbers: nb_elements += 1
+        if symbols: nb_elements += 1
+
+        if not numbers and not symbols: nb_letters = length
+        else: nb_letters = random.randint(1, 2 * (length//nb_elements))
+
+        nb_numbers = 0
+        nb_symbols = 0
+
+        remaining_length = length - nb_letters
+
+        if numbers and not symbols: nb_numbers = remaining_length
+
+        elif symbols and not numbers: nb_symbols = remaining_length
+
+        elif numbers and symbols:
+            nb_numbers = random.randint(1, remaining_length-1)
+            remaining_length = remaining_length - nb_numbers
+            nb_symbols = remaining_length
+
+        return self.generate_random_password(nb_letters, nb_numbers, nb_symbols, upper)
+
+    def generate_advanced_password(self, nb_letters: int, nb_numbers: int, nb_symbols: int, upper: bool):
+        return self.generate_random_password(nb_letters, nb_numbers, nb_symbols, upper)
 
     def generate_unique_filename(self):
         filename = str(uuid.uuid4()) + str(uuid.uuid4())
@@ -296,7 +347,6 @@ class Recover:
     def delete_user(self, username):
         self.db.delete_user(username)
 
-    # TODO: this function won't work with multy agent function! Has to be checked
     def update_passwords(self, old_password, old_salt, new_password, new_salt, username) -> None:
         data = self.db.get_all_passwords(username)
         # Load old and new key

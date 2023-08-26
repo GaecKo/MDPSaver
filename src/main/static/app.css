@@ -410,26 +410,28 @@ scrollbar-width: none;  /* Firefox */
 }
 
 .input-container {
+    align-self: center;
     width: 200px;
     border: none;
     overflow-x: auto;
     border-radius: 20px;
     overflow-y: hidden;
-    margin: 3px;
-    margin-left: 10px;
+    margin: 3px 3px 3px 10px;
     display: flex;
     align-content: center;
     justify-content: center;
+    height: 40px;
   }
 
 #generated-passwd {
     align-self: center;
-    font-size: 20px;
+    justify-self: center;
+    text-align: center;
+    font-size: 18px;
     white-space: nowrap;
-    padding: 5px;
-    display: inline-block;
+    padding: 0; /* Adjusted padding values to give some space on both sides */
+    width: 100%;
     background-color: transparent;
-    resize: none; /* Disable textarea resizing */
     color: white;
     font-weight: 600;
 }

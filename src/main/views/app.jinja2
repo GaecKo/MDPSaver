@@ -150,19 +150,19 @@
                 <div class="checkbox-part">
                     <div class="checkbox-line">
                         <label class="checkbox-container">INCLUDE NUMBERS
-                              <input type="checkbox" checked="checked">
+                              <input type="checkbox" checked="checked" id="check-number">
                               <span class="checkmark"></span>
                         </label>
                     </div>
                     <div class="checkbox-line">
                         <label class="checkbox-container">INCLUDE SYMBOLS
-                              <input type="checkbox">
+                              <input type="checkbox" id="check-symbol">
                               <span class="checkmark"></span>
                         </label>
                     </div>
                     <div class="checkbox-line">
                         <label class="checkbox-container">INCLUDE UPPERCASE
-                              <input type="checkbox" checked="checked">
+                              <input type="checkbox" checked="checked" id="check-uppercase">
                               <span class="checkmark"></span>
                         </label>
                     </div>
@@ -175,6 +175,8 @@
             <!-- ADVANCED GEN PART -->
             <div class="advanced-generate-part" style="display: none">
                 <div class="main-advanced-content">
+                    <!-- TODO: let circle have value 0 -->
+                    <!-- TODO: max / min of circle fixed -->
                     <!-- FIRST CIRCLE -->
                     <div class="circle-input-1">
                         <div class="extern-1">
@@ -227,7 +229,7 @@
                     <div class="checkbox-part">
                         <div class="checkbox-line">
                             <label class="checkbox-container">INCLUDE UPPERCASE
-                                  <input type="checkbox" checked="checked">
+                                  <input type="checkbox" checked="checked" id="check-advanced-uppercase">
                                   <span class="checkmark"></span>
                             </label>
                         </div>
@@ -318,17 +320,38 @@
     }
 
     function copyToClipboard(id) {
-        text = document.getElementById(id).value;
+        if (id === "generated-passwd") {
+            text = document.getElementById(id).innerHTML;
+        } else {
+            // for input
+            text = document.getElementById(id).value;
+        }
+
         bridge.copyToClipBoard(text)
     }
 
     // TODO
     function generatePassword() {
         if (current_gen === "simple") {
-            document.getElementById("generated-passwd").innerHTML = "TODO FLEMME DE FAIRE";
-            document.querySelector(".generated-part").style.filter = "none";
-            let uppercase = document.getElementById("uppercase").checked;
-            generateSimplePassword();
+
+            let nb_type = 1;
+
+            // retrieve values from circles / checkboxes
+            let uppercase = document.getElementById("check-uppercase").checked;
+            let numbers = document.getElementById("check-number").checked;
+            let symbols = document.getElementById("check-symbol").checked;
+            let length = document.getElementById("circle-output").innerHTML;
+
+            // activate the generated part
+            document.getElementById("generated-passwd").innerHTML = "Generating...";
+            document.querySelector(".generated-part").style.filter = "none"
+            document.getElementById("save-gen-btn").disabled = false;
+
+            // calculate the number of each elements
+
+
+
+
 
         } else {
 

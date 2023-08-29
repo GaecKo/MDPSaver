@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MDSaver - {{ username }}</title>
+    <title>MDSaver - Petchou</title>
     <link rel="stylesheet" href="../static/app.css">
     <script src="https://kit.fontawesome.com/740ac721d2.js" crossorigin="anonymous"></script>
 </head>
@@ -37,7 +37,7 @@
         <div class="right-password-section">
             <div id="top-element"></div>
             <div class="title">
-                <p>Salut, {{ username }}</p>
+                <p>Salut, Petchou</p>
             </div>
             <div class="buttons-section">
                 <div class="search-field">
@@ -71,48 +71,48 @@
                 </div>
             </div>
             <div class="accounts-section">
-                {% for passwd in passwords %}
+                
                 <div class="account">
                     <div class="logo-left"> <i class="fab fa-twitter"></i> </div>
-                    <img src="{{ passwd.icon }}.png" alt="icon" class="{{passwd.target }}_icon">
+                    <img src="C:\Users\mathe\Documents\code\MDPSaver\src\main\resources\icons\69af5d80-98ef-476b-b8c5-7becbf06ba578ba860c5-.png" alt="icon" class="twitter_icon">
                     <div class="center-elements">
                         <div class="top-center">
                             <p>Site Web</p>
-                            <input type="text" disabled value="{{ passwd.target }}" id="{{passwd.target}}-{{ passwd.id }}">
+                            <input type="text" disabled value="twitter" id="twitter-39">
                             <div class="logo-external-link"> <i class="fas fa-external-link-alt"
-                                    onclick="openTarget('{{ passwd.target }}')"></i> </div>
+                                    onclick="openTarget('twitter')"></i> </div>
                         </div>
                         <div class="bottom-center">
                             <div class="username-section">
                                 <p>Username/Mail Address</p>
                                 <div class="field-username">
                                     <div class="username-zone">
-                                        <input type="text" value="{{ passwd.username }}" disabled
-                                            id="username-{{ passwd.id }}">
+                                        <input type="text" value="qscdv" disabled
+                                            id="username-39">
                                     </div>
                                     <div class="copy-logo"> <i class="fas fa-copy"
-                                            onclick="copyToClipboard('username-{{ passwd.id }}')"></i> </div>
+                                            onclick="copyToClipboard('username-39')"></i> </div>
                                 </div>
                             </div>
                             <div class="password-section">
                                 <p>Password</p>
                                 <div class="field-password">
                                     <div class="password-zone">
-                                        <input value="{{ passwd.password }}" disabled type="password"
-                                            id="password-{{ passwd.id }}">
+                                        <input value="sqccQC" disabled type="password"
+                                            id="password-39">
                                         <div class="logo-see-pw"> <i class="fas fa-eye-slash"
-                                                onclick="reveal({{ passwd.id }})"></i> </div>
+                                                onclick="reveal(39)"></i> </div>
                                     </div>
                                     <div class="copy-logo"> <i class="fas fa-copy"
-                                            onclick="copyToClipboard('password-{{ passwd.id }}')"></i> </div>
+                                            onclick="copyToClipboard('password-39')"></i> </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="logo-modify"> <i class="fas fa-user-edit" onclick="enableModification({{ passwd.id }})"
-                            id="modif-{{ passwd.id }}"></i> </div>
+                    <div class="logo-modify"> <i class="fas fa-user-edit" onclick="enableModification(39)"
+                            id="modif-39"></i> </div>
                 </div>
-                {% endfor %}
+                
             </div>
             <a href="#top-element"><i class="fas fa-arrow-circle-up"></i></a>
         </div>

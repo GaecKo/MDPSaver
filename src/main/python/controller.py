@@ -263,7 +263,7 @@ class Controller:
                         filename = self.save_favicon_locally(favicon)
         
         if filename is None:
-            filename = self.icon_path.parent / "blank-profile-picture.ico"
+            filename = "None"
 
         self.add_password(target, username, password, filename)
 

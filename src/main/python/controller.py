@@ -1,13 +1,13 @@
 from MDPDatabase.MDPDatabase import MDPDatabase
 from MDPDatabase.security import *
+from IconGrabber import IconGrabber
 import os, time, random, string
 from pathlib import Path
 
-from bs4 import BeautifulSoup
-import random, uuid
-import requests
-from bs4 import BeautifulSoup
 from PIL import Image
+
+import random, uuid
+
 
 from PySide6.QtCore import QFileInfo
 from PySide6.QtGui import QAbstractFileIconProvider
@@ -19,6 +19,7 @@ if os.name == "nt":
     import win32api
     import win32ui
     import win32gui
+
 
 BI_RGB = 0
 DIB_RGB_COLORS = 0
@@ -37,6 +38,7 @@ class Controller:
         self.username = None  # has to be set when logged in!
         self.icon_path = Path(__file__).parent.parent
         self.icon_path = self.icon_path / "resources" / "icons"
+        self.grabber = IconGrabber(self, "#5e5e51")
 
         # Create icon folder if not exists
         if not os.path.exists(self.icon_path):
@@ -115,26 +117,6 @@ class Controller:
         crypted_site = encrypt(self.key, site)
 
         self.db.set_password(crypted_site, crypted_username, crypted_password, id)
-    def get_favicon_url(self, target):
-        favicon = None
-        if target.startswith("http://") or target.startswith("https://"):
-            try:
-                soup = BeautifulSoup(requests.get(target, timeout=3).text, 'html.parser')
-                favicon_tag = soup.find('link', rel='icon')
-                favicon = favicon_tag['href'] if favicon_tag and 'href' in favicon_tag.attrs else None
-                # if not present, add the base target url to the favicon url
-                if not favicon.startswith('http://') or not favicon.startswith('https://'):
-                    # remove the first slash if present
-                    if favicon.startswith('/') and target.endswith('/'):
-                        favicon = favicon[1:]
-                    # add the slash if present nowhere
-                    elif not favicon.startswith('/') and not target.endswith('/'):
-                        favicon = '/' + favicon
-                    favicon = target + favicon
-                    # return downloaded favicon bytes
-                    return requests.get(favicon).content
-            except:
-                return None
 
     def generate_random_password(self, nb_letters: int, nb_numbers: int, nb_symbols: int, uppercase: bool) -> str:
         if uppercase:
@@ -188,13 +170,15 @@ class Controller:
         return self.generate_random_password(nb_letters, nb_numbers, nb_symbols, upper)
 
     def generate_unique_filename(self):
-        filename = str(uuid.uuid4()) + str(uuid.uuid4())
+        # get all filenames from icon fiels dir
+        filenames = [f for f in os.listdir(self.icon_path) if os.path.isfile(os.path.join(self.icon_path, f))] + [""]
+        filename = ""
+        while filename in filenames:
+            filename = str(uuid.uuid4()) + str(uuid.uuid4())
+            filename = filename[:random.randint(6, len(filename))]
+        print(f"File: %s" % filename)
         return filename[:random.randint(6, len(filename))]
 
-    def save_favicon_locally(self, favicon):  # XXX: unused function ?
-        filename = self.generate_unique_filename()
-        open(self.icon_path / f"{filename}.ico", "wb").write(favicon)
-        return filename
 
     def get_image_or_icon_file_path(self):
         file_types = "All Files (*)"
@@ -251,10 +235,17 @@ class Controller:
 
         return unique_filename
 
+    def save_favicon_locally(self, favicon):
+        unique_filename = self.generate_unique_filename()
+        ico_path = self.icon_path / f"{unique_filename}.png"
+        with open(ico_path, "wb") as f:
+            f.write(favicon)
+        return unique_filename
+    
     def __push_password__(self, target, username, password, icon):
-        favicon = self.get_favicon_url(target)
-        filename = "None"
-        if favicon is None:
+        filename = self.grabber.get_icon(target)
+        print(f"filename : {filename}")
+        if filename is None:
             if icon is True:
                 # show filebrowser dialog
                 file_name = self.get_image_or_icon_file_path()
@@ -265,13 +256,14 @@ class Controller:
                         try:
                             filename = self.extract_icon_from_executable(file_name)
                         except Exception as e:
-                            print(e)
+                            filename =  None
                     else:
                         # copy file to appdata
                         favicon = open(file_name, "rb").read()
                         filename = self.save_favicon_locally(favicon)
-        else:
-            filename = self.save_favicon_locally(favicon)
+        
+        if filename is None:
+            filename = self.icon_path.parent / "blank-profile-picture.ico"
 
         self.add_password(target, username, password, filename)
 

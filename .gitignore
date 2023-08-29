@@ -17,3 +17,5 @@ build/
 *.egg-info/
 
 *.sqlite
+
+src/main/resources/icons

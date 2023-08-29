@@ -133,10 +133,15 @@ scrollbar-width: none;  /* Firefox */
 .buttons-section {
     height: 10%;
     width: 100%;
+    position: sticky;
+    top: 0;
+    padding-top: 20px;
+    background-color: #282626;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-bottom: 20px;
+    box-shadow: 0px 15px 14px -1px #282626e9; 
 }
 
 .search-field, .add-account {
@@ -478,7 +483,7 @@ scrollbar-width: none;  /* Firefox */
 
 
 .accounts-section {
-    padding: 10px;
+    padding: 20px;
     display: grid;
     justify-items: center;
 }

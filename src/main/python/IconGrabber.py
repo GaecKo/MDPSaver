@@ -3,8 +3,6 @@ import shutil
 
 from PIL import Image
 
-from duckduckgo_search import DDGS
-
 import pathlib
 
 import re
@@ -88,7 +86,6 @@ class IconGrabber:
                 if resp.status_code == 200:
                     return resp
             except Exception as ex:
-                logger.warning(f"_get_url() {url} {type(ex).__name__} {ex}")
                 if i >= 2 or "418" in str(ex):
                     raise ex
             sleep(3)
@@ -107,8 +104,9 @@ class IconGrabber:
                     start = resp.content.index(c1) + len(c1)
                     end = resp.content.index(c2, start)
                     return resp.content[start:end].decode()
-                except ValueError:
-                    logger.warning(f"_get_vqd() keywords={keywords} vqd not found")
+                except ValueError as e:
+                    print(e)
+                    pass
         return None
 
     def _is_500_in_url(self, url: str) -> bool:
@@ -200,17 +198,15 @@ class IconGrabber:
 
     def _process_request(self, query):
         try:
-            with DDGS() as ddgs:
-                keywords = query
-                ddgs_images_gen = ddgs.images(
-                keywords,
-                region="us-en",
-                safesearch="off",
-                size=None,
-                type_image='transparent',
-                layout=None,
-                license_image=None,
-                )
+            ddgs_images_gen = self.images(
+            query,
+            region="us-en",
+            safesearch="off",
+            size=None,
+            type_image='transparent',
+            layout=None,
+            license_image=None,
+            )
             return ddgs_images_gen
         except Exception as e:
             print(e)

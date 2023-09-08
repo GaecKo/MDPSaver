@@ -122,12 +122,21 @@
 
             <!-- SWITCH HEADER -->
             <div class="switch-part-header">
-                <button class="simple-gen-button" onclick="switchGenType('1')">SIMPLE</button>
-                <button class="advanced-gen-button" onclick="switchGenType('2')">ADVANCED</button>
+                <div class="radio">
+                    <div class="wrap">
+                        <input type="radio" id="on" name="radio" onclick="switchGenType('1')">
+                        <label for="on">SIMPLE</label>
+
+                        <input type="radio" id="off" name="radio" onclick="switchGenType('2')">
+                        <label for="off">ADVANCED</label>
+
+                        <div class="bar"></div>
+                    </div>
+                </div>
             </div>
-            <div class="generate-title">
-                <p id="generate-title-text">Simple Generator</p>
-            </div>
+
+
+
 
             <!-- SIMPLE GEN PART -->
             <div class="simple-generate-part">
@@ -332,7 +341,6 @@
         bridge.copyToClipBoard(text)
     }
 
-    // TODO
     async function generatePassword() {
         if (current_gen === "simple") {
             // retrieve values from circles / checkboxes
@@ -502,12 +510,25 @@
         }
     }
 
+    // Switch Header JS
+    let off = document.getElementById('off');
+    let on = document.getElementById('on');
+    let radio = document.querySelector('.radio');
+
+    off.addEventListener('click', () => {
+        radio.classList.add('off');
+    });
+
+    on.addEventListener('click', () => {
+        radio.classList.remove('off');
+    });
+
+
+
     function switchGenType(cur_type) {
         const simple_part = document.querySelector(".simple-generate-part")
         const advanced_part = document.querySelector(".advanced-generate-part")
 
-        const simple_btn = document.querySelector(".simple-gen-button")
-        const advanced_btn = document.querySelector(".advanced-gen-button")
 
         if (cur_type === "2") { // from simple part to advanced
             // Show / Hide corresponding part
@@ -522,21 +543,6 @@
                 startCircle3Script();
             }
 
-            // Modify button
-            simple_btn.style.color = "black";
-            simple_btn.style.borderBottom = "2px solid black";
-            simple_btn.style.borderRight = "2px solid black";
-            simple_btn.style.boxShadow = "inset 0px -10px 10px -10px rgba(0, 0, 0, 1)"
-
-
-            advanced_btn.style.color = "#0B99FF";
-            advanced_btn.style.borderBottom = "none";
-            advanced_btn.style.borderLeft = "none";
-            advanced_btn.style.boxShadow = "none";
-
-            // Modify Title
-            document.getElementById("generate-title-text").innerText = "Advanced Generator";
-
             current_gen = "advanced";
 
         } else { // from advanced par to simple part
@@ -544,19 +550,6 @@
             advanced_part.style.display = "none";
             simple_part.style.display = "block";
 
-            // Modify button
-            advanced_btn.style.color = "black";
-            advanced_btn.style.borderBottom = "2px solid black";
-            advanced_btn.style.borderLeft = "2px solid black";
-            advanced_btn.style.boxShadow = "inset 0px -10px 10px -10px rgba(0, 0, 0, 1)"
-
-            simple_btn.style.color = "#0B99FF";
-            simple_btn.style.borderBottom = "none";
-            simple_btn.style.borderRight = "none";
-            simple_btn.style.boxShadow = "none";
-
-            // Modify Title
-            document.getElementById("generate-title-text").innerText = "Simple Generator";
 
             current_gen = "simple";
         }

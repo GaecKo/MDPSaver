@@ -1,10 +1,12 @@
 import sys
 from PySide6.QtWidgets import QMainWindow, QLabel
 
-import sys
+import sys, os
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication
 from MDPSaver import MDPSaver
+
+os.environ["QT_DEBUG_PLUGINS"] = "1"
 
 # TODO: investigate on which Python Qt framework to use (PySide6, PyQt6, PyQt5, PySide2, PyQt4).
 

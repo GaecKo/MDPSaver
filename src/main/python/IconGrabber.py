@@ -199,13 +199,13 @@ class IconGrabber:
     def _process_request(self, query):
         try:
             ddgs_images_gen = self.images(
-            query,
-            region="us-en",
-            safesearch="off",
-            size=None,
-            type_image='transparent',
-            layout=None,
-            license_image=None,
+                query,
+                region="us-en",
+                safesearch="off",
+                size=None,
+                type_image='transparent',
+                layout=None,
+                license_image=None,
             )
             return ddgs_images_gen
         except Exception as e:
@@ -213,8 +213,10 @@ class IconGrabber:
             return None
         
     def _get_image_url(self, query):
-        urls = []
-        return [img['image'] for img in self._process_request(f"{query} black icon png")]
+        try:
+            return [img['image'] for img in self._process_request(f"{query} black icon png")]
+        except Exception as e:
+            return None
 
     def _make_image_monochrome(self, img_path:pathlib.Path, color:str, intensity=2):
         # remove # from color

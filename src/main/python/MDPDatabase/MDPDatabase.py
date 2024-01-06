@@ -41,8 +41,6 @@ class MDPDatabase:
         if result:
             site, username, password, icon = result
             return (site, username, password, icon)
-            site, username, password, icon = result
-            return (site, username, password, icon)
         else:
             return None
 

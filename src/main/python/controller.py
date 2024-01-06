@@ -62,7 +62,7 @@ class Controller:
 
             site, username, password = decrypt(self.key, c_site), decrypt(self.key, c_username), decrypt(self.key,
                                                                                                          c_password)
-            # passwords[index] = [site, username, password]
+            # passwords[index] = [site, username, password, icon, id]
             passwords[index] = {"target": site, "username": username, "password": password, "icon": data[3], "id": data[4]}
 
         return passwords
@@ -243,29 +243,34 @@ class Controller:
         return unique_filename
     
     def __push_password__(self, target, username, password, icon):
-        filename = self.grabber.get_icon(target)
-        print(f"filename : {filename}")
-        if filename is None:
-            if icon is True:
-                # show filebrowser dialog
-                file_name = self.get_image_or_icon_file_path()
-                print(file_name)
-                if file_name:
-                    if file_name.endswith(".exe") or file_name.endswith(".dll") and os.name == "nt":
-                        # extract icon from executable
-                        try:
-                            filename = self.extract_icon_from_executable(file_name)
-                        except Exception as e:
-                            filename =  None
-                    else:
-                        # copy file to appdata
-                        favicon = open(file_name, "rb").read()
-                        filename = self.save_favicon_locally(favicon)
-        
-        if filename is None:
-            filename = "None"
+        # icon grabber is not working and not futur proof. sorry @petchou 
 
         self.add_password(target, username, password, filename)
+
+    # def __push_password__(self, target, username, password, icon):
+    #     filename = self.grabber.get_icon(target)
+    #     print(f"filename : {filename}")
+    #     if filename is None:
+    #         if icon is True:
+    #             # show filebrowser dialog
+    #             file_name = self.get_image_or_icon_file_path()
+    #             print(file_name)
+    #             if file_name:
+    #                 if file_name.endswith(".exe") or file_name.endswith(".dll") and os.name == "nt":
+    #                     # extract icon from executable
+    #                     try:
+    #                         filename = self.extract_icon_from_executable(file_name)
+    #                     except Exception as e:
+    #                         filename = None
+    #                 else:
+    #                     # copy file to appdata
+    #                     favicon = open(file_name, "rb").read()
+    #                     filename = self.save_favicon_locally(favicon)
+
+    #     if filename is None:
+    #         filename = "None"
+
+    #     self.add_password(target, username, password, filename)
 
     # load key when starting the app, as well as the username of the current user
     def load_app(self, username, password):

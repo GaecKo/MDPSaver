@@ -26,10 +26,13 @@ Status:  `▰▰▰▰▰▰▰▰▰▰ 100%`
 
 * [Installation](#installation)
     * [Python Script](#-python-script--)
-    * [Executable]()
+        * [Git Syncing](#git-syncing-%EF%B8%8F)
+    * [Executable](#-windows-executable-exe--)
 * [Update](#update)
-* [Update notice](#update-notice)
 * [Walkthrough](#walkthrough)
+    * [Starting Screen](#-starting-screen-)
+    * [Main Menu](#-main-menu-)
+* [Security](#security-)
 * [SpeedTest](#speedtest)
 * [Notes](#notes)
 

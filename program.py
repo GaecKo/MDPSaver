@@ -16,18 +16,18 @@ from		random		import	randint
 from		time 			import	sleep
 from		pwinput		import	pwinput
 
-from		MDPCrypto.Crypt	import *
-from		MDPLogs.logs	import Log
+from		MDPCrypto.Crypt	import 	*
+from		MDPLogs.logs	import 	Log
 
 init(autoreset=True)
 os.system("cls")
 
-rs 	= Style.RESET_ALL
-LOGS 	= Log()
+rs	= Style.RESET_ALL
+LOGS	= Log()
 
 class Program:
 	def __init__(self):
-		self.__data 	= "MDPData/data.txt"
+		self.__data		= "MDPData/data.txt"
 		self.__default 	= "MDPData/default.txt"
 		self.__hashed 	= "MDPData/hashed.txt"
 

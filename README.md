@@ -24,17 +24,19 @@ All of these are done with the `pycryptodome` and `cryptography` module, to make
 
 Status:  `▰▰▰▰▰▰▰▰▰▰ 100%` 
 
-* [Installation](#installation)
-    * [Python Script](#-python-script--)
-        * [Git Syncing](#git-syncing-%EF%B8%8F)
+## Content
+
+* [Installation 📥](#installation)
+    * [Python Script](#-python-script--) 
+        * [Git Syncing 🔀](#git-syncing-%EF%B8%8F)
     * [Executable](#-windows-executable-exe--)
-* [Update](#update)
-* [Walkthrough](#walkthrough)
+* [Update 🔃](#update)
+* [Walkthrough 📽️](#walkthrough)
     * [Starting Screen](#-starting-screen-)
     * [Main Menu](#-main-menu-)
-* [Security](#security-)
-* [SpeedTest](#speedtest)
-* [Notes](#notes)
+* [Security 🔐](#security-)
+* [SpeedTest 🚀](#speedtest-)
+* [Notes 🗒️](#notes)
 
 > [!NOTE] 
 > Two other version of the project exist, but are not finished & not expected to be worked on in the near feature. The terminal version is finished and complete. 
@@ -65,7 +67,7 @@ Status:  `▰▰▰▰▰▰▰▰▰▰ 100%`
 * If you have any problem using the app, contact me on Discord: `gaecko`
 ****
 
-##### Git Syncing ♻️ 
+##### Git Syncing 🔀
 > [!TIP]
 > You can quite easily add GitHub syncing on Linux + global var to launch the app:
 1) Create a git repository and add the project content in it
@@ -135,7 +137,7 @@ Or follow these steps:
 
 
 
-## Update
+## Update 🔃
 * If you used last version of MDPSaver, here is a [video](https://www.youtube.com/watch?v=y8biYrRKB9s) on how to update your old data to the new MDPSaver. 
 
 > [!WARNING]  

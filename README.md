@@ -1,4 +1,4 @@
-# <h1 align="center"><ins> MDPSaver</ins> v1.0.1 ![Python](.git_files/python.ico) ![Windows](.git_files/Windows.ico)</h1>
+# <h1 align="center"><ins> MDPSaver</ins> v2.0.0 ![Python](.git_files/python.ico) ![Windows](.git_files/Windows.ico)</h1>
 
 <p align="center">
 	<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/GaecKo/MDPSaver?color=lightblue" />
@@ -22,6 +22,7 @@ This app makes it easy for you to:
 * **Add** your passwords
 * **See** your added passwords
 * **Generate** / **Create** passwords for you
+* **Filter Search** through your passwords
 
 All of these are done with the `pycryptodome` and `cryptography` module, to make sure everything is **secure**. By making use of these modules no lambda person will be able to access your **encrypted data**. 
 
@@ -42,29 +43,27 @@ Status:  `▰▰▰▰▰▰▰▰▰▰ 100%`
 
 #### <ins> Windows Executable (.exe) 🪟 </ins>
 * Here is a [video](https://youtu.be/CvxW0uoeJtI) on how to install MDPSaver (Easy Method)
-
+> [!WARNING]  
+> The exe version is running on an old version. If you want to have the latest version, consider using the [Python Version](#-python-script--)
 Or follow these steps:
 1) Download and extract (unzip) the files. 
 2) Go into the exe folder: `./MDPSaver-master/MDP_EXE/`
 3) Righ click on `MDPSaver.exe` and create a shortcut to it
 4) Rename and move the shortcut on your desktop
 5) Double click on the shortcut which is on your desktop, if a red window opens up, click on `more information`and then `install anyway` 
-* Check the video if you have any trouble! You can also contact me on discord: `GaecKo#7545`
+* Check the video if you have any trouble! You can also contact me on discord: `gaecko`
 
 
 #### <ins> Python Script </ins> ![Python](.git_files/python.ico) 
 
 1) This app is 100% python based. To launch it as a normal python script, you need [python3.x](https://www.python.org/downloads/) to be installed on your device.
-    * Please make sure that you cross the pip option in the installation wizard as well!
-2) Once done, you will need to install some modules:
-    * `pip install cryptography`
-    * `pip install pycryptodome`
-    * `pip install pwinput`
-    * `pip install colorama`
-    * if `pip` doesn't work, try using `pip3`
-    * You now have the prerequired modules to continue!
 
-3) Download and unzip the files
+2) Once done, you will need to install some modules, simply run
+    * `pip install -r requirements.txt`
+    * if `pip` doesn't work, try using `pip3`
+    
+
+3) Download and unzip the files in a chosen folder. We will call it  
 4) Go into the app folder: `./MDPSaver-master/MDP_APP/`
 5) You should see all the python scripts, open a terminal in that folder and type  `python MDPSaver.py` or `python3 MDPSaver.py`
     * If you have any issues like:

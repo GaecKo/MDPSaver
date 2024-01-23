@@ -10,8 +10,7 @@
 #                                                                                               #
 #################################################################################################
 
-import 	os
-import	sys
+import		sys
 
 from		pwinput			import 	pwinput						# hide prompt package
 from		time			import	sleep						# sleep

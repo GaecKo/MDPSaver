@@ -1,7 +1,4 @@
 # <h1 align="center"><ins> MDPSaver</ins> v2.0.0 ![Python](.git_files/python.ico) ![Windows](.git_files/Windows.ico)</h1>
-# <h1 align="center"><ins> MDPSaver</ins> </h1>
-
-<h1 align="center">
 
 [![Support via PayPal](https://cdn.rawgit.com/twolfson/paypal-github-button/1.0.0/dist/button.svg)](https://paypal.me/ArthurDeNeyer?country.x=BE&locale.x=fr_FR) 
 
@@ -28,9 +25,9 @@ Status:  `▰▰▰▰▰▰▰▰▰▰ 100%`
 
 * [Installation 📥](#installation)
     * [Python Script](#-python-script--) 
-        * [Git Syncing 🔀](#git-syncing-%EF%B8%8F)
+        * [Git Syncing 🔀](#git-syncing-)
     * [Executable](#-windows-executable-exe--)
-* [Update 🔃](#update)
+* [Update 🔃](#update-)
 * [Walkthrough 📽️](#walkthrough)
     * [Starting Screen](#-starting-screen-)
     * [Main Menu](#-main-menu-)

@@ -31,22 +31,14 @@ Status:  `▰▰▰▰▰▰▰▰▰▰ 100%`
 * [SpeedTest](#speedtest)
 * [Notes](#notes)
 
+> [!NOTE] 
+> Two other version of the project exist, but are not finished & not expected to be worked on in the near feature. The terminal version is finished and complete. 
+> [web-engine-integration](https://github.com/GaecKo/MDPSaver/tree/web-engine-integration): uses PySide6 `WebEngineWidgets` for the frontend (WIP). 
+> [standard-pyside-gui](https://github.com/GaecKo/MDPSaver/tree/standard-pyside-gui): uses standard PySide6 `Layouts`, `Widgets`, ... for the frontend (WIP). Won't be worked on any longer. 
+> Each version has their own README. Click on the branch you wish to visit above to see the project itself. 
 
 ****
 ## Installation 
-
-#### <ins> Windows Executable (.exe) 🪟 </ins>
-* Here is a [video](https://youtu.be/CvxW0uoeJtI) on how to install MDPSaver (Easy Method)
-> [!WARNING]  
-> The exe version is running on an old version. If you want to have the latest version, consider using the [Python Version](#-python-script--)
-Or follow these steps:
-1) Download and extract (unzip) the files. 
-2) Go into the exe folder: `./MDPSaver-master/MDP_EXE/`
-3) Righ click on `MDPSaver.exe` and create a shortcut to it
-4) Rename and move the shortcut on your desktop
-5) Double click on the shortcut which is on your desktop, if a red window opens up, click on `more information`and then `install anyway` 
-* Check the video if you have any trouble! You can also contact me on discord: `gaecko`
-
 
 #### <ins> Python Script </ins> ![Python](.git_files/python.ico) 
 
@@ -57,28 +49,91 @@ Or follow these steps:
     * if `pip` doesn't work, try using `pip3`
     
 
-3) Download and unzip the files in a chosen folder. We will call it  
-4) Go into the app folder: `./MDPSaver-master/MDP_APP/`
+3) Download and unzip the files in a chosen folder. We will call it  `.../MDPSaver-master/`
+4) Go into the app folder: `cd MDPSaver-master/`
 5) You should see all the python scripts, open a terminal in that folder and type  `python MDPSaver.py` or `python3 MDPSaver.py`
-    * If you have any issues like:
+    * If you have any issue like:
         * `FileNotFoundError`
         * `Module not found`, ...
-    * Make sure you opened a terminal **IN** the `MDP_APP/` folder! It should look like: 
-    
-    `X:\...\MDPSaver-master\MDPSaver-master\MDP_APP>python MDPSaver.py`
+    * Make sure you opened a terminal **IN** the `.../MDPSaver-master/.` folder! It should look like: `X:\...\MDPSaver-master\>python MDPSaver.py`
 * The program should be running! Each time you want to launch MDPSaver, you need to repeat step 4 and 5!
-* If you have any problem using the app, contact me on Discord: `GaecKo#7545`
+* If you have any problem using the app, contact me on Discord: `gaecko`
 ****
+
+> [!TIP]
+> You can quite easily add GitHub syncing on Linux + global var to launch the app:
+1) Create a git repository and add the project content in it
+2) Create a new file `pull.sh` in the project folder with content:
+    ```bash
+    (cd $1 && git pull > /dev/null 2>&1)
+    ```
+3) Create a new file `push.sh` in the project folder with content
+    ```bash
+    (cd $1 && git pull > /dev/null 2>&1 && git add . > /dev/null 2>&1 && git commit -m "Managed Passwords" > /dev/null 2>&1 && git push > /dev/null 2>&1)
+    ```
+4) In `MDPSaver.py`, insert after line `30` the following code:
+    ```py
+    if __name__ == "__main__": # this is line 30
+        print(Fore.BLUE + "Git syncing ......", end=" ")
+
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        os.system(os.path.join(base_dir, f"./pull.sh {base_dir}"))
+        
+        print(Fore.GREEN + "\t✓")
+        print(Fore.BLUE + "Launching ........", end=" ")
+        sleep(0.5)
+        print(Fore.GREEN + "\t✓")
+        sleep(1)
+        # ... Rest of the program
+    ```
+
+5) Still in `MDPSaver`, insert after line `+-445`: 
+    ```py
+    if choice == 8:	# this is approximately line 445
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        print(Fore.BLUE + "Git syncing ......", end=" ")
+        os.system(os.path.join(base_dir, f"./push.sh {base_dir}"))
+        print(Fore.GREEN + "\t✓")
+        # ... Rest of the program
+    ```
+    Be careful with the indentation :). 
+
+6) `cd` to the root folder of your system. You need to access `bin/` folder to add the MDPSaver global var. 
+7) In `~/bin/`, create a file `MDPSaver` with content 
+    ```bash
+    python3 /../../home/USER/path_to_project/MDPSaver.py
+    ```
+    -> Where `USER` is your username on Linux, and `path_to_project` the path to your git folder. 
+
+8) You can now launch the program from anywhere, by running `MDPSaver`. If you need any more help to make it work: `gaecko` on Discord. 
+    ![GitSyncing](.git_files/GitSyncing.gif)
+
+
+****
+
+#### <ins> Windows Executable (.exe)  </ins>
+> [!WARNING]  
+> The exe version is running on an old version. If you want to have the latest version, consider using the [Python Version](#-python-script--)
+
+* Here is a [video](https://youtu.be/CvxW0uoeJtI) on how to install MDPSaver (Easy Method). The `.exe` file is located in the [first release](https://github.com/GaecKo/MDPSaver/releases/tag/v1.0.0). 
+
+
+Or follow these steps:
+1) Download and extract (unzip) the files. 
+2) Go into the exe folder: `./MDPSaver-master/MDP_EXE/`
+3) Righ click on `MDPSaver.exe` and create a shortcut to it
+4) Rename and move the shortcut on your desktop
+5) Double click on the shortcut which is on your desktop, if a red window opens up, click on `more information`and then `install anyway` 
+* Check the video if you have any trouble! You can also contact me on discord: `gaecko`
+
+
+
 
 ## Update
-* If you used last version of MDPSaver, here is a [video](https://www.youtube.com/watch?v=y8biYrRKB9s) on how to update your old data to the new MDPSaver.  
+* If you used last version of MDPSaver, here is a [video](https://www.youtube.com/watch?v=y8biYrRKB9s) on how to update your old data to the new MDPSaver. 
 
-****
-
-## Update notice
-I have been working on a new functionnality just recently called "Search Filter" which allows you to filter and show site with corresponding password / email / username. It's usefull if you wish for example to see all the sites that have the same password / ... .
-
-It's only available on the python version. Please also check [Notes](#notes) for more information. 
+> [!WARNING]  
+> This works only for the exe version. For the script version, you need to launch `updator.py` within `MDPTools`. Other steps are equivalent to the one in the video.  
 
 ****
 
@@ -163,8 +218,16 @@ Here is a walkthrough of the app
 * This menu should only be used if you plan on testing things with the code or if you have issues with the program and that loosing your password doesn't afraid you.
 
 ****
+
+
+## Security 🔒
+* Here is a schema on the security system:
+
+    ![SecuritySchema](.git_files/MDPSaverSecurity.png)
+
+
 ## SpeedTest 🚀
-* Something I kept in mind during the project was to have a program wich is quick and simple. Starting the project I used a encode and decode function which turned out to be not that safe, as there was an already known way on how to crack them. I then switched to an official security system (`Fernet` from `cryptography`, allied with `pycryptodome`), that I used with a key which was direved using the Access Password. That way, and with 380 000 iterations, each saved password is encrypted and safe. 
+* Something I kept in mind during the project was to have a program wich was quick and simple. Starting the project I used an encode and decode function which turned out to have major security troubles, as there was an already known way on how to crack them. I then switched to an official security system (`Fernet` from `cryptography`, allied with `pycryptodome`), that I used with a key which was direved using the Access Password. That way, and with 380 000 iterations, each saved password is encrypted and safe. 
 
 * But how about speed ? Well after hours spent on data managing and improved encryption, I now have a system which is fast enough to ensure fluent usage. 
 
@@ -238,9 +301,3 @@ Here is a walkthrough of the app
 
     This means that I won't work on this project anymore. I might add some new features, but I won't work on the code itself. 
 
-Choose the version to visit:
-- [web-engine-integration](https://github.com/GaecKo/MDPSaver/tree/web-engine-integration): uses PySide6 `WebEngineWidgets` for the frontend (WIP). 
-- [standard-pyside-gui](https://github.com/GaecKo/MDPSaver/tree/standard-pyside-gui): uses standard PySide6 `Layouts`, `Widgets`, ... for the frontend (WIP). Won't be worked on any longer. 
-- [terminal-version](https://github.com/GaecKo/MDPSaver/tree/terminal-version): the first initial version of MDPSaver, built in terminal (finished).
-
-> __Note__: Each version has their own README. Click on the branch you wish to visit above to see the project itself. 

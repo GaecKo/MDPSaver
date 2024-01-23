@@ -1,14 +1,16 @@
-# author: Arthur De Neyer - GaecKo
-# last update: check github (https://github.com/GaecKo/MDPSaver)
-#           ==== ⚠ DISCLAIMER ⚠ ====
-# This code is not suitable for professional use. As of the current state of the code, this
-# whole program is not sustainable and thus depreciated.
-#
-# If you wish to rebuilt the program, feel free to do it and I'll check the PR!
+#################################################################################################
+#   | Author:       Arthur De Neyer - GaecKo                                                    #
+#   | Last update:  Check github (https://github.com/GaecKo/MDPSaver)                           #
+#                                                                                               #
+#                               ======= ⚠ DISCLAIMER ⚠ ======                                  #
+#   | This code is not suitable for professional use. As of the current state of the code, this #
+#       whole program is not sustainable and thus deprecated.                                   #
+#                                                                                               #
+#   | If you wish to rebuild the program, feel free to do it and I'll check the PR!             #
+#                                                                                               #
+#################################################################################################
 
-# This code simply creates logs for the program
-
-import time as t
+import      time    as      t
 
 
 class Log:
@@ -22,15 +24,13 @@ class Log:
 
     def create_log(self, action) -> str:
         current = list(t.localtime())
-        (
-            year,
-            month,
-            day,
-        ) = (
+
+        (year, month, day) = (
             current[0],
             self.two_numbers(current[1]),
             self.two_numbers(current[2]),
         )
+
         hour, min, sec = (
             self.two_numbers(current[3]),
             self.two_numbers(current[4]),

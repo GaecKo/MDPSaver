@@ -25,6 +25,8 @@ All of these are done with the `pycryptodome` and `cryptography` module, to make
 Status:  `▰▰▰▰▰▰▰▰▰▰ 100%` 
 
 * [Installation](#installation)
+    * [Python Script](#-python-script--)
+    * [Executable]()
 * [Update](#update)
 * [Update notice](#update-notice)
 * [Walkthrough](#walkthrough)
@@ -33,9 +35,9 @@ Status:  `▰▰▰▰▰▰▰▰▰▰ 100%`
 
 > [!NOTE] 
 > Two other version of the project exist, but are not finished & not expected to be worked on in the near feature. The terminal version is finished and complete. 
-> [web-engine-integration](https://github.com/GaecKo/MDPSaver/tree/web-engine-integration): uses PySide6 `WebEngineWidgets` for the frontend (WIP). 
-> [standard-pyside-gui](https://github.com/GaecKo/MDPSaver/tree/standard-pyside-gui): uses standard PySide6 `Layouts`, `Widgets`, ... for the frontend (WIP). Won't be worked on any longer. 
-> Each version has their own README. Click on the branch you wish to visit above to see the project itself. 
+> * [web-engine-integration](https://github.com/GaecKo/MDPSaver/tree/web-engine-integration): uses PySide6 `WebEngineWidgets` for the frontend (WIP). 
+> * [standard-pyside-gui](https://github.com/GaecKo/MDPSaver/tree/standard-pyside-gui): uses standard PySide6 `Layouts`, `Widgets`, ... for the frontend (WIP). Won't be worked on any longer. 
+> * Each version has their own README. Click on the branch you wish to visit above to see the project itself. 
 
 ****
 ## Installation 
@@ -60,6 +62,7 @@ Status:  `▰▰▰▰▰▰▰▰▰▰ 100%`
 * If you have any problem using the app, contact me on Discord: `gaecko`
 ****
 
+##### Git Syncing ♻️ 
 > [!TIP]
 > You can quite easily add GitHub syncing on Linux + global var to launch the app:
 1) Create a git repository and add the project content in it
@@ -261,7 +264,7 @@ Here is a walkthrough of the app
         ```
     It was then easy to decrypt using `string.split(" | ")` and then `decrypt(AP, string[0]), ...`. 
     
-    I then simplified the process by directly encrypting the whole phrase, including the " | ". That made the encrypting and decrypting **3x** faster. (I figured that out while explaining the method to [@drudru18](https://github.com/drudru18), thanks mate 💘)
+    I then simplified the process by directly encrypting the whole phrase, including the " | ". That made the encrypting and decrypting **3x** faster. 
 
     I would have something like this: 
 
@@ -292,12 +295,18 @@ Here is a walkthrough of the app
 * Also, as you can see within the python files:
 
     ```txt
-            ==== ⚠ DISCLAIMER ⚠ ====
-    This code is not suitable for professional use. As of the current state of the code, this 
-    whole program is not sustainable and thus depreciated. 
-    
-    If you wish to rebuilt the program, feel free to do it and I'll check the PR! 
+    #################################################################################################
+    #   | Author:       Arthur De Neyer - GaecKo                                                    #
+    #   | Last update:  Check github (https://github.com/GaecKo/MDPSaver)                           #
+    #                                                                                               #
+    #                               ======= ⚠ DISCLAIMER ⚠ ======                                  #
+    #   | This code is not suitable for professional use. As of the current state of the code, this #
+    #       whole program is not sustainable and thus deprecated.                                   #
+    #                                                                                               #
+    #   | If you wish to rebuild the program, feel free to do it and I'll check the PR!             #
+    #                                                                                               #
+    #################################################################################################
     ```
 
-    This means that I won't work on this project anymore. I might add some new features, but I won't work on the code itself. 
+    This means that I won't work on this project anymore. I might add some new features, but I won't work on the existing code itself. 
 

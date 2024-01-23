@@ -1,12 +1,6 @@
 # <h1 align="center"><ins> MDPSaver</ins> v2.0.0 ![Python](.git_files/python.ico) ![Windows](.git_files/Windows.ico)</h1>
+# <h1 align="center"><ins> MDPSaver</ins> </h1>
 
-<p align="center">
-	<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/GaecKo/MDPSaver?color=lightblue" />
-	<img alt="Number of lines of code" src="https://img.shields.io/tokei/lines/github/GaecKo/MDPSaver?color=critical" />
-	<img alt="Code language count" src="https://img.shields.io/github/languages/count/GaecKo/MDPSaver?color=yellow" />
-	<img alt="GitHub top language" src="https://img.shields.io/github/languages/top/GaecKo/MDPSaver?color=blue" />
-	<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/GaecKo/MDPSaver?color=green" />
-</p>
 <h1 align="center">
 
 [![Support via PayPal](https://cdn.rawgit.com/twolfson/paypal-github-button/1.0.0/dist/button.svg)](https://paypal.me/ArthurDeNeyer?country.x=BE&locale.x=fr_FR) 
@@ -243,3 +237,10 @@ Here is a walkthrough of the app
     ```
 
     This means that I won't work on this project anymore. I might add some new features, but I won't work on the code itself. 
+
+Choose the version to visit:
+- [web-engine-integration](https://github.com/GaecKo/MDPSaver/tree/web-engine-integration): uses PySide6 `WebEngineWidgets` for the frontend (WIP). 
+- [standard-pyside-gui](https://github.com/GaecKo/MDPSaver/tree/standard-pyside-gui): uses standard PySide6 `Layouts`, `Widgets`, ... for the frontend (WIP). Won't be worked on any longer. 
+- [terminal-version](https://github.com/GaecKo/MDPSaver/tree/terminal-version): the first initial version of MDPSaver, built in terminal (finished).
+
+> __Note__: Each version has their own README. Click on the branch you wish to visit above to see the project itself. 

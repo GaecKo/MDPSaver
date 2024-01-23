@@ -1,0 +1,4 @@
+cryptography        # fernet for used in MDPCrypto/Crypt.py
+pycryptodome        # hash function used in MDPCrypto/Crypt.py
+pwinput             # hide prompt for password
+colorama            # colors in stdout

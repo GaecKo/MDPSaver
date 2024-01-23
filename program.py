@@ -6,34 +6,31 @@
 #
 # If you wish to rebuilt the program, feel free to do it and I'll check the PR!
 
-import os
 import re
-import sys
 from random import randint
 from time import sleep
 
 import pwinput
-from colorama import Back, Fore, Style, init
 
 from MDPCrypto.Crypt import *
 from MDPLogs.logs import Log
 
 init(autoreset=True)
-logs = Log()
 os.system("cls")
 
 rs = Style.RESET_ALL
 
+LOGS = Log()
 
 class Program:
-    def __init__(self):
+    def __init__(self, logs: Log):
         self.__data = "MDPData/data.txt"
         self.__default = "MDPData/default.txt"
         self.__hashed = "MDPData/hashed.txt"
 
     def add_key(self, access_password):
         self.__key = load_key(access_password)
-        logs.create_log("Key was loaded successfully")
+        LOGS.create_log("Key was loaded successfully")
 
     def tutorial(self):
         print(
@@ -50,7 +47,7 @@ class Program:
                         b) Add your username / email (username@coolguy.me)
                         c) Add the password of your account 
     
-    3) {Back.MAGENTA + "Filter Search" + rs} -> Search for all site with a given username-email / password corresponding. 
+    3) {Back.LIGHTBLUE_EX + "Filter Search" + rs} -> Search for all site with a given username-email / password corresponding. 
 
     4) {Back.LIGHTBLUE_EX + "Generate a random password" + rs} -> a) {Fore.GREEN + "Weak password" + rs} (only letters + numbers | size 8~12)
                                     b) {Fore.YELLOW + "Medium password" + rs} (letters + numbers + symbols | size 10~20)
@@ -336,7 +333,7 @@ class Program:
                 print("\n" * 50)
                 self.tutorial()
                 print(
-                    f"When you will start the program next time, you will be asked your AP (access password that you will create in a few moments)\n which defines the password that controls all of your password, this password if very powerfull so choose it carefully!\n If you forget it, you will be able to recover your other passwords by answering a question you are going to create just after this tutorial."
+                    f"When you will start the program next time, you will be asked your AP (access password that you will create in a few moments)\nwhich defines the password that controls all of your password, this password if very powerfull so choose it carefully!\n>> If you forget it, you will be able to recover your other passwords by answering a question you are going to create just after this tutorial."
                 )
                 break
             elif choice == 2:
@@ -352,13 +349,13 @@ class Program:
             f"""\n - - - - - - - - - - - - - - - - - - - - - -\nAs it's the first time you log in, you have to create an {Fore.GREEN + "access password" + rs}. """
         )
         self.create_password()
-        logs.create_log("CREATION OF SALT FOR CRYPTO")
-        logs.create_log("CREATION OF PASSWORD STARTED")
+        LOGS.create_log("CREATION OF SALT FOR CRYPTO")
+        LOGS.create_log("CREATION OF PASSWORD STARTED")
 
     def create_serial_number(self, access_password):
         initial = randint(1000, 1000000)
         added = abs(int(low_hash(access_password)))
-        logs.create_log("CREATION OF SERIAL NUMBER")
+        LOGS.create_log("CREATION OF SERIAL NUMBER")
         return str(initial + added)
 
     def get_props(self):
@@ -426,7 +423,7 @@ class Program:
         content = self.get_content(self.__default)
         content[2] = "question:" + encryptd_question + "\n"
         self.write_content(content, self.__default)
-        logs.create_log("QUESTION WAS ENCRYPTED")
+        LOGS.create_log("QUESTION WAS ENCRYPTED")
 
     def add_site_password(self, access_password, site, site_password, username):
         with open(self.__data, "r", encoding="utf-8") as file:
@@ -440,7 +437,7 @@ class Program:
                 self.__key, site + " | " + username + " | " + site_password
             )
         self.write_content(content, self.__data)
-        logs.create_log("SITE AND PASSWORD ADDED")
+        LOGS.create_log("SITE AND PASSWORD ADDED")
 
     def add_one_connection(self):
         times = self.get_times_connected() + 1
@@ -450,7 +447,7 @@ class Program:
 
     def first(self):
         if self.get_times_connected() == 1:
-            logs.create_log("FIRST TIME CONNECTED")
+            LOGS.create_log("FIRST TIME CONNECTED")
             return True
         return False
 
@@ -458,11 +455,11 @@ class Program:
         lines = self.get_content(self.__default)
         lines[1] = "username:" + user_name + "\n"
         self.write_content(lines, self.__default)
-        logs.create_log("USERNAME WAS SET")
+        LOGS.create_log("USERNAME WAS SET")
 
     def search(self, access_password, index):
         content = self.get_content(self.__data)
-        logs.create_log("A PASSWORD WAS SHOWN")
+        LOGS.create_log("A PASSWORD WAS SHOWN")
         line = decrypt(self.__key, content[index]).rstrip("\n").split(" | ")
         return line[0], line[1], line[2]
 
@@ -482,7 +479,7 @@ class Program:
                     passing = True
 
         self.write_content(content, self.__data)
-        logs.create_log(f"DATA FILE WAS CHECKED. FILE HAD {nbr} EMPTY LINES")
+        LOGS.create_log(f"DATA FILE WAS CHECKED. FILE HAD {nbr} EMPTY LINES")
 
     def print_site_password(self, site, username, password):
         stri = "    " + f"""{Fore.WHITE + "_" + rs}""" * (
@@ -623,7 +620,7 @@ class Program:
                 f"""-> {type_search} Filter : '{Fore.BLUE + keyword + rs}' ~ {len(good_ones)} result(s)"""
             )
 
-        logs.create_log(f"{type_search.upper()} USED TO SEARCH AND FILTER SITES")
+        LOGS.create_log(f"{type_search.upper()} USED TO SEARCH AND FILTER SITES")
         return (good_ones, indexes)
 
     def search_in_sites(self, access_password, keyword):
@@ -646,7 +643,7 @@ class Program:
         content.pop(index)
         self.write_content(content, self.__data)
         self.check_data()
-        logs.create_log("A SITE WAS DELETED")
+        LOGS.create_log("A SITE WAS DELETED")
 
     def change_username_site(self, index, access_password, new_username):
         content = self.get_content(self.__data)
@@ -656,7 +653,7 @@ class Program:
         content[index] = line + "\n"
         self.write_content(content, self.__data)
         self.check_data()
-        logs.create_log("A SITE USERNAME WAS CHANGED")
+        LOGS.create_log("A SITE USERNAME WAS CHANGED")
 
     def change_password_site(self, index, access_password, new_password):
         content = self.get_content(self.__data)
@@ -666,16 +663,16 @@ class Program:
         content[index] = line + "\n"
         self.write_content(content, self.__data)
         self.check_data()
-        logs.create_log("A SITE PASSWORD WAS CHANGED")
+        LOGS.create_log("A SITE PASSWORD WAS CHANGED")
 
     def change_hashed_password(self, new_access):
         content = self.get_content(self.__hashed)
         content[0] = hashing(new_access) + "\n"
         self.write_content(content, self.__hashed)
-        logs.create_log("PASSWORD HASH WAS CHANGED (DUE TO PASSWORD CHANGE)")
+        LOGS.create_log("PASSWORD HASH WAS CHANGED (DUE TO PASSWORD CHANGE)")
 
     def recover_password(self):
-        logs.create_log("RECOVERING PASSWORD BEGINNED")
+        LOGS.create_log("RECOVERING PASSWORD BEGINNED")
         print("\n -------+-------+-------+-------")
         while True:
             print(
@@ -693,11 +690,11 @@ class Program:
         print(Fore.GREEN + "Good answer!\n" + rs)
         old_password = decrypt_extern_password(answer, self.get_coded_password())
         print("Please create a new password and a new question.")
-        logs.create_log("CREATION OF PASSWORD STARTED")
+        LOGS.create_log("CREATION OF PASSWORD STARTED")
         new = self.create_password(True)
         self.change_hashed_password(new)
         self.change_encryptd_data(old_password, new)
-        logs.create_log("RECOVERING PASSWORD SUCCESS")
+        LOGS.create_log("RECOVERING PASSWORD SUCCESS")
         print(Back.RED + "PLEASE RESTART THE PROGRAM. " + rs)
         sleep(3)
         sys.exit()
@@ -726,7 +723,7 @@ class Program:
             else:
                 self.change_access_password()
 
-        logs.create_log("CHANGING ACCESS PASSWORD")
+        LOGS.create_log("CHANGING ACCESS PASSWORD")
 
         if from_updator:
             old = pwinput.pwinput(prompt="\nOld Password: ")
@@ -752,7 +749,7 @@ class Program:
                 self.change_encryptd_data(old_verif, new_password)
             else:
                 wrong_password()
-        logs.create_log("CHANGING PASSWORD SUCCESS")
+        LOGS.create_log("CHANGING PASSWORD SUCCESS")
 
     def create_password(self, returning=False):
         letters = [
@@ -787,7 +784,6 @@ class Program:
         print(
             f"""Your password needs at least {Fore.RED + "1 number" + rs}, {Fore.RED + "1 upper letter" + rs}, and a minimum length of {Fore.RED + "8 characters" + rs}."""
         )
-        print("- - - - - - - - - - - - - - - - - - - - - - \n")
         while True:
             password = pwinput.pwinput(prompt="Password: ")
             confirm_password = pwinput.pwinput(prompt="Confirm Password: ")
@@ -804,6 +800,8 @@ class Program:
                 upper = True
             if i in Numbers:
                 numb = True
+            if numb and upper: break 
+
         if len(password) < 8:
             print(
                 f"""\n{Fore.RED + "Password is only " + str(len(password)) + " of lenght, it has to be of 8 characters minimum." + rs}"""
@@ -837,8 +835,9 @@ class Program:
                 "Access password validated, it will now be your access key to all of your passwords"
             )
             print(
-                "If you forgot your password, you will have the opportunity to answer a personnal question that you have to create now.\n"
+                f"If you {Fore.RED + 'forget' + Fore.RESET} your password, you will have the opportunity to {Fore.GREEN + 'answer' + Fore.RESET} a personnal question that you have to create now.\n"
             )
+
             print("Please create a question:")
             question = input(">> ")
             print("----")
@@ -854,6 +853,7 @@ class Program:
             except IndexError:
                 content.append(hashed_answer + "\n")
             self.write_content(content, self.__hashed)
+
             # -------------------------------------- encrypt of the AP with the rep
             encryptd = encrypt_extern_password(answer, password)
             content = self.get_content(self.__hashed)
@@ -862,16 +862,18 @@ class Program:
             except IndexError:
                 content.append(encryptd)
             self.write_content(content, self.__hashed)
+
             # -------------------------------------- Create the serial number
             content = self.get_content(self.__default)
             content[3] = "serial_nbr:" + self.create_serial_number(password)
             self.write_content(content, self.__default)
+
             # -------------------------------------- Add the question in default.txt
             content = self.get_content(self.__default)
             content[2] = "question:" + question + "\n"
             self.write_content(content, self.__default)
             self.encrypt_question(self.get_first_personnal_question())
-            logs.create_log("CREATION OF PASSWORD ENDED")
+            LOGS.create_log("CREATION OF PASSWORD ENDED")
             if returning == True:
                 return password
 
@@ -885,7 +887,7 @@ class SystemRecovery:
             self.message = message
             self.attribute = "DataFileCorrupted"
             super().__init__(self.message)
-            logs.create_log("DataFileCorrupted Error occured")
+            LOGS.create_log("DataFileCorrupted Error occured")
 
         def __str__(self):
             return self.attribute
@@ -898,7 +900,7 @@ class SystemRecovery:
             self.message = message
             self.attribute = "DefaultFileCorrupted"
             super().__init__(self.message)
-            logs.create_log("DefaultFileCorrupted Error occured")
+            LOGS.create_log("DefaultFileCorrupted Error occured")
 
         def __str__(self):
             return self.attribute
@@ -911,7 +913,7 @@ class SystemRecovery:
             self.message = message
             self.attribute = "HashedFileCorrupted"
             super().__init__(self.message)
-            logs.create_log("HashedFileCorrupted Error occured")
+            LOGS.create_log("HashedFileCorrupted Error occured")
 
         def __str__(self):
             return self.attribute
@@ -921,7 +923,7 @@ class SystemRecovery:
             self.message = message
             self.attribute = "MissingFiles"
             super().__init__(self.message)
-            logs.create_log("MissingFiles Error occured")
+            LOGS.create_log("MissingFiles Error occured")
 
         def __str__(self):
             return self.attribute
@@ -934,7 +936,7 @@ class SystemRecovery:
             self.message = message
             self.attribute = "MissingContentDefault"
             super().__init__(self.message)
-            logs.create_log("MissingContentDefault Error occured")
+            LOGS.create_log("MissingContentDefault Error occured")
 
         def __str__(self):
             return self.attribute
@@ -947,7 +949,7 @@ class SystemRecovery:
             self.message = message
             self.attribute = "MissingContentHashed"
             super().__init__(self.message)
-            logs.create_log("MissingContentHashed Error occured")
+            LOGS.create_log("MissingContentHashed Error occured")
 
         def __str__(self):
             return self.attribute
@@ -957,7 +959,7 @@ class SystemRecovery:
             self.message = message
             self.attribute = "KeyFileCorrupted"
             super().__init__(self.message)
-            logs.create_log("KeyFileCorrupted Error occured")
+            LOGS.create_log("KeyFileCorrupted Error occured")
 
         def __str__(self):
             return self.attribute
@@ -972,44 +974,44 @@ class SystemRecovery:
         default = "times_connected:1\nusername:?\nquestion:?\nserial_nbr:?"
         with open(self.__default, "w", encoding="utf-8") as file:
             file.write(default)
-        logs.create_log("DEFAULT WAS RESET")
+        LOGS.create_log("DEFAULT WAS RESET")
 
     def reset_hashed(self):
         default = ""
         with open(self.__hashed, "w", encoding="utf-8") as file:
             file.write(default)
-        logs.create_log("HASHED WAS RESET")
+        LOGS.create_log("HASHED WAS RESET")
 
     def reset_key(self):
         default = ""
         with open(self.__key, "w", encoding="utf-8") as file:
             file.write(default)
-        logs.create_log("KEY.KEY WAS RESET")
+        LOGS.create_log("KEY.KEY WAS RESET")
 
     def reset_data(self):
         with open(self.__data, "w", encoding="utf-8") as file:
             file.write("")
-        logs.create_log("DATA WAS RESET")
+        LOGS.create_log("DATA WAS RESET")
 
     def create_hashed(self):
         f = open(self.__hashed, "w+")
         f.close()
-        logs.create_log("HASHED WAS CREATED")
+        LOGS.create_log("HASHED WAS CREATED")
 
     def create_default(self):
         f = open(self.__default, "w+")
         f.close()
-        logs.create_log("DEFAULT WAS CREATED")
+        LOGS.create_log("DEFAULT WAS CREATED")
 
     def create_data(self):
         f = open(self.__data, "w+")
         f.close()
-        logs.create_log("DATA WAS CREATED")
+        LOGS.create_log("DATA WAS CREATED")
 
     def create_key(self):
         f = open(self.__key, "w+")
         f.close()
-        logs.create_log("KEY.KEY WAS CREATED")
+        LOGS.create_log("KEY.KEY WAS CREATED")
 
     def get_hashed_password(self):
         with open(self.__hashed, "r", encoding="utf-8") as file:
@@ -1106,7 +1108,7 @@ class SystemRecovery:
         )
 
         for lines in troubles.split("\n")[:-1]:
-            logs.create_log(lines.lstrip("- "))
+            LOGS.create_log(lines.lstrip("- "))
 
         for sol in solution:
             if sol == "REPAIR DEFAULT.TXT":
@@ -1125,7 +1127,7 @@ class SystemRecovery:
                         print(
                             "---------\n default.txt has been repaired, you will have to complete informations next time you start the program."
                         )
-                        logs.create_log("default.txt has been repaired")
+                        LOGS.create_log("default.txt has been repaired")
                         break
                     elif choice == "n":
                         print(
@@ -1133,7 +1135,7 @@ class SystemRecovery:
                             + "Error will occure again. Program won't be useable, contact GaecKo#7545 for help."
                             + rs
                         )
-                        logs.create_log("default.txt has not been repaired")
+                        LOGS.create_log("default.txt has not been repaired")
                         break
             if sol == "REPAIR HASHED.TXT":
                 while True:
@@ -1152,7 +1154,7 @@ class SystemRecovery:
                         print(
                             "hashed.txt has been repaired, you will have to complete informations next time you start the program."
                         )
-                        logs.create_log("hashed.txt has been repaired")
+                        LOGS.create_log("hashed.txt has been repaired")
                         break
                     elif choice == "n":
                         print(
@@ -1160,7 +1162,7 @@ class SystemRecovery:
                             + "Error will occure again. Program won't be useable, contact GaecKo#7545 for help."
                             + rs
                         )
-                        logs.create_log("hashed.txt has not been repaired")
+                        LOGS.create_log("hashed.txt has not been repaired")
                         break
             if sol == "CREATE HASHED.TXT":
                 while True:
@@ -1179,7 +1181,7 @@ class SystemRecovery:
                         print(
                             "---------\nhashed.txt has been created, you will have to complete informations next time you start the program."
                         )
-                        logs.create_log("hashed.txt has been created")
+                        LOGS.create_log("hashed.txt has been created")
                         break
                     elif choice == "n":
                         print(
@@ -1187,7 +1189,7 @@ class SystemRecovery:
                             + "Error will occure again. Program won't be useable."
                             + rs
                         )
-                        logs.create_log("hashed.txt has not been created")
+                        LOGS.create_log("hashed.txt has not been created")
                         break
             if sol == "CREATE DEFAULT.TXT":
                 while True:
@@ -1207,7 +1209,7 @@ class SystemRecovery:
                         print(
                             "---------\ndefault.txt has been created, you will have to complete informations next time you start the program."
                         )
-                        logs.create_log("default.txt has been created")
+                        LOGS.create_log("default.txt has been created")
                         break
                     elif choice == "n":
                         print(
@@ -1215,7 +1217,7 @@ class SystemRecovery:
                             + "Error will occure again. Program won't be useable."
                             + rs
                         )
-                        logs.create_log("default.txt has not been created")
+                        LOGS.create_log("default.txt has not been created")
                         break
             if sol == "CREATE DATA.TXT":
                 while True:
@@ -1230,7 +1232,7 @@ class SystemRecovery:
                         print(
                             "---------\ndata.txt has been created, you will have to complete informations next time you start the program."
                         )
-                        logs.create_log("data.txt has been created")
+                        LOGS.create_log("data.txt has been created")
                         break
                     elif choice == "n":
                         print(
@@ -1238,7 +1240,7 @@ class SystemRecovery:
                             + "Error will occure again. Program won't be useable."
                             + rs
                         )
-                        logs.create_log("data.txt has not been created")
+                        LOGS.create_log("data.txt has not been created")
                         break
             if sol == "CREATE KEY.KEY":
                 while True:
@@ -1251,7 +1253,7 @@ class SystemRecovery:
                     if choice == "Y":
                         self.create_key()
                         print("---------\nkey.key has been created.")
-                        logs.create_log("key.key has been created")
+                        LOGS.create_log("key.key has been created")
                         break
                     elif choice == "n":
                         print(
@@ -1259,7 +1261,7 @@ class SystemRecovery:
                             + "Error will occure again. Program won't be useable."
                             + rs
                         )
-                        logs.create_log("key.key has not been created")
+                        LOGS.create_log("key.key has not been created")
                         break
 
     def hard_reboot(self):

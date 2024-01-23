@@ -2,40 +2,40 @@
 # last update: check github (https://github.com/GaecKo/MDPSaver)
 #           ==== ⚠ DISCLAIMER ⚠ ====
 # This code is not suitable for professional use. As of the current state of the code, this
-# whole program is not sustainable and thus depreciated.
+# whole program is not sustainable and thus deprecated.
 #
-# If you wish to rebuilt the program, feel free to do it and I'll check the PR!
-
+# If you wish to rebuild the program, feel free to do it and I'll check the PR!
 
 import os
 import sys
 from time import sleep
-
+from colorama import Fore, Back, Style, init
 import pwinput
-from colorama import Back, Fore, Style, init
-
-from MDPCrypto.Crypt import generate_salt, get_salt, hashing
-from MDPLogs.logs import Log
 from MDPStyle.logo import logo
 from program import *
 
+# Initialize Colorama
 init(autoreset=True)
-os.system("cls")
-print("\n" * 200)
+
+# Initialize Log and Program instances
 logs = Log()
-program = Program()
+program = Program(logs)
 recovery = SystemRecovery()
 
 if __name__ == "__main__":
+    # Logo printing
+    os.system("clear")
     print(logo())
     print(Fore.MAGENTA + "\n(Press Enter to start)")
     input()
     print("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
+
     try:
         first = program.first()
     except:
         recovery.error_resolution(recovery.error())
         sys.exit()
+
     if program.first():
         print(
             f"""Hello stranger, it seems like it's the first time we see you out here. \nWhat's your {Fore.BLUE + "username" + rs}? """
@@ -46,11 +46,12 @@ if __name__ == "__main__":
         logs.create_log("[DAY/MONTH/YEAR | HOUR:MIN (SEC)] ACTION")
         logs.create_log("FIRST TIME CONNECTED, CREATIONS DONE")
         print(
-            "\n- - - - Important Note:\n-> Don't leave the program with the right upper red cross in cmd! In case of problems, it won't be possible to fully help you."
+            "\n- - - - Important Note:\n-> Don't leave the program with the right upper red cross in cmd! In case of "
+            "problems, it won't be possible to fully help you."
         )
     else:
         error = recovery.error()
-        if error != True:
+        if not error:
             recovery.error_resolution(error)
             sys.exit("Please restart program.")
         if get_salt() == b"":
@@ -59,7 +60,8 @@ if __name__ == "__main__":
             f"Hello {program.get_username()}, you have been connected {program.get_times_connected()} times."
         )
         logs.create_log(
-            f"END OF SESSION {program.get_times_connected() - 1}\n\n############################################################\n"
+            f"END OF SESSION {program.get_times_connected() - 1}\n\n"
+            f"############################################################\n"
         )
         logs.create_log(
             f"START OF SESSION {program.get_times_connected()} ({program.get_username()})"
@@ -68,11 +70,13 @@ if __name__ == "__main__":
         f"CHECKUP COMPLETED WITH SUCCESS (nbre connections: {program.get_times_connected()})"
     )
     program.add_one_connection()
+
     while True:
         print(
-            f"""\n---------------\nPlease give the {Fore.BLUE +"Access Password" + Style.RESET_ALL} to access all of your passwords"""
+            f"""\n---------------\nPlease give the {Fore.BLUE + "Access Password" + Style.RESET_ALL} to access all of your passwords"""
         )
         given_password = pwinput.pwinput(prompt="Password: ")
+
         if hashing(given_password) == program.get_hashed_password():
             print("Good password")
             print("\n" * 200)
@@ -85,6 +89,7 @@ if __name__ == "__main__":
                 + ""
             )
             given_password = pwinput.pwinput(prompt="Password: ")
+
             while (
                 given_password != "1"
                 and hashing(given_password) != program.get_hashed_password()
@@ -96,25 +101,29 @@ if __name__ == "__main__":
                     + ""
                 )
                 given_password = pwinput.pwinput(prompt="Password: ")
+
             if given_password == "1":
                 given_password = program.recover_password()
             else:
                 print("\n" * 200)
                 break
+
     program.add_key(given_password)
     program.check_data()
 
     while recovery.error():
         print("\n" * 200)
         choice = program.wanna_do()
+
         if choice == 1:
             if not program.get_props():
                 print("You currently have no saved password. Please add one first.")
                 sleep(1.5)
             else:
-                go = False  # boucle while not go
+                go = False  # loop while not go
                 asked = False  # used in case of search in the password list
                 leave = False  # to leave this menu
+
                 while not go:
                     print(
                         Back.WHITE
@@ -127,9 +136,11 @@ if __name__ == "__main__":
                     print("\n" * 200)
                     print("Here are all the site registered:")
                     print(liste)
+
                     while True:
                         if asked == False:
                             index = program.choice_sit(number)
+
                         if index == False:
                             leave = True
                             break
@@ -148,6 +159,7 @@ if __name__ == "__main__":
                             sites, indexes = program.search_in_sites(
                                 given_password, index
                             )
+
                             if sites == []:
                                 print(
                                     f"""No Result found with keyword {Back.WHITE + Fore.BLACK + index + Style.RESET_ALL}, please retry."""
@@ -162,17 +174,22 @@ if __name__ == "__main__":
                                 print(
                                     f"\n-> Keyword: '{Fore.BLUE + str(index) + Style.RESET_ALL}'"
                                 )
+
                                 for i in sites:
                                     print(i)
+
                                 index = program.choice_sit(indexes)
                                 asked = True
                         else:
                             leave = True
                             go = True
                             break
+
                     if leave == True:
                         break
+
                     action = program.option_password()
+
                     if action == 1:
                         print(program.print_site_password(site, username, code))
                         print("\t Press Enter to hide password.")
@@ -184,6 +201,7 @@ if __name__ == "__main__":
                     elif action == 3:
                         print("You are going to change your password")
                         new_password = input("What's the new password?\n>> ")
+
                         if len(new_password) >= 1:
                             program.change_password_site(
                                 index, given_password, new_password
@@ -204,6 +222,7 @@ if __name__ == "__main__":
                     elif action == 4:
                         print("You are going to change your username / email")
                         new_username = input("What's the new username / email?\n>> ")
+
                         if len(new_username) >= 1:
                             program.change_username_site(
                                 index, given_password, new_username
@@ -229,28 +248,35 @@ if __name__ == "__main__":
 
         if choice == 2:
             print(
-                f"""\n------------------------\nYou are here to {Fore.GREEN + "add" +Style.RESET_ALL} the password of a specific site. (Type {Fore.RED + "back" + Style.RESET_ALL} to leave.)"""
+                f"""\n------------------------\nYou are here to {Fore.GREEN + "add" + Style.RESET_ALL} the password of a specific site. (Type {Fore.RED + "back" + Style.RESET_ALL} to leave.)"""
             )
             i = 0
+
             while True:
                 site = input(
-                    f"""Please tell the {Fore.CYAN + "site" +Style.RESET_ALL} you want to add a password for\n>> """
+                    f"""Please tell the {Fore.CYAN + "site" + Style.RESET_ALL} you want to add a password for\n>> """
                 )
+
                 if site == "back" or site == "stop" or site == "retour":
                     print("\n" * 200)
                     break
+
                 username = input(
-                    f"""Please tell your {Fore.CYAN + "username" + Fore.WHITE+  " / " + Fore.CYAN + "email" +Style.RESET_ALL } on the site\n>> """
+                    f"""Please tell your {Fore.CYAN + "username" + Fore.WHITE + " / " + Fore.CYAN + "email" + Style.RESET_ALL} on the site\n>> """
                 )
+
                 if username == "back" or username == "stop" or username == "retour":
                     print("\n" * 200)
                     break
+
                 password = input(
-                    f"""Please tell your {Fore.CYAN + "password" +Style.RESET_ALL } related to the site\n>> """
+                    f"""Please tell your {Fore.CYAN + "password" + Style.RESET_ALL} related to the site\n>> """
                 )
+
                 if password == "back" or password == "stop" or password == "retour":
                     print("\n" * 200)
                     break
+
                 print("\n" * 200)
                 program.add_site_password(given_password, site, password, username)
                 program.check_data()
@@ -263,19 +289,24 @@ if __name__ == "__main__":
                 continue
 
             (lines, indexes) = program.passwords_content()
+
             if (lines, indexes) == (False, False):
                 continue
+
             if len(lines) == 0:
                 print(
                     f"""{Back.RED + "No result found with this filter.. Please retry"}"""
                 )
                 sleep(2)
                 continue
+
             print(
                 f"""Site Filter: {Fore.MAGENTA + str(len(lines)) + rs} corresponding site(s)."""
             )
+
             for i in range(len(lines)):
                 print(lines[i])
+
             print(Fore.CYAN + " \tPress any key to leave")
             input()
             continue
@@ -284,41 +315,51 @@ if __name__ == "__main__":
             password = program.generate_password(
                 program.choose_security_level_password()
             )
+
             if password == None:
                 continue
 
             print(
                 f"""Here is the randomly generated password: (Press {Fore.MAGENTA + "CTRL + SHIFT + C" + Style.RESET_ALL} to copy)\n\n{password}\n\n"""
             )
+
             while True:
                 to_save = input(
-                    "Would you like add this password to your saved password? "
+                    "Would you like to add this password to your saved password? "
                     + Fore.CYAN
                     + "[Y/n] "
                     + Style.RESET_ALL
                 )
+
                 if to_save in ["Y", "y", "N", "n"]:
                     if to_save in ["Y", "y"]:
                         to_save = True
+
                     if to_save in ["N", "n"]:
                         to_save = False
+
                     break
+
                 print(Back.RED + "Invalid choice, please retry" + Style.RESET_ALL + "")
 
             if to_save:
                 while True:
                     site = input(
-                        f"""Please tell the {Fore.CYAN + "site" +Style.RESET_ALL} you want to add a password for\n>> """
+                        f"""Please tell the {Fore.CYAN + "site" + Style.RESET_ALL} you want to add a password for\n>> """
                     )
+
                     if site == "back" or site == "stop" or site == "retour":
                         print("\n" * 200)
                         break
+
                     username = input(
-                        f"""Please tell your {Fore.CYAN + "username" + Fore.WHITE+  " / " + Fore.CYAN + "email" +Style.RESET_ALL } on the site\n>> """
+                        f"""Please tell your {Fore.CYAN + "username" + Fore.WHITE + " / " + Fore.CYAN + "email" + Style.RESET_ALL} on the site\n>> """
                     )
+
                     if username == "back" or username == "stop" or username == "retour":
                         print("\n" * 200)
                         break
+
                     program.add_site_password(given_password, site, password, username)
                     program.check_data()
                     print("\n" * 200)
@@ -337,10 +378,12 @@ if __name__ == "__main__":
         if choice == 6:
             print("\n------------------------\nAccessing Password modification...")
             program.change_access_password()
+
             while True:
                 given_password = pwinput.pwinput(
                     prompt="- - - - - - - - - - - - - -\nPlease enter new password: "
                 )
+
                 if hashing(given_password) == program.get_hashed_password():
                     print("\n" * 200)
                     break

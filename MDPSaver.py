@@ -12,12 +12,12 @@
 
 import		sys
 
-from		pwinput			import 	pwinput						# hide prompt package
-from		time			import	sleep						# sleep
-from		colorama		import	Fore, Back, Style, init		# color in stdout
+from		pwinput			import 		pwinput					# hide prompt package
+from		time			import		sleep					# sleep
+from		colorama		import		Fore, Back, Style, init	# color in stdout
 
-from		MDPStyle.logo	import	logo						# app logo 
-from		program			import	*							# controller
+from		MDPStyle.logo	import		logo					# app logo 
+from		program			import		*						# controller
 
 
 init(autoreset=True)											# Initialize Colorama

@@ -15,10 +15,10 @@
 import      os
 import      time
 
-from        colorama            import Back, Fore, Style, init
+from        colorama            import      Back, Fore, Style, init
 
-from        MDPCrypto.Crypt     import *
-from        program             import Program, SystemRecovery
+from        MDPCrypto.Crypt     import      *
+from        program             import      Program, SystemRecovery
 
 
 init(autoreset=True)

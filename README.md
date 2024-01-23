@@ -30,25 +30,10 @@ All of these are done with the `pycryptodome` and `cryptography` module, to make
 Status:  `▰▰▰▰▰▰▰▰▰▰ 100%` 
 
 * [Installation](#installation)
-    - [<ins> Windows Executable (.exe) </ins>](#-ins--windows-executable--exe-------ins-)
-    - [<ins> Python Script (.py) </ins> ](#-ins--python-script---ins----python--git-files-pythonico-)
 * [Update](#update)
 * [Update notice](#update-notice)
 * [Walkthrough](#walkthrough)
-    - [<ins> Starting Screen </ins>](#-ins--starting-screen---ins-)
-    - [<ins> Main Menu </ins>](#-ins--main-menu---ins-)
-        * [<ins> 1) Access my Passwords 🔎</ins>](#-ins--1--access-my-passwords-----ins-)
-        * [<ins> 2) Add a password ➕</ins>](#-ins--2--add-a-password----ins-)
-        * [<ins> 3) Generate Random Password 🔀</ins>](#-ins--3--generate-random-password-----ins-)
-        * [<ins> 4) Change Username ✒️</ins>](#-ins--4--change-username-----ins-)
-        * [<ins> 5) Change Access Password 🔏</ins>](#-ins--5--change-access-password-----ins-)
-        * [<ins> 6) Help / Tutorial ❓</ins>](#-ins--6--help---tutorial----ins-)
-        * [<ins> 7) Leave ❌</ins>](#-ins--7--leave----ins-)
-        * [<ins> 8) System Settings ⚙️</ins>](#-ins--8--system-settings-----ins-)
 * [SpeedTest](#speedtest)
-    - [<ins> With **50 passwords** :</ins>](#-ins--with---50-passwords------ins-)
-    - [<ins> With **100 passwords** :</ins>](#-ins--with---100-passwords------ins-)
-    - [<ins> How I did it (*story time*): </ins>](#-ins--how-i-did-it---story-time------ins-)
 * [Notes](#notes)
 
 
@@ -148,26 +133,34 @@ Here is a walkthrough of the app
     * *Strong*: long + letters + numbers + symbols | size 15~25
     * *Custom*: with(out) symbols + with(out) numbers | custom size
 
-##### <ins> 4) Change Username ✒️</ins>
+##### <ins> 4) Filter Search 🔎</ins>
+* Filter search allows you to filter and list passwords with specific information:
+  * Email - Username: list all sites that have that email - username in use
+  ![FilterUsername](.git_files/filter_username.gif)
+  * Password: list all sites that have that password in use
+  ![FilterPassword](.git_files/filter_password.gif)
+
+
+##### <ins> 5) Change Username ✒️</ins>
 * If needed, you can change your **Username**:
 ![ChangeUsername](.git_files/ChangeUsername.gif)
 
-##### <ins> 5) Change Access Password 🔏</ins>
+##### <ins> 6) Change Access Password 🔏</ins>
 * If needed, you can change your **Access Password**:
 ![ChangeAccessPassword](.git_files/ChangeAccessPassword.gif)
     * You will need to recreate a question and answer!
 
-##### <ins> 6) Help / Tutorial ❓</ins>
+##### <ins> 7) Help / Tutorial ❓</ins>
 * You can access a tutorial:
 
 ![Tutorial](.git_files/Tutorial.png)
 
-##### <ins> 7) Leave ❌</ins>
+##### <ins> 8) Leave ❌</ins>
 * To properly exit the program, just type 7:
 ![Exit](.git_files/Leave.gif)
 * If you are using the .exe version, the cmd window might close.
 
-##### <ins> 8) System Settings ⚙️</ins>
+##### <ins> 9) System Settings ⚙️</ins>
 * You can access some deep app setting by typing 8:
 ![SystemSettings](.git_files/SystemSettings.gif)
 * You can then:

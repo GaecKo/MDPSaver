@@ -106,13 +106,18 @@ Status:  `▰▰▰▰▰▰▰▰▰▰ 100%`
     Be careful with the indentation :). 
 
 6) `cd` to the root folder of your system. You need to access `bin/` folder to add the MDPSaver global var. 
-7) In `~/bin/`, create a file `MDPSaver` with content 
+7) In `~/bin/`, create a file `MDPSaver` with content
     ```bash
     python3 /../../home/USER/path_to_project/MDPSaver.py
     ```
-    -> Where `USER` is your username on Linux, and `path_to_project` the path to your git folder. 
+    -> Where `USER` is your username on Linux, and `path_to_project` the path to your git folder. You might need to use `sudo touch MDPSaver` and then `sudo vim MDPSaver`.
 
-8) You can now launch the program from anywhere, by running `MDPSaver`. If you need any more help to make it work: `gaecko` on Discord. 
+8) Give the autorisation to execute the file with 
+    ```bash
+    sudo chmod +x MDPSaver
+    ```
+
+9) You can now launch the program from anywhere, by running `MDPSaver`. If you need any more help to make it work: `gaecko` on Discord. 
     ![GitSyncing](.git_files/GitSyncing.gif)
 
 

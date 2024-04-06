@@ -74,10 +74,12 @@ Status:  `▰▰▰▰▰▰▰▰▰▰ 100%`
     ```bash
     (cd $1 && git pull > /dev/null 2>&1)
     ```
+    * Allow user to execute it: `sudo chmod +x pull.sh`
 3) Create a new file `push.sh` in the project folder with content
     ```bash
     (cd $1 && git pull > /dev/null 2>&1 && git add . > /dev/null 2>&1 && git commit -m "Managed Passwords" > /dev/null 2>&1 && git push > /dev/null 2>&1)
     ```
+    * Allow user to execute it: `sudo chmod +x push.sh`
 4) In `MDPSaver.py`, insert after line `30` the following code:
     ```py
     if __name__ == "__main__": # this is line 30
@@ -94,7 +96,7 @@ Status:  `▰▰▰▰▰▰▰▰▰▰ 100%`
         # ... Rest of the program
     ```
 
-5) Still in `MDPSaver`, insert after line `+-445`: 
+5) Still in `MDPSaver`, insert after line `+-445`: (depends on version of the project, look for `if choice == 8`)
     ```py
     if choice == 8:	# this is approximately line 445
         base_dir = os.path.dirname(os.path.abspath(__file__))

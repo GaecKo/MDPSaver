@@ -10,7 +10,7 @@
 
 **🔑 Welcome to my Password Manager App.**
 
-### <ins> Introduction </ins> 
+## <ins> Introduction </ins> 
 This app makes it easy for you to:
 * **Add** your passwords
 * **See** your added passwords
@@ -22,6 +22,12 @@ All of these are done with the `pycryptodome` and `cryptography` module, to make
 **General way of working**: An **Access Password** (AP) that you create will be your **key 🔑** to all of your **saved password 🏠**. Without this AP, *none* of your password will be *readable*! All the password that you will add will be encrypted using a key which is derived from your AP, using *Fernet*, *base64.urlsafe_b64encode*, ...
 
 Status:  `▰▰▰▰▰▰▰▰▰▰ 100%` 
+
+> [!NOTE] 
+> Two other version of the project exist, but are not finished & not expected to be worked on in the near feature. The terminal version is finished and complete. 
+> * [web-engine-integration](https://github.com/GaecKo/MDPSaver/tree/web-engine-integration): uses PySide6 `WebEngineWidgets` for the frontend (WIP). 
+> * [standard-pyside-gui](https://github.com/GaecKo/MDPSaver/tree/standard-pyside-gui): uses standard PySide6 `Layouts`, `Widgets`, ... for the frontend (WIP). Won't be worked on any longer. 
+> * Each version has their own README. Click on the branch you wish to visit above to see the project itself. 
 
 ## Content
 
@@ -36,12 +42,6 @@ Status:  `▰▰▰▰▰▰▰▰▰▰ 100%`
 * [Security 🔐](#security-)
 * [SpeedTest 🚀](#speedtest-)
 * [Notes 🗒️](#notes)
-
-> [!NOTE] 
-> Two other version of the project exist, but are not finished & not expected to be worked on in the near feature. The terminal version is finished and complete. 
-> * [web-engine-integration](https://github.com/GaecKo/MDPSaver/tree/web-engine-integration): uses PySide6 `WebEngineWidgets` for the frontend (WIP). 
-> * [standard-pyside-gui](https://github.com/GaecKo/MDPSaver/tree/standard-pyside-gui): uses standard PySide6 `Layouts`, `Widgets`, ... for the frontend (WIP). Won't be worked on any longer. 
-> * Each version has their own README. Click on the branch you wish to visit above to see the project itself. 
 
 ****
 ## Installation 

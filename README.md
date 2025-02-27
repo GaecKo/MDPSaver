@@ -26,3 +26,10 @@ All of these are done with the `pycryptodome` and `cryptography` module, to make
 This version uses the standard PySide way to built the frontend. However, it doesn't uses any tool like `QtDesigner` or auto-generated code. As this method is long and hard to scale, we decided to switch to a [web-integration](https://github.com/GaecKo/MDPSaver/tree/web-engine-integration) version. 
 
 This version may not be updated anymore, as the main version will be using the web-engine version. 
+
+## Gallery 
+
+Here is a quick look at what was designed:
+![](startup1.png)
+![](startup2.png)
+![](login.png)

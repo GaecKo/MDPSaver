@@ -29,6 +29,10 @@ Status:  `▰▰▰▰▰▰▰▰▰▰ 100%`
 > * [standard-pyside-gui](https://github.com/GaecKo/MDPSaver/tree/standard-pyside-gui): uses standard PySide6 `Layouts`, `Widgets`, ... for the frontend (WIP). Won't be worked on any longer. 
 > * Each version has their own README. Click on the branch you wish to visit above to see the project itself. 
 
+> [!NOTE] 
+> Why is the code *formatted* so weirdly? 
+> * Because it uses [isort - black](https://www.linode.com/docs/guides/getting-started-with-black-and-isort/) tools. Their intentions is to improve code maintainability and aspect, by auto reading and generating a cleaner version of the code. 
+
 ## Content
 
 * [Installation 📥](#installation)

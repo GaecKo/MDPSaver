@@ -11,6 +11,7 @@
 #################################################################################################
 
 import	re
+import  platform 
 
 from		random		import	randint
 from		time 			import	sleep
@@ -24,6 +25,7 @@ os.system("cls")
 
 rs	= Style.RESET_ALL
 LOGS	= Log()
+SYSTEM 	= platform.system() 
 
 class Program:
 	def __init__(self):
@@ -68,7 +70,7 @@ class Program:
 
 	9) {Back.LIGHTBLUE_EX + "System settings" + rs} -> To try to debug the programs if troubles went to happen
 	
-	If you have any {Fore.CYAN + "recommendations" + rs}/{Fore.GREEN + "tips" + rs}/{Fore.RED + "bugs" + rs}, please contact me on discord: GaecKo#7545
+	If you have any {Fore.CYAN + "recommendations" + rs}/{Fore.GREEN + "tips" + rs}/{Fore.RED + "bugs" + rs}, please contact me on discord: gaecko on Discord
 		"""
 		)
 		input("\tPress Enter to continue.")
@@ -931,9 +933,8 @@ class Program:
 				return password
 
 	def clear_stdout(self):
-		if "win32" in sys.platform:
+		if SYSTEM == "Windows":
 			os.system("cls")
-
 		else:
 			os.system("clear")
 
@@ -942,7 +943,7 @@ class SystemRecovery:
 	class DataFileCorrupted(Exception):
 		def __init__(
 			self,
-			message="data.txt is corrupted, ask for a hard reboot, contact GaecKo#7545",
+			message="data.txt is corrupted, ask for a hard reboot, contact gaecko on Discord",
 		):
 			self.message 	= message
 			self.attribute 	= "DataFileCorrupted"
@@ -956,7 +957,7 @@ class SystemRecovery:
 	class DefaultFileCorrupted(Exception):
 		def __init__(
 			self,
-			message="default.txt is corrupted, ask for a hard reboot, contact GaecKo#7545",
+			message="default.txt is corrupted, ask for a hard reboot, contact gaecko on Discord",
 		):
 			self.message 	= message
 			self.attribute 	= "DefaultFileCorrupted"
@@ -970,7 +971,7 @@ class SystemRecovery:
 	class HashedFileCorrupted(Exception):
 		def __init__(
 			self,
-			message="hashed.txt is corrupted, ask for a hard reboot, contact GaecKo#7545",
+			message="hashed.txt is corrupted, ask for a hard reboot, contact gaecko on Discord",
 		):
 			self.message 	= message
 			self.attribute 	= "HashedFileCorrupted"
@@ -982,7 +983,7 @@ class SystemRecovery:
 			return self.attribute
 
 	class MissingFiles(Exception):
-		def __init__(self, message="Missing Files, ask for help, contact GaecKo#7545"):
+		def __init__(self, message="Missing Files, ask for help, contact gaecko on Discord"):
 			self.message 	= message
 			self.attribute 	= "MissingFiles"
 
@@ -995,7 +996,7 @@ class SystemRecovery:
 	class MissingContentDefault(Exception):
 		def __init__(
 			self,
-			message="Missing Content in default.txt, ask for help, contact GaecKo#7545",
+			message="Missing Content in default.txt, ask for help, contact gaecko on Discord",
 		):
 			self.message 	= message
 			self.attribute 	= "MissingContentDefault"
@@ -1009,7 +1010,7 @@ class SystemRecovery:
 	class MissingContentHashed(Exception):
 		def __init__(
 			self,
-			message="Missing Content in hashed.txt, ask for help, contact GaecKo#7545",
+			message="Missing Content in hashed.txt, ask for help, contact gaecko on Discord",
 		):
 			self.message 	= message
 			self.attribute 	= "MissingContentHashed"
@@ -1229,7 +1230,7 @@ class SystemRecovery:
 					elif choice == "n":
 						print(
 							Back.RED
-							+ "Error will occure again. Program won't be useable, contact GaecKo#7545 for help."
+							+ "Error will occure again. Program won't be useable, contact gaecko on Discord for help."
 							+ rs
 						)
 
@@ -1263,7 +1264,7 @@ class SystemRecovery:
 					elif choice == "n":
 						print(
 							Back.RED
-							+ "Error will occure again. Program won't be useable, contact GaecKo#7545 for help."
+							+ "Error will occure again. Program won't be useable, contact gaecko on Discord for help."
 							+ rs
 						)
 
